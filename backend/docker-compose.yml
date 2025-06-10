@@ -1,0 +1,10 @@
+services:
+  postgresql:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_USER: nexus
+      POSTGRES_PASSWORD: nexus
+      POSTGRES_DB: nexus_solutions
+    ports:
+      - "5433:5432"
