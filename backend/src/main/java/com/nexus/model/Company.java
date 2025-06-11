@@ -39,4 +39,7 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Product> products;
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    private List<Location> locations;
+
 }
