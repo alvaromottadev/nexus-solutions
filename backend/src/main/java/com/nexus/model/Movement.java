@@ -2,6 +2,7 @@ package com.nexus.model;
 
 import com.nexus.model.enums.MovementType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Movement {
     @Column(name = "movement_date")
     private LocalDateTime movementDate;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @JoinColumn(name = "performed_by", nullable = false)

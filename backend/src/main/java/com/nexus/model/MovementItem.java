@@ -10,7 +10,7 @@ public class MovementItem {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @JoinColumn(name = "movement_id", nullable = false)
