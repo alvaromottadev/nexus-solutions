@@ -36,4 +36,7 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Employee> employees;
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    private List<Product> products;
+
 }
