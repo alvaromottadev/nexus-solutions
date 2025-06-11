@@ -1,7 +1,10 @@
 package com.nexus.model;
 
+import com.nexus.dto.Address.AddressRequest;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "addresses")
 public class Address {
@@ -39,5 +42,16 @@ public class Address {
 
     @OneToOne(mappedBy = "address")
     private Location location;
+
+    public Address(AddressRequest data){
+        this.street = data.street();
+        this.number = data.number();
+        this.complement = data.complement();
+        this.district = data.district();
+        this.city = data.city();
+        this.state = data.state();
+        this.postalCode = data.postalCode();
+        this.country = data.country();
+    }
 
 }

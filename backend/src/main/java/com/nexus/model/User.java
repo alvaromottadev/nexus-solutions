@@ -1,12 +1,15 @@
 package com.nexus.model;
 
+import com.nexus.dto.User.UserRequest;
 import com.nexus.model.enums.UserType;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -35,5 +38,11 @@ public class User {
 
     @OneToMany(mappedBy = "performedBy")
     private List<Movement> movement;
+
+    public User (UserRequest data, String encodedPassword){
+        this.email = data.email();
+        this.password = encodedPassword;
+        this.type = data.type();
+    }
 
 }

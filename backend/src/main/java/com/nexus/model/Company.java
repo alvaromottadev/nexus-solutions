@@ -1,10 +1,13 @@
 package com.nexus.model;
 
+import com.nexus.dto.Company.CompanyRequest;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "companies")
 public class Company {
@@ -41,5 +44,13 @@ public class Company {
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Location> locations;
+
+    public Company(User user, Address address, CompanyRequest data){
+        this.name = data.name();
+        this.cnpj = data.cnpj();
+        this.createdAt = LocalDateTime.now();
+        this.user = user;
+        this.address = address;
+    }
 
 }
