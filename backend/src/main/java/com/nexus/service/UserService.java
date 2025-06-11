@@ -18,4 +18,8 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 
+    public User save(User user){
+        return userRepository.save(user);
+    }
+
 }
