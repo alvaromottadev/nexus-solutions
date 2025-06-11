@@ -29,6 +29,10 @@ public class Company {
     @OneToOne
     private User user;
 
+    @JoinColumn
+    @OneToOne
+    private Address address;
+
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Employee> employees;
 
