@@ -3,6 +3,7 @@ package com.nexus.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "locations")
@@ -29,6 +30,7 @@ public class Location {
     @ManyToOne
     private Company company;
 
-
+    @OneToMany(mappedBy = "location")
+    private List<Inventory> inventories;
 
 }

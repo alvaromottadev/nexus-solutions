@@ -3,6 +3,7 @@ package com.nexus.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -30,5 +31,8 @@ public class Product {
     @JoinColumn(name = "company_id", nullable = false)
     @ManyToOne
     private Company company;
+
+    @OneToMany(mappedBy = "product")
+    private List<Inventory> inventories;
 
 }
