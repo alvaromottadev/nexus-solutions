@@ -3,11 +3,10 @@ package com.nexus.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "companies")
-public class Company {
+@Table(name = "employees")
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -15,9 +14,6 @@ public class Company {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "cnpj", unique = true, nullable = false)
-    private String cnpj;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -29,7 +25,8 @@ public class Company {
     @OneToOne
     private User user;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<Employee> employees;
+    @JoinColumn(name = "company_id")
+    @ManyToOne
+    private Company company;
 
 }

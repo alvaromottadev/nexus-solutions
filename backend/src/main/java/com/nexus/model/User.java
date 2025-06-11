@@ -24,4 +24,7 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Company company;
 
+    @OneToOne(mappedBy = "user")
+    private Employee employee;
+
 }
