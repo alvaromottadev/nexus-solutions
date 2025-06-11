@@ -21,4 +21,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+    @OneToOne(mappedBy = "user")
+    private Company company;
+
 }
