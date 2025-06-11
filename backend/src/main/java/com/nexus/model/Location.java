@@ -33,4 +33,7 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<Inventory> inventories;
 
+    @OneToMany(mappedBy = "location")
+    private List<Movement> movements;
+
 }

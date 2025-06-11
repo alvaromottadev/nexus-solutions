@@ -3,6 +3,8 @@ package com.nexus.model;
 import com.nexus.model.enums.UserType;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -26,5 +28,8 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Employee employee;
+
+    @OneToMany(mappedBy = "performedBy")
+    private List<Movement> movement;
 
 }
