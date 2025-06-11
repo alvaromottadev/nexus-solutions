@@ -4,6 +4,7 @@ import com.nexus.model.enums.MovementType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "movements")
@@ -33,5 +34,8 @@ public class Movement {
     @JoinColumn(name = "location_id", nullable = false)
     @ManyToOne
     private Location location;
+
+    @OneToMany(mappedBy = "movement")
+    private List<MovementItem> movementItems;
 
 }
