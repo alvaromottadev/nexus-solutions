@@ -1,5 +1,7 @@
 package com.nexus.controller;
 
+import com.nexus.dto.Auth.UserCompanyLoginRequest;
+import com.nexus.dto.Auth.UserCompanyLoginResponse;
 import com.nexus.dto.Auth.UserCompanyRegisterRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.service.AuthService;
@@ -25,6 +27,12 @@ public class AuthController {
     public ResponseEntity<SuccessResponse> register(@Validated @RequestBody UserCompanyRegisterRequest registerRequest){
         SuccessResponse response = authService.register(registerRequest);
         return ResponseEntity.status(201).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserCompanyLoginResponse> login(@Validated @RequestBody UserCompanyLoginRequest loginRequest){
+        UserCompanyLoginResponse response = authService.login(loginRequest);
+        return ResponseEntity.ok(response);
     }
 
 }

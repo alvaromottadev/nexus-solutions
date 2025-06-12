@@ -1,14 +1,22 @@
 package com.nexus.service;
 
 import com.nexus.dto.Address.AddressRequest;
+import com.nexus.dto.Auth.UserCompanyLoginRequest;
+import com.nexus.dto.Auth.UserCompanyLoginResponse;
 import com.nexus.dto.Auth.UserCompanyRegisterRequest;
 import com.nexus.dto.Company.CompanyRequest;
+import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.dto.User.UserRequest;
+import com.nexus.dto.User.UserResponse;
+import com.nexus.infra.security.JwtTokenUtil;
+import com.nexus.infra.security.UserDetailsImpl;
+import com.nexus.infra.security.UserDetailsServiceImpl;
 import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.User;
 import jakarta.transaction.Transactional;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +27,16 @@ public class AuthService {
     private final CompanyService companyService;
     private final PasswordEncoder passwordEncoder;
     private final AddressService addressService;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    public AuthService(UserService userService, CompanyService companyService, PasswordEncoder passwordEncoder, AddressService addressService) {
+    public AuthService(UserService userService, CompanyService companyService, PasswordEncoder passwordEncoder, AddressService addressService, JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl userDetailsServiceImpl) {
         this.userService = userService;
         this.companyService = companyService;
         this.passwordEncoder = passwordEncoder;
         this.addressService = addressService;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
     @Transactional
@@ -33,6 +45,18 @@ public class AuthService {
         Address address = createAddress(registerRequest.company().address());
         createCompany(user, address, registerRequest.company());
         return new SuccessResponse("Registration successfull");
+    }
+
+    public UserCompanyLoginResponse login(UserCompanyLoginRequest loginRequest) {
+        User user = userService.findByEmail(loginRequest.email());
+
+        validatePassword(loginRequest.password(), user.getPassword());
+
+        Company company = companyService.findByUser(user);
+        UserDetailsImpl userDetails = userDetailsServiceImpl.loadUserByUsername(loginRequest.email());
+        String token = jwtTokenUtil.generateToken(userDetails);
+
+        return new UserCompanyLoginResponse(token, new UserResponse(user), new CompanyResponse(company));
     }
 
     private User createUser(UserRequest userRequest){
@@ -49,6 +73,12 @@ public class AuthService {
     private Address createAddress(AddressRequest addressRequest){
         Address address = new Address(addressRequest);
         return addressService.save(address);
+    }
+
+    private void validatePassword(String rawPassword, String encodedPassword){
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)){
+            throw new BadCredentialsException("Invalid email or password");
+        }
     }
 
 }
