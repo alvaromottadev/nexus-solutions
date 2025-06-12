@@ -1,5 +1,6 @@
 package com.nexus.service;
 
+import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.User;
 import com.nexus.repository.CompanyRepository;
@@ -16,7 +17,7 @@ public class CompanyService {
 
     public Company findByUser(User user){
         return companyRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Company not found for user: " + user.getEmail()));
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found for user: " + user.getEmail()));
     }
 
     public Company save(Company company){
