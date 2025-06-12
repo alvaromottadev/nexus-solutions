@@ -2,12 +2,16 @@ package com.nexus.model;
 
 import com.nexus.dto.Company.CompanyRequest;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "companies")
 public class Company {
