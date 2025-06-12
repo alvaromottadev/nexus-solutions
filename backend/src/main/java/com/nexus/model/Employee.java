@@ -1,5 +1,6 @@
 package com.nexus.model;
 
+import com.nexus.model.enums.EmployeeRole;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,10 @@ public class Employee {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EmployeeRole role;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
