@@ -1,10 +1,16 @@
 package com.nexus.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "products")
 public class Product {
@@ -38,4 +44,11 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<MovementItem> movementItems;
 
+    public Product(String name, String description, Company company) {
+        this.name = name;
+        this.description = description;
+        this.qrCode = "";
+        this.company = company;
+        this.createdAt = LocalDateTime.now();
+    }
 }
