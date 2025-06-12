@@ -1,6 +1,7 @@
 package com.nexus.service;
 
 import com.nexus.model.Company;
+import com.nexus.model.User;
 import com.nexus.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,11 @@ public class CompanyService {
 
     public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
+    }
+
+    public Company findByUser(User user){
+        return companyRepository.findByUser(user)
+                .orElseThrow(() -> new RuntimeException("Company not found for user: " + user.getEmail()));
     }
 
     public Company save(Company company){
