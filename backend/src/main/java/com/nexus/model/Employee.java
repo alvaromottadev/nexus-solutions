@@ -2,9 +2,15 @@ package com.nexus.model;
 
 import com.nexus.model.enums.EmployeeRole;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "employees")
 public class Employee {
