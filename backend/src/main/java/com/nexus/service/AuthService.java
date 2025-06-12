@@ -53,8 +53,7 @@ public class AuthService {
         validatePassword(loginRequest.password(), user.getPassword());
 
         Company company = companyService.findByUser(user);
-        UserDetailsImpl userDetails = userDetailsServiceImpl.loadUserByUsername(loginRequest.email());
-        String token = jwtTokenUtil.generateToken(userDetails);
+        String token = jwtTokenUtil.generateToken(new UserDetailsImpl(user));
 
         return new UserCompanyLoginResponse(token, new UserResponse(user), new CompanyResponse(company));
     }
