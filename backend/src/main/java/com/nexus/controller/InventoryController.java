@@ -2,9 +2,11 @@ package com.nexus.controller;
 
 import com.nexus.dto.Inventory.InventoryRequest;
 import com.nexus.dto.Inventory.InventoryResponse;
+import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.InventoryService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +48,14 @@ public class InventoryController {
                                                              @PathVariable String inventoryId,
                                                              @Validated @RequestBody InventoryRequest inventoryRequest) {
         InventoryResponse response = inventoryService.updateInventory(inventoryId, inventoryRequest, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @DeleteMapping("/{inventoryId}")
+    public ResponseEntity<SuccessResponse> deleteInventory(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                           @PathVariable String inventoryId) {
+        SuccessResponse response = inventoryService.deleteInventory(inventoryId, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 

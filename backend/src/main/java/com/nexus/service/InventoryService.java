@@ -2,6 +2,7 @@ package com.nexus.service;
 
 import com.nexus.dto.Inventory.InventoryRequest;
 import com.nexus.dto.Inventory.InventoryResponse;
+import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Inventory;
@@ -47,6 +48,7 @@ public class InventoryService {
                 .toList();
     }
 
+    @Transactional
     public InventoryResponse updateInventory(String inventoryId, InventoryRequest inventoryRequest, Company company) {
         Inventory inventory = findByIdAndCompany(inventoryId, company);
         Location location = locationService.findByIdAndCompany(inventoryRequest.locationId(), company);
@@ -55,6 +57,13 @@ public class InventoryService {
         inventory.update(inventoryRequest, location, product);
         inventoryRepository.save(inventory);
         return new InventoryResponse(inventory, company);
+    }
+
+    @Transactional
+    public SuccessResponse deleteInventory(String inventoryId, Company company) {
+        Inventory inventory = findByIdAndCompany(inventoryId, company);
+        inventoryRepository.delete(inventory);
+        return new SuccessResponse("Inventory deleted successfully");
     }
 
     private Inventory findByIdAndCompany(String inventoryId, Company company) {
