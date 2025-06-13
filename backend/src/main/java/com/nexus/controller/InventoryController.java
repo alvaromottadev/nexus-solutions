@@ -32,4 +32,7 @@ public class InventoryController {
         InventoryResponse response = inventoryService.getInventoryById(inventoryId, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
+
+
+
 }
