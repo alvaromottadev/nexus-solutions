@@ -41,7 +41,7 @@ public class AuthService {
 
     @Transactional
     public SuccessResponse register(UserCompanyRegisterRequest registerRequest) {
-        User user = createUser(registerRequest.user());
+        User user = userService.createUser(registerRequest.user());
         Address address = createAddress(registerRequest.company().address());
         createCompany(user, address, registerRequest.company());
         return new SuccessResponse("Registration successfull");
@@ -56,12 +56,6 @@ public class AuthService {
         String token = jwtTokenUtil.generateToken(new UserDetailsImpl(user));
 
         return new UserCompanyLoginResponse(token, new UserResponse(user), new CompanyResponse(company));
-    }
-
-    private User createUser(UserRequest userRequest){
-        String encodedPassword = passwordEncoder.encode(userRequest.password());
-        User user = new User(userRequest, encodedPassword);
-        return userService.save(user);
     }
 
     private Company createCompany(User user, Address address, CompanyRequest companyRequest){
