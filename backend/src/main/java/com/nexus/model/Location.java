@@ -1,5 +1,7 @@
 package com.nexus.model;
 
+import com.nexus.dto.Address.AddressRequest;
+import com.nexus.dto.Location.LocationRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,5 +43,12 @@ public class Location {
 
     @OneToMany(mappedBy = "location")
     private List<Movement> movements;
+
+    public Location(String name, Address address, Company company){
+        this.name = name;
+        this.address = address;
+        this.createdAt = LocalDateTime.now();
+        this.company = company;
+    }
 
 }

@@ -2,9 +2,13 @@ package com.nexus.model;
 
 import com.nexus.dto.Address.AddressRequest;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "addresses")
 public class Address {
