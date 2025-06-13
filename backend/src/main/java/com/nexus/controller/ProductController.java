@@ -3,8 +3,10 @@ package com.nexus.controller;
 import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
 import com.nexus.dto.Product.ProductUpdateRequest;
+import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Product;
+import com.nexus.model.User;
 import com.nexus.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,6 +52,14 @@ public class ProductController {
                                                          @PathVariable String productId,
                                                          @Validated @RequestBody ProductUpdateRequest productRequest) {
         ProductResponse response = productService.updateProduct(productId, productRequest, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<SuccessResponse> deleteProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                         @PathVariable String productId) {
+        SuccessResponse response = productService.deleteProduct(productId, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 

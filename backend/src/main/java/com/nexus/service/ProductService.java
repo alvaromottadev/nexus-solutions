@@ -4,6 +4,7 @@ import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
 import com.nexus.dto.Product.ProductUpdateRequest;
+import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Location;
@@ -45,6 +46,13 @@ public class ProductService {
         product.setDescription(productRequest.description());
         productRepository.save(product);
         return new ProductResponse(product, new CompanyResponse(company));
+    }
+
+    @Transactional
+    public SuccessResponse deleteProduct(String productId, Company company) {
+        Product product = findByIdAndCompany(productId, company);
+        productRepository.delete(product);
+        return new SuccessResponse("Product deleted successfully");
     }
 
     public List<ProductResponse> getAllProducts(String locationId, Company company) {
