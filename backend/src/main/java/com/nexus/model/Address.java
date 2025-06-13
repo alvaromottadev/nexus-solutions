@@ -47,6 +47,17 @@ public class Address {
     @OneToOne(mappedBy = "address")
     private Location location;
 
+    public void update(AddressRequest addressRequest) {
+        this.street = addressRequest.street();
+        this.number = addressRequest.number();
+        this.complement = addressRequest.complement();
+        this.district = addressRequest.district();
+        this.city = addressRequest.city();
+        this.state = addressRequest.state();
+        this.postalCode = addressRequest.postalCode();
+        this.country = addressRequest.country();
+    }
+
     public Address(AddressRequest data){
         this.street = data.street();
         this.number = data.number();

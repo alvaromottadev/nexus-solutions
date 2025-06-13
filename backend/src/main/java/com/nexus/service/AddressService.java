@@ -15,14 +15,7 @@ public class AddressService {
     }
 
     public Address updateAddress(Address address, AddressRequest addressRequest){
-        address.setState(addressRequest.state());
-        address.setNumber(addressRequest.number());
-        address.setComplement(addressRequest.complement());
-        address.setDistrict(addressRequest.district());
-        address.setCity(addressRequest.city());
-        address.setStreet(addressRequest.street());
-        address.setPostalCode(addressRequest.postalCode());
-        address.setCountry(addressRequest.country());
+        address.update(addressRequest);
         return addressRepository.save(address);
     }
 
