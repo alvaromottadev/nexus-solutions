@@ -44,10 +44,10 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<MovementItem> movementItems;
 
-    public Product(String name, String description, Company company) {
+    public Product(String name, String qrCode, String description, Company company) {
         this.name = name;
         this.description = description;
-        this.qrCode = "";
+        this.qrCode = qrCode;
         this.company = company;
         this.createdAt = LocalDateTime.now();
     }

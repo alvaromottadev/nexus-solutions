@@ -3,6 +3,7 @@ package com.nexus.service;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
+import com.nexus.dto.Product.ProductUpdateRequest;
 import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Location;
@@ -27,13 +28,22 @@ public class ProductService {
 
     @Transactional
     public ProductResponse createProduct(ProductRequest productRequest, Company company) {
-        Product product = new Product(productRequest.name(), productRequest.description(), company);
+        Product product = new Product(productRequest.name(), productRequest.qrCode(), productRequest.description(), company);
         productRepository.save(product);
         return new ProductResponse(product, new CompanyResponse(company));
     }
 
-    public ProductResponse getProductById(String id, Company company){
-        Product product = findByIdAndCompany(id, company);
+    public ProductResponse getProductById(String productId, Company company){
+        Product product = findByIdAndCompany(productId, company);
+        return new ProductResponse(product, new CompanyResponse(company));
+    }
+
+    @Transactional
+    public ProductResponse updateProduct(String productId, ProductUpdateRequest productRequest, Company company) {
+        Product product = findByIdAndCompany(productId, company);
+        product.setName(productRequest.name());
+        product.setDescription(productRequest.description());
+        productRepository.save(product);
         return new ProductResponse(product, new CompanyResponse(company));
     }
 

@@ -2,6 +2,7 @@ package com.nexus.controller;
 
 import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
+import com.nexus.dto.Product.ProductUpdateRequest;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Product;
 import com.nexus.service.ProductService;
@@ -23,16 +24,16 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PreAuthorize("hasRole('COMPANY') or hasRole('MANAGER')")
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@AuthenticationPrincipal UserDetailsImpl userDetails, @Validated @RequestBody ProductRequest productRequest) {
         ProductResponse response = productService.createProduct(productRequest, userDetails.getCompany());
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getProductById(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String id){
-        ProductResponse response = productService.getProductById(id, userDetails.getCompany());
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductResponse> getProductById(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String productId){
+        ProductResponse response = productService.getProductById(productId, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 
@@ -40,6 +41,15 @@ public class ProductController {
     public ResponseEntity<List<ProductResponse>> getAllProducts(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                 @RequestParam(required = false) String locationId) {
         List<ProductResponse> response = productService.getAllProducts(locationId, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductResponse> updateProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                         @PathVariable String productId,
+                                                         @Validated @RequestBody ProductUpdateRequest productRequest) {
+        ProductResponse response = productService.updateProduct(productId, productRequest, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 
