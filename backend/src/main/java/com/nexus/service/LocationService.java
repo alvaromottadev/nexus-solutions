@@ -4,6 +4,7 @@ import com.nexus.dto.Address.AddressRequest;
 import com.nexus.dto.Address.AddressResponse;
 import com.nexus.dto.Location.LocationRequest;
 import com.nexus.dto.Location.LocationResponse;
+import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Address;
 import com.nexus.model.Company;
@@ -47,6 +48,7 @@ public class LocationService {
                 .toList();
     }
 
+    @Transactional
     public LocationResponse updateLocation(String locationId, LocationRequest locationRequest, Company company){
         Location location = findByIdAndCompany(locationId, company);
 
@@ -58,6 +60,13 @@ public class LocationService {
         locationRepository.save(location);
 
         return new LocationResponse(location, new AddressResponse(address));
+    }
+
+    @Transactional
+    public SuccessResponse deleteLocation(String locationId, Company company) {
+        Location location = findByIdAndCompany(locationId, company);
+        locationRepository.delete(location);
+        return new SuccessResponse("Location deleted successfully");
     }
 
     public Location findByIdAndCompany(String id, Company company){

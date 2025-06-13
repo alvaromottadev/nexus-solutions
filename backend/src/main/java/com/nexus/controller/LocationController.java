@@ -2,6 +2,7 @@ package com.nexus.controller;
 
 import com.nexus.dto.Location.LocationRequest;
 import com.nexus.dto.Location.LocationResponse;
+import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.LocationService;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,14 @@ public class LocationController {
                                                            @PathVariable String locationId,
                                                            @Validated @RequestBody LocationRequest locationRequest) {
         LocationResponse response = locationService.updateLocation(locationId, locationRequest, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @DeleteMapping("/{locationId}")
+    public ResponseEntity<SuccessResponse> deleteLocation(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                               @PathVariable String locationId) {
+        SuccessResponse response = locationService.deleteLocation(locationId, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 

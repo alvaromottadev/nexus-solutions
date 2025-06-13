@@ -31,7 +31,7 @@ public class Location {
     private LocalDateTime updatedAt;
 
     @JoinColumn(name = "address_id")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @JoinColumn(name = "company_id", nullable = false)
