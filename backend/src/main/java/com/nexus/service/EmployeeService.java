@@ -9,6 +9,8 @@ import com.nexus.model.User;
 import com.nexus.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeService {
 
@@ -32,9 +34,20 @@ public class EmployeeService {
         return new EmployeeResponse(employee);
     }
 
+    public List<EmployeeResponse> getAllEmployees(Company company) {
+        List<Employee> employees = employeeRepository.findAllByCompany(company);
+        return employees.stream()
+                .map(EmployeeResponse::new)
+                .toList();
+    }
+
     private Employee findByIdAndCompany(String employeeId, Company company){
         return employeeRepository.findByIdAndCompany(employeeId, company)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+    }
+
+    private List<Employee> findAllByCompany(Company company){
+        return employeeRepository.findAllByCompany(company);
     }
 
 }

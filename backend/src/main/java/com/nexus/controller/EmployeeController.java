@@ -10,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/employees")
 public class EmployeeController {
@@ -33,6 +35,12 @@ public class EmployeeController {
                                                         @PathVariable String employeeId){
         EmployeeResponse response = employeeService.getEmployeeById(employeeId, userDetails.getCompany());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployees(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        List<EmployeeResponse> responses = employeeService.getAllEmployees(userDetails.getCompany());
+        return ResponseEntity.ok(responses);
     }
 
 }
