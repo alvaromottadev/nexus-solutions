@@ -14,6 +14,7 @@ import com.nexus.repository.specification.ProductSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -44,6 +45,7 @@ public class ProductService {
         Product product = findByIdAndCompany(productId, company);
         product.setName(productRequest.name());
         product.setDescription(productRequest.description());
+        product.setUpdatedAt(LocalDateTime.now());
         productRepository.save(product);
         return new ProductResponse(product, new CompanyResponse(company));
     }
