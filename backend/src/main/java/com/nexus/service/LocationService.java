@@ -27,7 +27,6 @@ public class LocationService {
         this.addressService = addressService;
     }
 
-
     @Transactional
     public LocationResponse createLocation(LocationRequest locationRequest, Company company) {
         Address address = createAddress(locationRequest.address());

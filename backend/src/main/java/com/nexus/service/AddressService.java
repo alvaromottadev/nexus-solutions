@@ -20,7 +20,7 @@ public class AddressService {
         address.setComplement(addressRequest.complement());
         address.setDistrict(addressRequest.district());
         address.setCity(addressRequest.city());
-        address.setState(addressRequest.state());
+        address.setStreet(addressRequest.street());
         address.setPostalCode(addressRequest.postalCode());
         address.setCountry(addressRequest.country());
         return addressRepository.save(address);

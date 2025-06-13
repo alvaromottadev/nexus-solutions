@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.boot.jaxb.hbm.internal.CacheAccessTypeConverter;
+import org.springframework.cache.interceptor.CacheAspectSupport;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,11 +35,11 @@ public class Company {
     private LocalDateTime updatedAt;
 
     @JoinColumn(name = "user_id")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     @JoinColumn
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
