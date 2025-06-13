@@ -1,10 +1,16 @@
 package com.nexus.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "locations")
 public class Location {

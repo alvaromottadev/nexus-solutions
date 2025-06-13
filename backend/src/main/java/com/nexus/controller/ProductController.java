@@ -10,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
@@ -29,6 +31,13 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String id){
         ProductResponse response = productService.getProductById(id, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductResponse>> getAllProducts(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                @RequestParam(required = false) String locationId) {
+        List<ProductResponse> response = productService.getAllProducts(locationId, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 
