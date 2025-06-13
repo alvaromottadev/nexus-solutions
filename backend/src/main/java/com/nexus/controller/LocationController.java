@@ -10,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/locations")
 public class LocationController {
@@ -32,6 +34,20 @@ public class LocationController {
     public ResponseEntity<LocationResponse> getLocationById(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                @PathVariable String locationId) {
         LocationResponse response = locationService.getLocationById(locationId, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<LocationResponse>> getAllLocations(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<LocationResponse> response = locationService.getAllLocations(userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{locationId}")
+    public ResponseEntity<LocationResponse> updateLocation(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                           @PathVariable String locationId,
+                                                           @Validated @RequestBody LocationRequest locationRequest) {
+        LocationResponse response = locationService.updateLocation(locationId, locationRequest, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 

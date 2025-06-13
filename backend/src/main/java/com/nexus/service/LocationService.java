@@ -12,6 +12,9 @@ import com.nexus.repository.LocationRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class LocationService {
 
@@ -37,6 +40,25 @@ public class LocationService {
         return new LocationResponse(location, new AddressResponse(location.getAddress()));
     }
 
+    public List<LocationResponse> getAllLocations(Company company){
+        List<Location> locations = locationRepository.findAllByCompany(company);
+        return locations.stream()
+                .map(location -> new LocationResponse(location, new AddressResponse(location.getAddress())))
+                .toList();
+    }
+
+    public LocationResponse updateLocation(String locationId, LocationRequest locationRequest, Company company){
+        Location location = findByIdAndCompany(locationId, company);
+
+        Address address = addressService.updateAddress(location.getAddress(), locationRequest.address());
+
+        location.setName(locationRequest.name());
+        location.setUpdatedAt(LocalDateTime.now());
+        location.setAddress(address);
+        locationRepository.save(location);
+
+        return new LocationResponse(location, new AddressResponse(address));
+    }
 
     public Location findByIdAndCompany(String id, Company company){
         return locationRepository.findByIdAndCompany(id, company)
