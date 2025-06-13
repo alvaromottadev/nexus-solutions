@@ -34,7 +34,7 @@ public class Employee {
     private LocalDateTime updatedAt;
 
     @JoinColumn(name = "user_id")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     @JoinColumn(name = "company_id")

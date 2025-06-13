@@ -3,6 +3,7 @@ package com.nexus.service;
 import com.nexus.dto.Employee.EmployeeRequest;
 import com.nexus.dto.Employee.EmployeeResponse;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
+import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Employee;
@@ -54,6 +55,13 @@ public class EmployeeService {
         employee.setUpdatedAt(LocalDateTime.now());
         employeeRepository.save(employee);
         return new EmployeeResponse(employee);
+    }
+
+    @Transactional
+    public SuccessResponse deleteEmployee(String employeeId, Company company) {
+        Employee employee = findByIdAndCompany(employeeId, company);
+        employeeRepository.delete(employee);
+        return new SuccessResponse("Employee deleted successfully");
     }
 
     private Employee findByIdAndCompany(String employeeId, Company company){

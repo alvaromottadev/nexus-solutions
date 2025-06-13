@@ -3,6 +3,7 @@ package com.nexus.controller;
 import com.nexus.dto.Employee.EmployeeRequest;
 import com.nexus.dto.Employee.EmployeeResponse;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
+import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,13 @@ public class EmployeeController {
                                                            @Validated @RequestBody EmployeeRequest employeeRequest) {
         EmployeeResponse response = employeeService.updateEmployee(employeeId, employeeRequest, userDetails.getCompany());
         return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @DeleteMapping("/{employeeId}")
+    public SuccessResponse deleteEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                           @PathVariable String employeeId) {
+        return employeeService.deleteEmployee(employeeId, userDetails.getCompany());
     }
 
 }
