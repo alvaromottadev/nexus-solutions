@@ -47,6 +47,16 @@ public class InventoryService {
                 .toList();
     }
 
+    public InventoryResponse updateInventory(String inventoryId, InventoryRequest inventoryRequest, Company company) {
+        Inventory inventory = findByIdAndCompany(inventoryId, company);
+        Location location = locationService.findByIdAndCompany(inventoryRequest.locationId(), company);
+        Product product = productService.findByIdAndCompany(inventoryRequest.productId(), company);
+
+        inventory.update(inventoryRequest, location, product);
+        inventoryRepository.save(inventory);
+        return new InventoryResponse(inventory, company);
+    }
+
     private Inventory findByIdAndCompany(String inventoryId, Company company) {
         return inventoryRepository.findByIdAndProductCompany(inventoryId, company)
                 .orElseThrow(() -> new ResourceNotFoundException("Inventory not found"));

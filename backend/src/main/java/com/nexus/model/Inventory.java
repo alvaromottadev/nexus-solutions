@@ -42,6 +42,14 @@ public class Inventory {
     @ManyToOne
     private Product product;
 
+    public void update(InventoryRequest inventoryRequest, Location location, Product product) {
+        this.quantity = inventoryRequest.quantity();
+        this.minStock = inventoryRequest.minStock();
+        this.updatedAt = LocalDateTime.now();
+        this.location = location;
+        this.product = product;
+    }
+
     public Inventory(InventoryRequest inventoryRequest, Location location, Product product) {
         this.quantity = inventoryRequest.quantity();
         this.minStock = inventoryRequest.minStock();
