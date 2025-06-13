@@ -1,10 +1,17 @@
 package com.nexus.model;
 
+import com.nexus.dto.Inventory.InventoryRequest;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "inventories")
 public class Inventory {
@@ -34,5 +41,13 @@ public class Inventory {
     @JoinColumn(name = "product_id", nullable = false)
     @ManyToOne
     private Product product;
+
+    public Inventory(InventoryRequest inventoryRequest, Location location, Product product) {
+        this.quantity = inventoryRequest.quantity();
+        this.minStock = inventoryRequest.minStock();
+        this.createdAt = LocalDateTime.now();
+        this.location = location;
+        this.product = product;
+    }
 
 }

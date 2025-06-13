@@ -67,7 +67,7 @@ public class ProductService {
                 .map(product -> new ProductResponse(product, new CompanyResponse(company))).toList();
     }
 
-    private Product findByIdAndCompany(String id, Company company){
+    public Product findByIdAndCompany(String id, Company company){
         return productRepository.findByIdAndCompany(id, company)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
     }
