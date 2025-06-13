@@ -50,15 +50,10 @@ public class LocationService {
     @Transactional
     public LocationResponse updateLocation(String locationId, LocationRequest locationRequest, Company company){
         Location location = findByIdAndCompany(locationId, company);
-
-        Address address = addressService.updateAddress(location.getAddress(), locationRequest.address());
-
-        location.setName(locationRequest.name());
-        location.setUpdatedAt(LocalDateTime.now());
-        location.setAddress(address);
+        location.update(locationRequest);
         locationRepository.save(location);
 
-        return new LocationResponse(location, new AddressResponse(address));
+        return new LocationResponse(location, new AddressResponse(location.getAddress()));
     }
 
     @Transactional

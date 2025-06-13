@@ -44,6 +44,14 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<Movement> movements;
 
+    public void update(LocationRequest locationRequest) {
+        this.name = locationRequest.name();
+        this.updatedAt = LocalDateTime.now();
+        if (locationRequest.address() != null) {
+            this.address.update(locationRequest.address());
+        }
+    }
+
     public Location(String name, Address address, Company company){
         this.name = name;
         this.address = address;
