@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.boot.jaxb.hbm.internal.CacheAccessTypeConverter;
-import org.springframework.cache.interceptor.CacheAspectSupport;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,6 +48,15 @@ public class Company {
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Location> locations;
+
+    public void update(CompanyRequest companyRequest) {
+        this.name = companyRequest.name();
+        this.cnpj = companyRequest.cnpj();
+        this.updatedAt = LocalDateTime.now();
+        if (companyRequest.address() != null) {
+            this.address.update(companyRequest.address());
+        }
+    }
 
     public Company(User user, Address address, CompanyRequest data){
         this.name = data.name();

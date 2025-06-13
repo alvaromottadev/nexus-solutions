@@ -28,10 +28,7 @@ public class CompanyService {
 
     @Transactional
     public CompanyResponse updateCompany(CompanyRequest companyRequest, Company company) {
-        company.setName(companyRequest.name());
-        company.setCnpj(companyRequest.cnpj());
-        Address address = addressService.updateAddress(company.getAddress(), companyRequest.address());
-        company.setAddress(address);
+        company.update(companyRequest);
         companyRepository.save(company);
         return new CompanyResponse(company);
     }
