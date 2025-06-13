@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -29,6 +26,13 @@ public class EmployeeController {
                                                            @Validated @RequestBody UserEmployeeRegisterRequest employeeRequest){
         EmployeeResponse response = employeeService.createEmployee(employeeRequest, userDetails.getCompany());
         return ResponseEntity.status(201).body(response);
+    }
+
+    @GetMapping("/{employeeId}")
+    public ResponseEntity<EmployeeResponse> getEmployeeById(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                        @PathVariable String employeeId){
+        EmployeeResponse response = employeeService.getEmployeeById(employeeId, userDetails.getCompany());
+        return ResponseEntity.ok(response);
     }
 
 }

@@ -2,6 +2,7 @@ package com.nexus.service;
 
 import com.nexus.dto.Employee.EmployeeResponse;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
+import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Employee;
 import com.nexus.model.User;
@@ -24,6 +25,16 @@ public class EmployeeService {
         Employee employee = new Employee(employeeRequest.employee(), user, company);
         employeeRepository.save(employee);
         return new EmployeeResponse(employee);
+    }
+
+    public EmployeeResponse getEmployeeById(String employeeId, Company company) {
+        Employee employee = findByIdAndCompany(employeeId, company);
+        return new EmployeeResponse(employee);
+    }
+
+    private Employee findByIdAndCompany(String employeeId, Company company){
+        return employeeRepository.findByIdAndCompany(employeeId, company)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
     }
 
 }
