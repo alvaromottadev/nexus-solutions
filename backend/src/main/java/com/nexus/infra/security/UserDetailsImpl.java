@@ -1,6 +1,7 @@
 package com.nexus.infra.security;
 
 import com.nexus.model.Company;
+import com.nexus.model.Employee;
 import com.nexus.model.User;
 import com.nexus.model.enums.UserType;
 import lombok.Getter;
@@ -18,12 +19,17 @@ public class UserDetailsImpl implements UserDetails {
     @Getter
     private final Company company;
 
+    @Getter
+    private final Employee employee;
+
     public UserDetailsImpl(User user) {
         this.user = user;
         if (user.getType() == UserType.COMPANY){
             this.company = user.getCompany();
+            this.employee = null;
         } else {
             this.company = user.getEmployee().getCompany();
+            this.employee = user.getEmployee();
         }
     }
 

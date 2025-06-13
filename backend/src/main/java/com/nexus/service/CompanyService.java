@@ -43,8 +43,11 @@ public class CompanyService {
     }
 
     public Company findByUser(User user){
-        return companyRepository.findByUser(user)
-                .orElseThrow(() -> new ResourceNotFoundException("Company not found for user: " + user.getEmail()));
+        Company company = user.getCompany();
+        if (company == null){
+            company = user.getEmployee().getCompany();
+        }
+        return company;
     }
 
     public Company save(Company company){

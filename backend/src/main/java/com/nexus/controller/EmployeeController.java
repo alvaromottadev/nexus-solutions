@@ -1,5 +1,6 @@
 package com.nexus.controller;
 
+import com.nexus.dto.Employee.EmployeeRequest;
 import com.nexus.dto.Employee.EmployeeResponse;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.infra.security.UserDetailsImpl;
@@ -41,6 +42,15 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeResponse>> getAllEmployees(@AuthenticationPrincipal UserDetailsImpl userDetails){
         List<EmployeeResponse> responses = employeeService.getAllEmployees(userDetails.getCompany());
         return ResponseEntity.ok(responses);
+    }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER') or #userDetails.employee.id == #employeeId")
+    @PutMapping("/{employeeId}")
+    public ResponseEntity<EmployeeResponse> updateEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                           @PathVariable String employeeId,
+                                                           @Validated @RequestBody EmployeeRequest employeeRequest) {
+        EmployeeResponse response = employeeService.updateEmployee(employeeId, employeeRequest, userDetails.getCompany());
+        return ResponseEntity.ok(response);
     }
 
 }

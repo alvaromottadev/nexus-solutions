@@ -12,8 +12,7 @@ public record EmployeeResponse(
         String name,
         EmployeeRole role,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt,
-        CompanyResponse company
+        LocalDateTime updatedAt
 
 ) {
 
@@ -23,8 +22,7 @@ public record EmployeeResponse(
                 employee.getName(),
                 employee.getRole(),
                 employee.getCreatedAt(),
-                employee.getUpdatedAt(),
-                new CompanyResponse(employee.getCompany())
+                employee.getUpdatedAt()
         );
     }
 
