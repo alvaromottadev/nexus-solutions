@@ -7,10 +7,7 @@ import com.nexus.service.InventoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/inventories")
@@ -29,4 +26,10 @@ public class InventoryController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @GetMapping("/{inventoryId}")
+    public ResponseEntity<InventoryResponse> getInventoryById(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                          @PathVariable String inventoryId) {
+        InventoryResponse response = inventoryService.getInventoryById(inventoryId, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
 }

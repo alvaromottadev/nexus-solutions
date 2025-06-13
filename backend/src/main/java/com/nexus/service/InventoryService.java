@@ -2,11 +2,13 @@ package com.nexus.service;
 
 import com.nexus.dto.Inventory.InventoryRequest;
 import com.nexus.dto.Inventory.InventoryResponse;
+import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Inventory;
 import com.nexus.model.Location;
 import com.nexus.model.Product;
 import com.nexus.repository.InventoryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,12 +24,23 @@ public class InventoryService {
         this.inventoryRepository = inventoryRepository;
     }
 
+    @Transactional
     public InventoryResponse createInventory(InventoryRequest inventoryRequest, Company company){
         Location location = locationService.findByIdAndCompany(inventoryRequest.locationId(), company);
         Product product = productService.findByIdAndCompany(inventoryRequest.productId(), company);
         Inventory inventory = new Inventory(inventoryRequest, location, product);
         inventoryRepository.save(inventory);
         return new InventoryResponse(inventory, company);
+    }
+
+    public InventoryResponse getInventoryById(String inventoryId, Company company){
+        Inventory inventory = findByIdAndCompany(inventoryId, company);
+        return new InventoryResponse(inventory, company);
+    }
+
+    private Inventory findByIdAndCompany(String inventoryId, Company company) {
+        return inventoryRepository.findByIdAndProductCompany(inventoryId, company)
+                .orElseThrow(() -> new ResourceNotFoundException("Inventory not found"));
     }
 
 }
