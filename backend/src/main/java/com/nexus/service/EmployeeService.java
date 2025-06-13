@@ -46,8 +46,4 @@ public class EmployeeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
     }
 
-    private List<Employee> findAllByCompany(Company company){
-        return employeeRepository.findAllByCompany(company);
-    }
-
 }
