@@ -9,6 +9,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/inventories")
 public class InventoryController {
@@ -33,6 +35,10 @@ public class InventoryController {
         return ResponseEntity.ok(response);
     }
 
-
+    @GetMapping
+    public ResponseEntity<List<InventoryResponse>> getAllInventories(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<InventoryResponse> responses = inventoryService.getAllInventories(userDetails.getCompany());
+        return ResponseEntity.ok(responses);
+    }
 
 }

@@ -11,6 +11,8 @@ import com.nexus.repository.InventoryRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InventoryService {
 
@@ -36,6 +38,13 @@ public class InventoryService {
     public InventoryResponse getInventoryById(String inventoryId, Company company){
         Inventory inventory = findByIdAndCompany(inventoryId, company);
         return new InventoryResponse(inventory, company);
+    }
+
+    public List<InventoryResponse> getAllInventories(Company company) {
+        List<Inventory> inventories = inventoryRepository.findAllByProductCompany(company);
+        return inventories.stream()
+                .map(inventory -> new InventoryResponse(inventory, company))
+                .toList();
     }
 
     private Inventory findByIdAndCompany(String inventoryId, Company company) {
