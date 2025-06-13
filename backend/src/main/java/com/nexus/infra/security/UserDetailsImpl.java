@@ -5,6 +5,7 @@ import com.nexus.model.User;
 import com.nexus.model.enums.UserType;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -28,7 +29,11 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        if (user.getType() == UserType.COMPANY){
+            return List.of(new SimpleGrantedAuthority("ROLE_COMPANY"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_" + user.getEmployee().getRole()));
+        }
     }
 
     @Override

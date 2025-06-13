@@ -6,6 +6,7 @@ import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Product;
 import com.nexus.service.ProductService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @PreAuthorize("hasRole('COMPANY') or hasRole('MANAGER')")
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@AuthenticationPrincipal UserDetailsImpl userDetails, @Validated @RequestBody ProductRequest productRequest) {
         ProductResponse response = productService.createProduct(productRequest, userDetails.getCompany());
