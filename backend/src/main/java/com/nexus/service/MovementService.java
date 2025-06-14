@@ -2,17 +2,18 @@ package com.nexus.service;
 
 import com.nexus.dto.Movement.MovementRequest;
 import com.nexus.dto.Movement.MovementResponse;
-import com.nexus.dto.Movement.PerformedResponse;
 import com.nexus.dto.MovementItem.MovementItemRequest;
 import com.nexus.dto.MovementItem.MovementItemResponse;
-import com.nexus.exception.InsufficientStockException;
+import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.*;
 import com.nexus.model.enums.MovementType;
 import com.nexus.repository.MovementRepository;
+import com.nexus.repository.specification.MovementSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -46,32 +47,47 @@ public class MovementService {
                 .map(MovementItemResponse::new)
                 .toList();
 
-        return new MovementResponse(movement, new PerformedResponse(userDetails.getUser()), movementItemResponses);
+        return new MovementResponse(movement, movementItemResponses);
+    }
+
+    public MovementResponse getMovementById(String movementId, Company company){
+        Movement movement = findByIdAndCompany(movementId, company);
+        return new MovementResponse(movement, movement.getMovementItems().stream().map(MovementItemResponse::new).toList());
+    }
+
+    public List<MovementResponse> getAllMovements(MovementType type, LocalDateTime startDate, LocalDateTime endDate, Company company){
+        List<Movement> movements = movementRepository.findAll(MovementSpecification.filterBy(type, startDate, endDate, company));
+        return movements.stream()
+                .map(movement -> new MovementResponse(movement, movement.getMovementItems().stream().map(MovementItemResponse::new).toList()))
+                .toList();
     }
 
     private List<MovementItem> validateMovementsItems(List<MovementItemRequest> items, Movement movement, Company company) {
-            List<MovementItem> movementItems = items.stream()
-                    .map(item -> {
+        return items.stream()
+                .map(item -> {
 
-                        Product product = productService.findByIdAndCompany(item.productId(), company);
-                        Inventory inventory = inventoryService.findByProductAndLocation(product, movement.getLocation());
+                    Product product = productService.findByIdAndCompany(item.productId(), company);
+                    Inventory inventory = inventoryService.findByProductAndLocation(product, movement.getLocation());
 
-                        if (movement.getType() == MovementType.OUT){
-                            inventory.decrementQuantity(item.quantity());
-                        } else {
-                            inventory.incrementQuantity(item.quantity());
-                        }
+                    if (movement.getType() == MovementType.OUT){
+                        inventory.decrementQuantity(item.quantity());
+                    } else {
+                        inventory.incrementQuantity(item.quantity());
+                    }
 
-                        inventoryService.save(inventory);
+                    inventoryService.save(inventory);
 
-                        MovementItem movementItem = new MovementItem();
-                        movementItem.setProduct(productService.findByIdAndCompany(item.productId(), company));
-                        movementItem.setMovement(movement);
-                        movementItem.setQuantity(item.quantity());
+                    MovementItem movementItem = new MovementItem();
+                    movementItem.setProduct(productService.findByIdAndCompany(item.productId(), company));
+                    movementItem.setMovement(movement);
+                    movementItem.setQuantity(item.quantity());
 
-                        return movementItem;
-                    }).toList();
-            return movementItems;
+                    return movementItem;
+                }).toList();
     }
 
+    private Movement findByIdAndCompany(String movementId, Company company) {
+        return movementRepository.findByIdAndLocationCompany(movementId, company)
+                .orElseThrow(() -> new ResourceNotFoundException("Movement not found"));
+    }
 }

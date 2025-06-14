@@ -11,18 +11,20 @@ public record MovementResponse(
 
         String id,
         MovementType type,
+        String description,
         LocalDateTime movementDate,
         PerformedResponse performedBy,
         List<MovementItemResponse> items
 
 ) {
 
-    public MovementResponse(Movement movement, PerformedResponse performedBy, List<MovementItemResponse> items) {
+    public MovementResponse(Movement movement, List<MovementItemResponse> items) {
         this(
                 movement.getId(),
                 movement.getType(),
+                movement.getDescription(),
                 movement.getMovementDate(),
-                performedBy,
+                new PerformedResponse(movement.getPerformedBy()),
                 items
         );
     }
