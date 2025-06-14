@@ -4,4 +4,6 @@
 @theme inline {
   --font-poppins: "Poppins", sans-serif;
   --color-gray: #606060;
+  --color-text: #000000;
+  --primary-color: #322866;
 }
