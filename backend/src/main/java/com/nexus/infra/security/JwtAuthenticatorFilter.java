@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.IOException;
+
 @Component
 public class JwtAuthenticatorFilter extends OncePerRequestFilter {
 
@@ -39,9 +41,24 @@ public class JwtAuthenticatorFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(req, res);
         } catch (ExpiredJwtException e){
-            System.out.println("JWT token expired: " + e.getMessage());
+            createErrorResponse(res, "Token expired");
         } catch (Exception e) {
-            System.out.println("Error in JWT authentication: " + e.getMessage());
+            createErrorResponse(res, "Error in JWT authentication: " + e.getMessage());
         }
     }
+
+    private void createErrorResponse(HttpServletResponse res, String message) {
+        try {
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setContentType("application/json");
+            res.getWriter().write(createJson(message));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String createJson(String message){
+        return "{ \"error\": \"" + message + "\" }";
+    }
+
 }
