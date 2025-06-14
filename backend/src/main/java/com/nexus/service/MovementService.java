@@ -74,7 +74,7 @@ public class MovementService {
                     } else {
                         inventory.incrementQuantity(item.quantity());
                     }
-
+                    inventory.setUpdatedAt(LocalDateTime.now());
                     inventoryService.save(inventory);
 
                     MovementItem movementItem = new MovementItem();
