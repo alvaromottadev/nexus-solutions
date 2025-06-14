@@ -1,5 +1,6 @@
 package com.nexus.model;
 
+import com.nexus.dto.Product.ProductRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,9 @@ public class Product {
     @Column(name = "qr_code", unique = true, nullable = false)
     private String qrCode;
 
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -44,10 +48,11 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<MovementItem> movementItems;
 
-    public Product(String name, String qrCode, String description, Company company) {
-        this.name = name;
-        this.description = description;
-        this.qrCode = qrCode;
+    public Product(ProductRequest productRequest, Company company) {
+        this.name = productRequest.name();
+        this.description = productRequest.description();
+        this.qrCode = productRequest.qrCode();
+        this.code = productRequest.code();
         this.company = company;
         this.createdAt = LocalDateTime.now();
     }

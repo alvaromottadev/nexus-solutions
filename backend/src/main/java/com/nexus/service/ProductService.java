@@ -30,7 +30,7 @@ public class ProductService {
 
     @Transactional
     public ProductResponse createProduct(ProductRequest productRequest, Company company) {
-        Product product = new Product(productRequest.name(), productRequest.qrCode(), productRequest.description(), company);
+        Product product = new Product(productRequest, company);
         productRepository.save(product);
         return new ProductResponse(product);
     }

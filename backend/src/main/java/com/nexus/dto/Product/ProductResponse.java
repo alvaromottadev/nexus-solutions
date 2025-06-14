@@ -10,6 +10,7 @@ public record ProductResponse(
         String name,
         String description,
         String qrCode,
+        String code,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 
@@ -21,6 +22,7 @@ public record ProductResponse(
                 product.getName(),
                 product.getDescription(),
                 product.getQrCode(),
+                product.getCode(),
                 product.getCreatedAt(),
                 product.getUpdatedAt()
         );
