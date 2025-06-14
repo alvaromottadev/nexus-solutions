@@ -1,12 +1,18 @@
 package com.nexus.model;
 
+import com.nexus.dto.Movement.MovementRequest;
 import com.nexus.model.enums.MovementType;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "movements")
 public class Movement {
@@ -36,7 +42,15 @@ public class Movement {
     @ManyToOne
     private Location location;
 
-    @OneToMany(mappedBy = "movement")
+    @OneToMany(mappedBy = "movement", cascade = CascadeType.ALL)
     private List<MovementItem> movementItems;
+
+    public Movement(MovementRequest movementRequest) {
+        this.type = movementRequest.type();
+        this.description = movementRequest.description();
+        this.movementDate = movementRequest.movementDate();
+        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+    }
 
 }

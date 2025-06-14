@@ -32,12 +32,12 @@ public class ProductService {
     public ProductResponse createProduct(ProductRequest productRequest, Company company) {
         Product product = new Product(productRequest.name(), productRequest.qrCode(), productRequest.description(), company);
         productRepository.save(product);
-        return new ProductResponse(product, new CompanyResponse(company));
+        return new ProductResponse(product);
     }
 
     public ProductResponse getProductById(String productId, Company company){
         Product product = findByIdAndCompany(productId, company);
-        return new ProductResponse(product, new CompanyResponse(company));
+        return new ProductResponse(product);
     }
 
     @Transactional
@@ -47,7 +47,7 @@ public class ProductService {
         product.setDescription(productRequest.description());
         product.setUpdatedAt(LocalDateTime.now());
         productRepository.save(product);
-        return new ProductResponse(product, new CompanyResponse(company));
+        return new ProductResponse(product);
     }
 
     @Transactional
@@ -64,7 +64,7 @@ public class ProductService {
         }
         return productRepository.findAll(ProductSpecification.filterBy(location, company))
                 .stream()
-                .map(product -> new ProductResponse(product, new CompanyResponse(company))).toList();
+                .map(product -> new ProductResponse(product)).toList();
     }
 
     public Product findByIdAndCompany(String id, Company company){

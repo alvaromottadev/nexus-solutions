@@ -1,6 +1,7 @@
 package com.nexus.model;
 
 import com.nexus.dto.Inventory.InventoryRequest;
+import com.nexus.exception.InsufficientStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,19 @@ public class Inventory {
     @JoinColumn(name = "product_id", nullable = false)
     @ManyToOne
     private Product product;
+
+    public void decrementQuantity(Integer quantity) {
+        if (this.quantity < quantity) {
+            throw new InsufficientStockException("Insufficient stock for product: " + this.product.getName());
+        }
+        this.quantity -= quantity;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void incrementQuantity(Integer quantity) {
+        this.quantity += quantity;
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public void update(InventoryRequest inventoryRequest, Location location, Product product) {
         this.quantity = inventoryRequest.quantity();

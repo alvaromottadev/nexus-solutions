@@ -1,7 +1,13 @@
 package com.nexus.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "movements_items")
 public class MovementItem {

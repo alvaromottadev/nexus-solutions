@@ -60,4 +60,11 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(e.getMessage()));
     }
 
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientStockException(InsufficientStockException e) {
+        return ResponseEntity
+                .status(409)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
 }

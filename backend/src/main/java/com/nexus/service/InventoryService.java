@@ -71,4 +71,13 @@ public class InventoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Inventory not found"));
     }
 
+    public Inventory findByProductAndLocation(Product product, Location location) {
+        return inventoryRepository.findByProductAndLocation(product, location)
+                .orElseThrow(() -> new ResourceNotFoundException("Inventory not found for product and location"));
+    }
+
+    public void save(Inventory inventory){
+        inventoryRepository.save(inventory);
+    }
+
 }

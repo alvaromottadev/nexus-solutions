@@ -14,6 +14,7 @@ import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
+    @Getter
     private final User user;
 
     @Getter
