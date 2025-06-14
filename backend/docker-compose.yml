@@ -8,3 +8,13 @@ services:
       POSTGRES_DB: nexus_solutions
     ports:
       - "5433:5432"
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    environment:
+      SERVICES: s3
+    #      AWS_REGION: us-east-1
+    #      AWS_ACCESS_KEY: test
+    #      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "4566:4566"
