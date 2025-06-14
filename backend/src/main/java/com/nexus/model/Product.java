@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Setter
@@ -19,6 +20,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
+    @Column(name = "public_id", unique = true, nullable = false)
+    private String publicId = UUID.randomUUID().toString();
 
     @Column(name = "name", nullable = false)
     private String name;

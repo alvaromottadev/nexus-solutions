@@ -11,12 +11,15 @@ import java.util.List;
 
 public class ProductSpecification {
 
-    public static Specification<Product> filterBy(Location location, Company company){
+    public static Specification<Product> filterBy(Location location, String code, Company company){
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.equal(root.get("company").get("id"), company.getId()));
             if (location != null){
                 predicates.add(cb.equal(root.join("inventories").get("location").get("id"), location.getId()));
+            }
+            if (code != null && !code.isEmpty()){
+                predicates.add(cb.equal(root.get("code"), code));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };

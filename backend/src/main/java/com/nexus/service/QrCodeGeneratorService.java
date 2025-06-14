@@ -23,17 +23,24 @@ public class QrCodeGeneratorService {
         this.storagePort = storagePort;
     }
 
-    public QrCodeGenerateResponse generateAndUploadQrCode(String content) throws WriterException, IOException {
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 200, 200);
+    public String generateQrCode(String content) {
+        try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 200, 200);
 
-        ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
-        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
-        byte[] pngQrCodeData = pngOutputStream.toByteArray();
+            ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+            byte[] pngQrCodeData = pngOutputStream.toByteArray();
 
-        String url = storagePort.uploadFile(pngQrCodeData, UUID.randomUUID().toString(), "image/png");
+            return uploadQrCode(pngQrCodeData, UUID.randomUUID().toString());
+        } catch (Exception e){
+            throw new RuntimeException("Failed to generate QR code", e);
+        }
 
-        return new QrCodeGenerateResponse(url);
+    }
+
+    public String uploadQrCode(byte[] qrCodeData, String fileName) throws IOException {
+        return storagePort.uploadFile(qrCodeData, fileName, "image/png");
     }
 
 }

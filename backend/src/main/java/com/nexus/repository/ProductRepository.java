@@ -11,4 +11,6 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
 
     Optional<Product> findByIdAndCompany(String id, Company company);
 
+    Optional<Product> findByPublicIdAndCompany(String publicId, Company company);
+
 }

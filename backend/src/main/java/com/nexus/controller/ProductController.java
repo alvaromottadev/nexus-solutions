@@ -39,10 +39,17 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/public/{publicId}")
+    public ResponseEntity<ProductResponse> getProductByPublicId(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String publicId) {
+        ProductResponse response = productService.getProductByPublicId(publicId, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                @RequestParam(required = false) String locationId) {
-        List<ProductResponse> response = productService.getAllProducts(locationId, userDetails.getCompany());
+                                                                @RequestParam(required = false) String locationId,
+                                                                @RequestParam(required = false) String code) {
+        List<ProductResponse> response = productService.getAllProducts(locationId, code, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 
