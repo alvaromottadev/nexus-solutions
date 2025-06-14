@@ -1,3 +1,5 @@
+import LoginHeader from "../components/Login/LoginHeader";
+
 export default function LoginPage() {
-  return <label className="text-white">Hello, World!</label>;
+  return <LoginHeader />;
 }
