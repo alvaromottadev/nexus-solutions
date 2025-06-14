@@ -5,6 +5,7 @@ import com.nexus.model.Inventory;
 import com.nexus.model.Location;
 import com.nexus.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +17,11 @@ public interface InventoryRepository extends JpaRepository<Inventory, String> {
     List<Inventory> findAllByProductCompany(Company company);
 
     Optional<Inventory> findByProductAndLocation(Product product, Location location);
+
+    @Query("""
+        SELECT i FROM Inventory i
+            WHERE i.quantity < i.minStock
+    """)
+    List<Inventory> findAllWithLowStock();
+
 }

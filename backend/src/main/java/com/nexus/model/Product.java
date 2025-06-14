@@ -55,7 +55,6 @@ public class Product {
     public Product(ProductRequest productRequest, Company company) {
         this.name = productRequest.name();
         this.description = productRequest.description();
-        this.qrCode = productRequest.qrCode();
         this.code = productRequest.code();
         this.company = company;
         this.createdAt = LocalDateTime.now();

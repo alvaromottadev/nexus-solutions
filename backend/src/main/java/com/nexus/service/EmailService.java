@@ -1,0 +1,63 @@
+package com.nexus.service;
+
+import com.nexus.dto.Email.EmailRequest;
+import com.nexus.dto.Inventory.InventoryRestockResponse;
+import com.nexus.exception.EmailSendException;
+import com.nexus.model.Product;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+import java.util.List;
+
+@Service
+public class EmailService {
+
+    private final JavaMailSender mailSender;
+
+    private final TemplateEngine templateEngine;
+
+    private final String fromEmail;
+
+    public EmailService(
+            @Value("${mail.from}") String fromEmail,
+            JavaMailSender mailSender,
+            TemplateEngine templateEngine) {
+        this.fromEmail = fromEmail;
+        this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
+    }
+
+    public void sendRestockEmail(EmailRequest emailRequest, List<InventoryRestockResponse> products){
+        String htmlContent = getHtmlContent(products);
+        sendEmail(emailRequest, htmlContent);
+    }
+
+    public void sendEmail(EmailRequest emailRequest, String htmlContent){
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+
+            helper.setTo(emailRequest.to());
+            helper.setSubject(emailRequest.subject());
+            helper.setFrom(fromEmail);
+            helper.setText(htmlContent, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e){
+            throw new EmailSendException("Failed to send email: ");
+        }
+    }
+
+    private String getHtmlContent(List<InventoryRestockResponse> products){
+        Context context = new Context();
+        context.setVariable("products", products);
+        return templateEngine.process("restock-email", context);
+    }
+
+}

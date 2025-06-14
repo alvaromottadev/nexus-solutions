@@ -1,6 +1,5 @@
 package com.nexus.service;
 
-import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
 import com.nexus.dto.Product.ProductUpdateRequest;

@@ -9,8 +9,6 @@ public record ProductRequest(
 
         String description,
 
-        String qrCode,
-
         String code
 
 ) {

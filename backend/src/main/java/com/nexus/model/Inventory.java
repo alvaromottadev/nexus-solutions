@@ -35,7 +35,7 @@ public class Inventory {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @JoinColumn(name = "location_id", unique = true, nullable = false)
+    @JoinColumn(name = "location_id", nullable = false)
     @ManyToOne
     private Location location;
 

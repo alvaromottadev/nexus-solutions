@@ -80,4 +80,8 @@ public class InventoryService {
         inventoryRepository.save(inventory);
     }
 
+    public List<Inventory> findAllWithLowStock(){
+        return inventoryRepository.findAllWithLowStock();
+    }
+
 }

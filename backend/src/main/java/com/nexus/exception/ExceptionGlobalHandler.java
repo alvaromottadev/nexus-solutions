@@ -67,4 +67,11 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(e.getMessage()));
     }
 
+    @ExceptionHandler(EmailSendException.class)
+    public ResponseEntity<ErrorResponse> handleEmailSendException(EmailSendException e) {
+        return ResponseEntity
+                .status(500)
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
 }

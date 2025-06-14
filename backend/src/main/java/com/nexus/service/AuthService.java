@@ -6,12 +6,11 @@ import com.nexus.dto.Auth.UserCompanyLoginResponse;
 import com.nexus.dto.Auth.UserCompanyRegisterRequest;
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
+import com.nexus.dto.Email.EmailRequest;
 import com.nexus.dto.SuccessResponse;
-import com.nexus.dto.User.UserRequest;
 import com.nexus.dto.User.UserResponse;
 import com.nexus.infra.security.JwtTokenUtil;
 import com.nexus.infra.security.UserDetailsImpl;
-import com.nexus.infra.security.UserDetailsServiceImpl;
 import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.User;
@@ -28,15 +27,13 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AddressService addressService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    public AuthService(UserService userService, CompanyService companyService, PasswordEncoder passwordEncoder, AddressService addressService, JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl userDetailsServiceImpl) {
+    public AuthService(UserService userService, CompanyService companyService, PasswordEncoder passwordEncoder, AddressService addressService, JwtTokenUtil jwtTokenUtil) {
         this.userService = userService;
         this.companyService = companyService;
         this.passwordEncoder = passwordEncoder;
         this.addressService = addressService;
         this.jwtTokenUtil = jwtTokenUtil;
-        this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
     @Transactional
