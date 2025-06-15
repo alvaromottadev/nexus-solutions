@@ -9,8 +9,8 @@ export default function LoginBody() {
           <label className="text-[2rem] font-bold text-[var(--color-gray)]">
             Na Nexus Solutions
           </label>
-          <div className="mt-[1.8rem] w-[20rem] flex ">
-            <label className="text-center text-[1.2rem] text-[var(--color-text)] font-poppins">
+          <div className="mt-[1.8rem] w-[20rem] md:w-[25rem] flex ">
+            <label className="text-center text-[1.2rem] md:text-[1.5rem] text-[var(--color-text)] font-poppins">
               Transformamos a gestão do seu almoxarifado com soluções
               inteligentes, aumentando a eficiência, reduzindo custos e
               garantindo controle total do seu estoque!
