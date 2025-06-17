@@ -15,8 +15,8 @@ export default function LoginForm() {
   const form = useForm();
 
   return (
-    <div className="mt-[12.75rem] flex justify-center">
-      <div className="w-[70%]">
+    <div className="mt-[12.75rem] lg:mt-[5rem] flex justify-center">
+      <div className="w-[30rem] lg:w-[25rem]">
         <Form {...form}>
           <FormField
             control={form.control}

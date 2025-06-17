@@ -6,7 +6,7 @@ interface CustomTextProps {
 export default function CustomText({ children, className }: CustomTextProps) {
   return (
     <>
-      <label className={`text-[var(--color-gray)] font-poppins ${className}`}>
+      <label className={`text-black font-poppins ${className}`}>
         {children}
       </label>
     </>
