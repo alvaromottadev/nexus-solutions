@@ -12,7 +12,7 @@ export default function LandingPage() {
       <InfoBar
         title="Quem somos?"
         description="Acreditamos que você merece conhecer um pouco mais sobre
-          quem está por trás das soluções que oferecemos Veja quem somos, o que
+          quem está por trás das soluções que oferecemos. Veja quem somos, o que
           acreditamos e como podemos te ajudar."
       />
       <AboutSection />

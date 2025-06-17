@@ -1,4 +1,3 @@
-import { title } from "process";
 import CustomText from "./CustomText";
 
 interface InfoBarProps {

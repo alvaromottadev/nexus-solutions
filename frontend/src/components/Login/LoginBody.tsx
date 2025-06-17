@@ -17,7 +17,7 @@ export default function LoginBody() {
               </CustomText>
             </div>
             <div className="mt-[1.8rem] w-[20rem] md:w-[25rem] flex ">
-              <CustomText className="text-center lg:text-left text-[1.2rem] md:text-[1.5rem] text-[var(--color-text)] font-poppins">
+              <CustomText className="text-center lg:text-left text-[1.2rem] md:text-[1.5rem] font-poppins">
                 Transformamos a gestão do seu almoxarifado com soluções
                 inteligentes, aumentando a eficiência, reduzindo custos e
                 garantindo controle total do seu estoque!
