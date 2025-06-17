@@ -2,6 +2,7 @@ import ContactSection from "@/components/sections/ContactSection";
 import AdvantagesSection from "@/components/sections/AdvantagesSection";
 import LoginSection from "@/components/sections/LoginSection";
 import InfoBar from "@/components/InfoBar";
+import AboutSection from "@/components/sections/AboutSection";
 
 export default function LandingPage() {
   return (
@@ -14,6 +15,7 @@ export default function LandingPage() {
           quem está por trás das soluções que oferecemos Veja quem somos, o que
           acreditamos e como podemos te ajudar."
       />
+      <AboutSection />
       <ContactSection />
     </>
   );
