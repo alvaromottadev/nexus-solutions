@@ -1,6 +1,4 @@
-import { FaGoogle, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import CustomText from "../CustomText";
-import SocialContact from "../SocialContact";
 import Contacts from "../Contacts";
 
 export default function HomeBody() {

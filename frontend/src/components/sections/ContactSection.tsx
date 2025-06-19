@@ -1,6 +1,4 @@
 import CustomText from "@/components/CustomText";
-import SocialContact from "@/components/SocialContact";
-import { FaGoogle, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import contactDesign from "@/assets/contact-design.svg";
 import { forwardRef } from "react";
 import Contacts from "../Contacts";
