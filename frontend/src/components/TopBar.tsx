@@ -1,8 +1,15 @@
 import { AlignJustify } from "lucide-react";
 import { Button } from "./ui/button";
 import CustomText from "./CustomText";
+import { useNavigate } from "react-router";
 
 export default function TopBar() {
+  const navigation = useNavigate();
+
+  function handleClick(page: string) {
+    navigation(`/${page}`);
+  }
+
   return (
     <>
       <div className="h-[5rem]">
@@ -20,7 +27,10 @@ export default function TopBar() {
           <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
             Nexus Solutions
           </CustomText>
-          <Button className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
+          <Button
+            onClick={() => handleClick("products")}
+            className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
+          >
             Produtos
           </Button>
           <Button className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">

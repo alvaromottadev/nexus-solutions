@@ -11,6 +11,16 @@ class HttpClient {
       body,
     });
   }
+
+  get(url: string, headers: HeadersInit) {
+    return fetch(defaultUrl + url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    });
+  }
 }
 
 const client = new HttpClient();

@@ -52,6 +52,9 @@ export default function LoginForm() {
         duration: 5000,
       });
       localStorage.setItem("token", responseData.token);
+      setTimeout(() => {
+        navigation("/home");
+      }, 2000);
     } catch (error) {
       console.error("Erro na requisição:", error);
       toast.error("Erro de conexão.", {
