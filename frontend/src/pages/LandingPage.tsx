@@ -1,24 +1,35 @@
 import ContactSection from "@/components/sections/ContactSection";
 import AdvantagesSection from "@/components/sections/AdvantagesSection";
-import LoginSection from "@/components/sections/LoginSection";
+import InitialSection from "@/components/sections/InitialSection";
 import InfoBar from "@/components/InfoBar";
 import AboutSection from "@/components/sections/AboutSection";
 import OpinionsSection from "@/components/sections/OpinionsSection";
+import { useRef } from "react";
 
 export default function LandingPage() {
+  const sectionRefs = {
+    about: useRef<HTMLDivElement>(null),
+    contact: useRef<HTMLDivElement>(null),
+    advantages: useRef<HTMLDivElement>(null),
+  };
+
+  function scrollTo(section: keyof typeof sectionRefs) {
+    sectionRefs[section].current?.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <>
-      <LoginSection />
-      <AdvantagesSection />
+      <InitialSection scrollTo={scrollTo} />
+      <AdvantagesSection ref={sectionRefs.advantages} />
       <InfoBar
         title="Quem somos?"
         description="Acreditamos que você merece conhecer um pouco mais sobre
           quem está por trás das soluções que oferecemos. Veja quem somos, o que
           acreditamos e como podemos te ajudar."
       />
-      <AboutSection />
+      <AboutSection ref={sectionRefs.about} />
       <OpinionsSection />
-      <ContactSection />
+      <ContactSection ref={sectionRefs.contact} />
     </>
   );
 }

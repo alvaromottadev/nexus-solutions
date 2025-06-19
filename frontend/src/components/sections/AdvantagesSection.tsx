@@ -1,11 +1,12 @@
 import { BrainCircuit, Gauge, Lock } from "lucide-react";
 import CustomText from "../CustomText";
 import AdvantagesCard from "../CardAdvantages";
+import { forwardRef } from "react";
 
-export default function AdvantagesSection() {
+const AdvantagesSection = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <>
-      <div className="bg-[var(--background-color)] p-[10rem]">
+      <div ref={ref} className="bg-[var(--background-color)] p-[10rem]">
         <div className="flex flex-col items-center justify-center h-full">
           <CustomText className="text-[2.25rem] w-[32rem] text-center text-[var(--primary-color)]">
             Quais as vantagens de usar Nexus Solutions?
@@ -38,4 +39,6 @@ export default function AdvantagesSection() {
       </div>
     </>
   );
-}
+});
+
+export default AdvantagesSection;

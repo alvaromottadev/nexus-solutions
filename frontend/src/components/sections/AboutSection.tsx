@@ -1,10 +1,14 @@
+import { forwardRef } from "react";
 import CustomText from "../CustomText";
 import aboutDesign from "@/assets/about-design.svg";
 
-export default function AboutSection() {
+const AboutSection = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <>
-      <div className="bg-[var(--background-color)] min-h-screen flex items-center justify-around p-5">
+      <div
+        ref={ref}
+        className="bg-[var(--background-color)] min-h-screen flex items-center justify-around p-5"
+      >
         <div className="w-[30rem] flex flex-col items-center justify-center h-full gap-y-2">
           <CustomText className="text-[var(--primary-color)] font-bold text-[1.5rem] md:text-[1.7rem]">
             Quem somos?
@@ -32,4 +36,6 @@ export default function AboutSection() {
       </div>
     </>
   );
-}
+});
+
+export default AboutSection;
