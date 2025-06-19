@@ -3,6 +3,7 @@ import AdvantagesSection from "@/components/sections/AdvantagesSection";
 import LoginSection from "@/components/sections/LoginSection";
 import InfoBar from "@/components/InfoBar";
 import AboutSection from "@/components/sections/AboutSection";
+import OpinionsSection from "@/components/sections/OpinionsSection";
 
 export default function LandingPage() {
   return (
@@ -16,6 +17,7 @@ export default function LandingPage() {
           acreditamos e como podemos te ajudar."
       />
       <AboutSection />
+      <OpinionsSection />
       <ContactSection />
     </>
   );

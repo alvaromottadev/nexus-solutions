@@ -1,6 +1,7 @@
 import design from "@/assets/design.svg";
 import CustomText from "../CustomText";
 import LoginForm from "./LoginForm";
+import { Button } from "../ui/button";
 
 export default function LoginBody() {
   return (
@@ -23,7 +24,15 @@ export default function LoginBody() {
                 garantindo controle total do seu estoque!
               </CustomText>
             </div>
-            <LoginForm />
+            <div className="mt-[12.75rem] flex flex-col w-full gap-y-2">
+              <Button className="bg-[var(--primary-color)] h-[4rem]">
+                Seja Nexus
+              </Button>
+              <Button className="bg-[var(--primary-color)] h-[4rem]">
+                Login
+              </Button>
+            </div>
+            {/* <LoginForm /> */}
           </div>
           <div className="hidden lg:block">
             <img src={design} className="h-[40rem]" />
