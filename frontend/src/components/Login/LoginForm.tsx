@@ -14,6 +14,7 @@ import { useNavigate } from "react-router";
 import loginSchema from "@/schemas/loginSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
+import client from "@/client/http-client";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -23,14 +24,18 @@ export default function LoginForm() {
       password: "",
     },
   });
+
   const navigation = useNavigate();
 
   function handleRegister() {
     navigation("/register");
   }
 
-  function handleSubmit(data: z.infer<typeof loginSchema>) {
-    console.log(data);
+  async function handleSubmit(data: z.infer<typeof loginSchema>) {
+    const response = await client.post(`/auth/login`, {}, JSON.stringify(data));
+    console.log(response);
+    const resdata = await response.json();
+    console.log(resdata);
   }
 
   return (
