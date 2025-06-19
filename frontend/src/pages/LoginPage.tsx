@@ -9,6 +9,7 @@ export default function LoginPage() {
           <CustomText className="text-[1.5rem] font-bold text-[var(--primary-color)]">
             Nexus Solutions
           </CustomText>
+          <CustomText>Bem-vindo de volta! 👋</CustomText>
           <LoginForm />
         </div>
       </div>

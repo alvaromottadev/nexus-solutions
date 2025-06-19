@@ -10,9 +10,15 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router";
 
 export default function LoginForm() {
   const form = useForm();
+  const navigation = useNavigate();
+
+  function handleRegister() {
+    navigation("/register");
+  }
 
   return (
     <div className="mt-[5rem] lg:mt-[5rem] flex justify-center">
@@ -74,7 +80,10 @@ export default function LoginForm() {
         <div className="w-full flex justify-center mt-[0.25rem] font-poppins">
           <label>
             Não possui uma conta?{" "}
-            <label className="text-[var(--primary-color)] cursor-pointer">
+            <label
+              onClick={handleRegister}
+              className="text-[var(--primary-color)] cursor-pointer"
+            >
               Cadastre-se!
             </label>
           </label>
