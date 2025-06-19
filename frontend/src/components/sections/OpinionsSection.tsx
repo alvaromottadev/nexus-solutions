@@ -22,6 +22,17 @@ export default function OpinionsSection() {
           author="Juliana Mendes"
         />
       </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 135"
+        className="bg-[var(--background-color)] absolute"
+      >
+        <path
+          fill="#322866"
+          fill-opacity="1"
+          d="M0,128L60,117.3C120,107,240,85,360,85.3C480,85,600,107,720,106.7C840,107,960,85,1080,74.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+        ></path>
+      </svg>
     </>
   );
 }

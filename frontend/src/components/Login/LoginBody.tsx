@@ -2,8 +2,19 @@ import design from "@/assets/design.svg";
 import CustomText from "../CustomText";
 import LoginForm from "./LoginForm";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router";
 
 export default function LoginBody() {
+  const navigation = useNavigate();
+
+  function handleLogin() {
+    navigation(`/login`);
+  }
+
+  function handleRegister() {
+    navigation(`/register`);
+  }
+
   return (
     <>
       <div className="mt-[4.18rem] min-h-[20rem]">
@@ -25,10 +36,16 @@ export default function LoginBody() {
               </CustomText>
             </div>
             <div className="mt-[12.75rem] flex flex-col w-full gap-y-2">
-              <Button className="bg-[var(--primary-color)] h-[4rem]">
+              <Button
+                onClick={handleRegister}
+                className="cursor-pointer bg-[var(--primary-color)] h-[4rem]"
+              >
                 Seja Nexus
               </Button>
-              <Button className="bg-[var(--primary-color)] h-[4rem]">
+              <Button
+                onClick={handleLogin}
+                className="cursor-pointer bg-[var(--primary-color)] h-[4rem]"
+              >
                 Login
               </Button>
             </div>
