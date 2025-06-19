@@ -11,10 +11,17 @@ import com.nexus.model.Product;
 import com.nexus.repository.ProductRepository;
 import com.nexus.repository.specification.ProductSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.print.Pageable;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -22,18 +29,22 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final LocationService locationService;
     private final QrCodeGeneratorService qrCodeGeneratorService;
+    private final StorageService storageService;
 
-    public ProductService(ProductRepository productRepository, LocationService locationService, QrCodeGeneratorService qrCodeGeneratorService) {
+    public ProductService(ProductRepository productRepository, LocationService locationService, QrCodeGeneratorService qrCodeGeneratorService, StorageService storageService) {
         this.productRepository = productRepository;
         this.locationService = locationService;
         this.qrCodeGeneratorService = qrCodeGeneratorService;
+        this.storageService = storageService;
     }
 
     @Transactional
-    public ProductResponse createProduct(ProductRequest productRequest, Company company) {
+    public ProductResponse createProduct(MultipartFile file, ProductRequest productRequest, Company company) {
         Product product = new Product(productRequest, company);
-
+        String imageUrl = storageService.uploadImage(file, UUID.randomUUID().toString());
         String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getPublicId());
+
+        product.setImage(imageUrl);
         product.setQrCode(qrCodeUrl);
 
         productRepository.save(product);
@@ -50,14 +61,15 @@ public class ProductService {
         return new ProductResponse(product);
     }
 
-    public List<ProductResponse> getAllProducts(String locationId, String code, Company company) {
+    public List<ProductResponse> getAllProducts(String locationId, String code, Company company, String name, Integer size, Integer page) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Location location = null;
         if (locationId != null) {
             location = locationService.findByIdAndCompany(locationId, company);
         }
-        return productRepository.findAll(ProductSpecification.filterBy(location, code, company))
+        return productRepository.findAll(ProductSpecification.filterBy(location, code, name, company), pageable)
                 .stream()
-                .map(product -> new ProductResponse(product)).toList();
+                .map(ProductResponse::new).toList();
     }
 
 

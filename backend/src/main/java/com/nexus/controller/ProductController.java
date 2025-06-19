@@ -8,12 +8,15 @@ import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Product;
 import com.nexus.model.User;
 import com.nexus.service.ProductService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,9 +30,11 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
-    @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@AuthenticationPrincipal UserDetailsImpl userDetails, @Validated @RequestBody ProductRequest productRequest) {
-        ProductResponse response = productService.createProduct(productRequest, userDetails.getCompany());
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProductResponse> createProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                         @RequestPart("file") MultipartFile file,
+                                                         @Validated @RequestPart("data") ProductRequest productRequest) throws IOException {
+        ProductResponse response = productService.createProduct(file, productRequest, userDetails.getCompany());
         return ResponseEntity.status(201).body(response);
     }
 
@@ -48,8 +53,11 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                 @RequestParam(required = false) String locationId,
-                                                                @RequestParam(required = false) String code) {
-        List<ProductResponse> response = productService.getAllProducts(locationId, code, userDetails.getCompany());
+                                                                @RequestParam(required = false) String code,
+                                                                @RequestParam(required = false) String name,
+                                                                @RequestParam(required = false, defaultValue = "10") Integer size,
+                                                                @RequestParam(required = false, defaultValue = "0") Integer page) {
+        List<ProductResponse> response = productService.getAllProducts(locationId, code, userDetails.getCompany(), name, size, page);
         return ResponseEntity.ok(response);
     }
 

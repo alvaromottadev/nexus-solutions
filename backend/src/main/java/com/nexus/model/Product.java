@@ -30,6 +30,9 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "qr_code", unique = true, nullable = false)
     private String qrCode;
 

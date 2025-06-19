@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ProductSpecification {
 
-    public static Specification<Product> filterBy(Location location, String code, Company company){
+    public static Specification<Product> filterBy(Location location, String code, String name, Company company){
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.equal(root.get("company").get("id"), company.getId()));
@@ -20,6 +20,9 @@ public class ProductSpecification {
             }
             if (code != null && !code.isEmpty()){
                 predicates.add(cb.equal(root.get("code"), code));
+            }
+            if (name != null && !name.isEmpty()){
+                predicates.add(cb.like(root.get("name"), "%"+name+"%"));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
