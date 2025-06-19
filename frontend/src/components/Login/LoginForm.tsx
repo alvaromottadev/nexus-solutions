@@ -15,8 +15,8 @@ export default function LoginForm() {
   const form = useForm();
 
   return (
-    <div className="mt-[12.75rem] lg:mt-[5rem] flex justify-center">
-      <div className="w-[30rem] lg:w-[25rem]">
+    <div className="mt-[5rem] lg:mt-[5rem] flex justify-center">
+      <div className="w-[20rem] lg:w-[25rem]">
         <Form {...form}>
           <FormField
             control={form.control}
@@ -28,7 +28,7 @@ export default function LoginForm() {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    className="bg-[var(--color-gray)] text-white placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
+                    className="bg-[var(--color-gray)] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
                     placeholder="Ex.: nexus@gmail.com"
                     {...field}
                   />
@@ -49,7 +49,7 @@ export default function LoginForm() {
                 <FormControl>
                   <Input
                     type="password"
-                    className="bg-[var(--color-gray)] text-white placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
+                    className="bg-[var(--color-gray)] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
                     placeholder="Ex.: nexus123"
                     {...field}
                   />
@@ -63,18 +63,20 @@ export default function LoginForm() {
             <label>
               Esqueceu a senha?{" "}
               <label className="text-[var(--primary-color)]">
-                <label>Clique aqui!</label>
+                <label className="cursor-pointer">Clique aqui!</label>
               </label>
             </label>
           </div>
-          <Button className="w-full h-[4rem] mt-[0.25rem] bg-[var(--primary-color)]">
+          <Button className="cursor-pointer w-full h-[4rem] mt-[0.25rem] bg-[var(--primary-color)]">
             Login
           </Button>
         </Form>
         <div className="w-full flex justify-center mt-[0.25rem] font-poppins">
           <label>
             Não possui uma conta?{" "}
-            <label className="text-[var(--primary-color)]">Cadastre-se!</label>
+            <label className="text-[var(--primary-color)] cursor-pointer">
+              Cadastre-se!
+            </label>
           </label>
         </div>
       </div>
