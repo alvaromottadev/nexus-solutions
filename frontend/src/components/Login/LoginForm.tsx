@@ -10,7 +10,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { resolvePath, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import loginSchema from "@/schemas/loginSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";

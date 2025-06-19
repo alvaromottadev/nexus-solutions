@@ -3,6 +3,7 @@ import SocialContact from "@/components/SocialContact";
 import { FaGoogle, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import contactDesign from "@/assets/contact-design.svg";
 import { forwardRef } from "react";
+import Contacts from "../Contacts";
 
 const ContactSection = forwardRef<HTMLDivElement>((_, ref) => {
   return (
@@ -21,32 +22,7 @@ const ContactSection = forwardRef<HTMLDivElement>((_, ref) => {
                 necessidades de gerenciamento de almoxarifado.
               </CustomText>
             </div>
-            <div className="flex flex-col gap-y-2 mt-[2.5rem] lg:mt-[3rem] lg:self-start">
-              <SocialContact
-                socialName="Instagram"
-                socialHandle="@nexussolutions"
-              >
-                <FaInstagram size={"32"} />
-              </SocialContact>
-              <SocialContact
-                socialName="Whatsapp"
-                socialHandle="+55 31 99999-9999"
-              >
-                <FaWhatsapp size={32} />
-              </SocialContact>
-              <SocialContact
-                socialName="Linkedin"
-                socialHandle="/in/nexussolutions"
-              >
-                <FaLinkedin size={32} />
-              </SocialContact>
-              <SocialContact
-                socialName="Email"
-                socialHandle="nexus@solutions.com"
-              >
-                <FaGoogle size={32} />
-              </SocialContact>
-            </div>
+            <Contacts />
           </div>
           <div className="hidden lg:block">
             <img src={contactDesign} />
