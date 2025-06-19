@@ -10,11 +10,12 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useNavigate } from "react-router";
+import { resolvePath, useNavigate } from "react-router";
 import loginSchema from "@/schemas/loginSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import client from "@/client/http-client";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -32,10 +33,32 @@ export default function LoginForm() {
   }
 
   async function handleSubmit(data: z.infer<typeof loginSchema>) {
-    const response = await client.post(`/auth/login`, {}, JSON.stringify(data));
-    console.log(response);
-    const resdata = await response.json();
-    console.log(resdata);
+    try {
+      const response = await client.post(
+        `/auth/login`,
+        {},
+        JSON.stringify(data)
+      );
+      const responseData = await response.json();
+      if (!response.ok && response.status !== 201) {
+        toast.error(responseData.error, {
+          description: "Verifique os dados e tente novamente.",
+          duration: 5000,
+        });
+        return;
+      }
+      toast.success("Login realizado com sucesso!", {
+        description: "Redirecionando para a página inicial.",
+        duration: 5000,
+      });
+      localStorage.setItem("token", responseData.token);
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      toast.error("Erro de conexão.", {
+        description: "Não foi possível conectar ao servidor.",
+        duration: 5000,
+      });
+    }
   }
 
   return (
