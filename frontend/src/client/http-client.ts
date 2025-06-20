@@ -12,6 +12,16 @@ class HttpClient {
     });
   }
 
+  postWithFormData(url: string, formData: FormData) {
+    return fetch(defaultUrl + url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: formData,
+    });
+  }
+
   get(url: string, headers: HeadersInit) {
     return fetch(defaultUrl + url, {
       method: "GET",

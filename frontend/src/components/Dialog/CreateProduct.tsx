@@ -22,9 +22,39 @@ import {
 import FormFieldComponent from "../Form/FormFieldComponent";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
+import { useState } from "react";
+import client from "@/client/http-client";
 
 export default function CreateProductDialog() {
   const form = useForm();
+  const [image, setImage] = useState<File | null | undefined>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    setImage(file);
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImagePreview(imageUrl);
+    } else {
+      setImagePreview(null);
+    }
+  }
+
+  async function handleCreate() {
+    console.log(form.getValues());
+    const formData = new FormData();
+    if (image) {
+      formData.append("file", image);
+    }
+    formData.append("data", JSON.stringify(form.getValues()));
+    const response = await client.postWithFormData(`/products`, formData);
+    console.log(response);
+    const responsedata = await response.json();
+    console.log(responsedata);
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -49,6 +79,7 @@ export default function CreateProductDialog() {
               name="name"
               label="Nome"
               placeholder="Ex.: Disjuntor 10A"
+              isRequired
             />
             <FormField
               control={form.control}
@@ -60,6 +91,7 @@ export default function CreateProductDialog() {
                     <Textarea
                       className="font-poppins placeholder:font-poppins"
                       placeholder="Ex.: Ideal para proteção de circuitos elétricos residenciais e comerciais."
+                      {...field}
                     />
                   </FormControl>
                 </FormItem>
@@ -72,13 +104,35 @@ export default function CreateProductDialog() {
               placeholder="Ex.: 123456789"
               description="Utilize o código de barras do produto."
             />
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Imagem</FormLabel>
+                  <FormControl>
+                    <Input type="file" onChange={(e) => handleFileChange(e)} />
+                  </FormControl>
+                  <FormDescription>
+                    Selecione uma imagem do produto.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {imagePreview && (
+              <img src={imagePreview} className="h-[20rem] object-contain" />
+            )}
             <DialogFooter>
               <DialogClose asChild>
                 <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
                   Cancelar
                 </Button>
               </DialogClose>
-              <Button className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer">
+              <Button
+                className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer"
+                onClick={handleCreate}
+              >
                 Cadastrar
               </Button>
             </DialogFooter>

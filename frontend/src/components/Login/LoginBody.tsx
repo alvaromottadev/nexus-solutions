@@ -48,7 +48,6 @@ export default function LoginBody() {
                 Login
               </Button>
             </div>
-            {/* <LoginForm /> */}
           </div>
           <div className="hidden lg:block">
             <img src={design} className="h-[40rem]" />

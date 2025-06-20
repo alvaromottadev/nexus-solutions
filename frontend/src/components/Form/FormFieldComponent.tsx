@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import Required from "../Required";
 
 interface FormFieldComponentProps {
   control: Control<FieldValues, any, FieldValues>;
@@ -16,6 +17,7 @@ interface FormFieldComponentProps {
   label: string;
   placeholder?: string;
   description?: string;
+  isRequired?: boolean;
 }
 
 export default function FormFieldComponent({
@@ -24,6 +26,7 @@ export default function FormFieldComponent({
   label,
   placeholder = "",
   description = "",
+  isRequired = false,
 }: FormFieldComponentProps) {
   return (
     <>
@@ -32,11 +35,16 @@ export default function FormFieldComponent({
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel>
+              {label}
+              {isRequired && <Required />}
+            </FormLabel>
             <FormControl>
               <Input
+                autoComplete="off"
                 className="font-poppins placeholder:font-poppins"
                 placeholder={placeholder}
+                {...field}
               />
             </FormControl>
             <FormDescription>{description}</FormDescription>
