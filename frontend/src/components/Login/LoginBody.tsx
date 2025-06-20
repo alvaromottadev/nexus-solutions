@@ -1,6 +1,5 @@
 import design from "@/assets/design.svg";
 import CustomText from "../CustomText";
-import LoginForm from "./LoginForm";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router";
 
@@ -22,10 +21,10 @@ export default function LoginBody() {
           <div className="flex flex-col items-center lg:block">
             <div className="flex flex-col">
               <CustomText className="text-left text-[2.5rem] font-bold text-[var(--primary-color)]">
-                Faça login agora
+                Seja um cliente
               </CustomText>
               <CustomText className="text-[2rem] font-bold text-[var(--color-gray)]">
-                Na Nexus Solutions
+                da Nexus Solutions
               </CustomText>
             </div>
             <div className="mt-[1.8rem] w-[20rem] md:w-[25rem] flex ">
