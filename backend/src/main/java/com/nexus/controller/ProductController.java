@@ -8,6 +8,10 @@ import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Product;
 import com.nexus.model.User;
 import com.nexus.service.ProductService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,9 +36,12 @@ public class ProductController {
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductResponse> createProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                         @RequestPart("file") MultipartFile file,
-                                                         @Validated @RequestPart("data") ProductRequest productRequest) throws IOException {
-        ProductResponse response = productService.createProduct(file, productRequest, userDetails.getCompany());
+                                           @RequestPart(value = "file", required = false) MultipartFile file,
+                                           @RequestPart(value = "name") String name,
+                                           @RequestPart(value = "description", required = false) String description,
+                                           @RequestPart(value = "code", required = false) String code
+    ) {
+        ProductResponse response = productService.createProduct(file, new ProductRequest(name, description, code), userDetails.getCompany());
         return ResponseEntity.status(201).body(response);
     }
 

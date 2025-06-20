@@ -11,14 +11,11 @@ import com.nexus.model.Product;
 import com.nexus.repository.ProductRepository;
 import com.nexus.repository.specification.ProductSpecification;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -40,11 +37,13 @@ public class ProductService {
 
     @Transactional
     public ProductResponse createProduct(MultipartFile file, ProductRequest productRequest, Company company) {
-        Product product = new Product(productRequest, company);
-        String imageUrl = storageService.uploadImage(file, UUID.randomUUID().toString());
-        String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getPublicId());
 
-        product.setImage(imageUrl);
+        Product product = new Product(productRequest, company);
+        if (file != null && !file.isEmpty()){
+            String imageUrl = storageService.uploadImage(file, UUID.randomUUID().toString());
+            product.setImage(imageUrl);
+        }
+        String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getPublicId());
         product.setQrCode(qrCodeUrl);
 
         productRepository.save(product);
