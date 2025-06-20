@@ -54,12 +54,27 @@ export default function CreateProductDialog({
 
   async function handleCreate() {
     const formData = new FormData();
+
+    if (!form.getValues("name")) {
+      toast.error("O nome do produto é obrigatório.", {
+        description: "Por favor, preencha o campo nome.",
+        duration: 5000,
+      });
+      form.setError("name", {
+        type: "minLength",
+        message: "O nome do produto é obrigatório.",
+      });
+      return;
+    }
+
     if (image) {
       formData.append("file", image);
     }
+
     formData.append("name", form.getValues("name"));
-    formData.append("description", form.getValues("description"));
-    formData.append("code", form.getValues("code"));
+    formData.append("description", form.getValues("description") || "");
+    formData.append("code", form.getValues("code") || "");
+
     api
       .post(`/products`, formData, {
         headers: {
