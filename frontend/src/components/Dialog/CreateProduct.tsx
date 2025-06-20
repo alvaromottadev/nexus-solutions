@@ -24,9 +24,19 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { useState } from "react";
-import client from "@/client/http-client";
+import api from "@/client/api-client";
+import { toast } from "sonner";
+import type { ProductType } from "@/types/ProductType";
 
-export default function CreateProductDialog() {
+interface CreateProductForm {
+  products: ProductType[];
+  setProducts: (products: ProductType[]) => void;
+}
+
+export default function CreateProductDialog({
+  products,
+  setProducts,
+}: CreateProductForm) {
   const form = useForm();
   const [image, setImage] = useState<File | null | undefined>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -43,16 +53,27 @@ export default function CreateProductDialog() {
   }
 
   async function handleCreate() {
-    console.log(form.getValues());
     const formData = new FormData();
     if (image) {
       formData.append("file", image);
     }
-    formData.append("data", JSON.stringify(form.getValues()));
-    const response = await client.postWithFormData(`/products`, formData);
-    console.log(response);
-    const responsedata = await response.json();
-    console.log(responsedata);
+    formData.append("name", form.getValues("name"));
+    formData.append("description", form.getValues("description"));
+    formData.append("code", form.getValues("code"));
+    api
+      .post(`/products`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        toast.success("Produto cadastrado com sucesso!", {
+          description: "O produto foi adicionado à lista.",
+          duration: 5000,
+        });
+        setProducts([res.data, ...products]);
+      });
   }
 
   return (

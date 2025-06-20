@@ -24,9 +24,12 @@ export default function TopBar() {
           </div>
         </div>
         <div className=" h-full hidden lg:flex items-center justify-around">
-          <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
+          <Button
+            onClick={() => handleClick("home")}
+            className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none cursor-pointer"
+          >
             Nexus Solutions
-          </CustomText>
+          </Button>
           <Button
             onClick={() => handleClick("products")}
             className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
@@ -34,7 +37,7 @@ export default function TopBar() {
             Produtos
           </Button>
           <Button className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
-            Fornecedores
+            Almoxarifados
           </Button>
           <Button className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
             Estoque

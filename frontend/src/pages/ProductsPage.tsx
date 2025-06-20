@@ -1,12 +1,11 @@
-import client from "@/client/http-client";
+import api from "@/client/api-client";
 import CustomText from "@/components/CustomText";
 import CreateProductDialog from "@/components/Dialog/CreateProduct";
 import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { ProductType } from "@/types/ProductType";
-import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import { ArchiveX, Edit, Plus, Search } from "lucide-react";
+import { ArchiveX, Edit, Image, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -18,37 +17,35 @@ export default function ProductsPage() {
   const [name, setName] = useState<string>("");
 
   async function handleSearch() {
-    const response = await client.get(`/products?name=${name}`, {
-      Authorization: `Bearer ${token}`,
-    });
-    const responseData = await response.json();
-    if (!response.ok && response.status !== 201) {
-      toast.error(responseData.error, {
-        description: "Verifique os dados e tente novamente.",
-        duration: 5000,
+    await api
+      .get(`/products?name=${name}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status !== 200 && res.status !== 201) {
+          toast.error(res.data.error, {
+            description: "Verifique os dados e tente novamente.",
+            duration: 5000,
+          });
+          return;
+        }
+        setProducts(res.data);
       });
-      return;
-    }
-    setProducts(responseData);
   }
 
   useEffect(() => {
     async function getProducts() {
-      const response = await client.get(`/products`, {
-        Authorization: `Bearer ${token}`,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok && response.status !== 201) {
-        toast.error(data.error, {
-          description: "Verifique os dados e tente novamente.",
-          duration: 5000,
+      await api
+        .get(`/products`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setProducts(res.data);
         });
-        return;
-      }
-      setProducts(data);
-      console.log(data);
     }
     getProducts();
   }, []);
@@ -57,7 +54,7 @@ export default function ProductsPage() {
     <>
       <div className="flex flex-col min-h-screen">
         <TopBar />
-        <CreateProductDialog />
+        <CreateProductDialog setProducts={setProducts} products={products} />
         <div className="flex flex-col gap-y-2 items-center justify-center mt-[2rem]">
           <div className="flex items-center justify-between w-[80%] lg:w-[90%]">
             <div>
@@ -87,10 +84,17 @@ export default function ProductsPage() {
               {products.map((product) => (
                 <div className="flex items-center p-5 bg-[var(--color-gray)] h-[8rem] w-[80%] lg:w-[80%] rounded-[1rem]">
                   <div>
-                    <img
-                      src={product.image}
-                      className="w-[4rem] h-[4rem] object-cover"
-                    />
+                    {product.image ? (
+                      <img
+                        src={product.image}
+                        className="w-[4rem] h-[4rem] object-cover border-[1px] border-[var(--primary-color)] rounded-[0.5rem] lg:w-[6rem] lg:h-[6rem]"
+                      />
+                    ) : (
+                      <Image
+                        className="w-[4rem] h-[4rem] lg:w-[6rem] lg:h-[4rem]"
+                        color="white"
+                      />
+                    )}
                   </div>
                   <div className="flex flex-col ml-[2rem]">
                     <CustomText className="text-white">
