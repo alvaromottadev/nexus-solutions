@@ -37,7 +37,7 @@ export default function CreateProductDialog({
   products,
   setProducts,
 }: CreateProductForm) {
-  const form = useForm();
+  const form = useForm({});
   const [image, setImage] = useState<File | null | undefined>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 

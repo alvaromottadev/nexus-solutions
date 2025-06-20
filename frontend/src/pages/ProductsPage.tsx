@@ -1,6 +1,7 @@
 import api from "@/client/api-client";
 import CustomText from "@/components/CustomText";
 import CreateProductDialog from "@/components/Dialog/CreateProduct";
+import EditProductDialog from "@/components/Dialog/EditProduct";
 import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,8 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [numberPage, setNumberPage] = useState<number>(1);
   const [name, setName] = useState<string>("");
+
+  const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
 
   async function handleSearch() {
     await api
@@ -103,7 +106,13 @@ export default function ProductsPage() {
                     <CustomText>{product.description}</CustomText>
                   </div>
                   <div className="ml-auto cursor-pointer">
-                    <Edit size={48} color="white" />
+                    <EditProductDialog
+                      product={product}
+                      products={products}
+                      setProducts={setProducts}
+                      setOpen={setEditDialogOpen}
+                      isOpen={editDialogOpen}
+                    />
                   </div>
                 </div>
               ))}

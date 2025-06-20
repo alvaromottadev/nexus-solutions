@@ -12,7 +12,7 @@ import { Input } from "../ui/input";
 import Required from "../Required";
 
 interface FormFieldComponentProps {
-  control: Control<FieldValues, any, FieldValues>;
+  control: any;
   name: string;
   label: string;
   placeholder?: string;
