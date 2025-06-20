@@ -73,11 +73,15 @@ public class ProductService {
 
 
     @Transactional
-    public ProductResponse updateProduct(String productId, ProductUpdateRequest productRequest, Company company) {
+    public ProductResponse updateProduct(String productId, MultipartFile file, ProductUpdateRequest productRequest, Company company) {
         Product product = findByIdAndCompany(productId, company);
         product.setName(productRequest.name());
         product.setDescription(productRequest.description());
         product.setUpdatedAt(LocalDateTime.now());
+        if (file != null && !file.isEmpty()){
+            String newImage = storageService.uploadImage(file, product.getImage().split("/")[3]);
+            product.setImage(newImage);
+        }
         productRepository.save(product);
         return new ProductResponse(product);
     }

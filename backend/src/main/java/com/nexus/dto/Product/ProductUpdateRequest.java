@@ -7,7 +7,9 @@ public record ProductUpdateRequest(
         @NotBlank(message = "Name is required")
         String name,
 
-        String description
+        String description,
+
+        String code
 
 ) {
 }

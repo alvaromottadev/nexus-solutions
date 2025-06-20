@@ -69,11 +69,15 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
-    @PutMapping("/{productId}")
+    @PutMapping(path = "/{productId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductResponse> updateProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                          @PathVariable String productId,
-                                                         @Validated @RequestBody ProductUpdateRequest productRequest) {
-        ProductResponse response = productService.updateProduct(productId, productRequest, userDetails.getCompany());
+                                                         @RequestPart(value = "file", required = false) MultipartFile file,
+                                                         @RequestPart(value = "name") String name,
+                                                         @RequestPart(value = "description", required = false) String description,
+                                                         @RequestPart(value = "code", required = false) String code
+    ) {
+        ProductResponse response = productService.updateProduct(productId, file, new ProductUpdateRequest(name, description, code), userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 
