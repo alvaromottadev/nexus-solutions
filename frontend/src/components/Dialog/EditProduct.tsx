@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Edit, Plus, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -185,9 +185,14 @@ export default function EditProductDialog({
                 )}
               />
               {imagePreview && (
-                <img src={imagePreview} className="h-[20rem] object-contain" />
+                <div className="w-full flex items-center justify-center">
+                  <img
+                    src={imagePreview}
+                    className="h-[20rem] w-[20rem] object-cover"
+                  />
+                </div>
               )}
-              <DialogFooter>
+              <DialogFooter className="mt-[1rem]">
                 <DeleteProductAlert onDelete={handleDelete} />
                 <DialogClose asChild onClick={() => setOpen(false)}>
                   <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">

@@ -43,6 +43,9 @@ export default function TopBar() {
             Estoque
           </Button>
           <Button className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
+            Movimentações
+          </Button>
+          <Button className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
             Relatórios
           </Button>
           <Button className="bg-transparent text-[var(--color-gray)] text-[1.4rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">

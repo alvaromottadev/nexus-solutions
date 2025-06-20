@@ -6,7 +6,7 @@ import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { ProductType } from "@/types/ProductType";
-import { ArchiveX, Edit, Image, Search } from "lucide-react";
+import { ArchiveX, Image, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -14,7 +14,6 @@ export default function ProductsPage() {
   const token = localStorage.getItem("token");
 
   const [products, setProducts] = useState<ProductType[]>([]);
-  const [numberPage, setNumberPage] = useState<number>(1);
   const [name, setName] = useState<string>("");
 
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
@@ -70,6 +69,11 @@ export default function ProductsPage() {
                 onChange={(e) => setName(e.target.value)}
                 className="font-poppins placeholder:font-poppins w-full lg:h-[3rem] border-black"
                 placeholder="Ex.: Disjuntor 10A"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
               />
               <Button
                 onClick={handleSearch}
