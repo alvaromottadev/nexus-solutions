@@ -6,7 +6,7 @@ import Contacts from "../Contacts";
 const ContactSection = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <>
-      <div ref={ref} className="bg-[var(--background-color)] h-screen">
+      <div ref={ref} className="h-screen">
         <div className="flex flex-col lg:flex-row lg:items-center justify-around h-full">
           <div className="flex flex-col items-center lg:p-5">
             <CustomText className="text-[var(--primary-color)] text-[2.25rem] lg:text-[2.5rem] lg:self-start">

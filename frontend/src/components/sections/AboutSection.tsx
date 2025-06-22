@@ -7,7 +7,7 @@ const AboutSection = forwardRef<HTMLDivElement>((_, ref) => {
     <>
       <div
         ref={ref}
-        className="bg-[var(--background-color)] min-h-screen flex items-center justify-around p-5"
+        className="min-h-screen flex items-center justify-around p-5"
       >
         <div className="w-[30rem] flex flex-col items-center justify-center h-full gap-y-2">
           <CustomText className="text-[var(--primary-color)] font-bold text-[1.5rem] md:text-[1.7rem]">

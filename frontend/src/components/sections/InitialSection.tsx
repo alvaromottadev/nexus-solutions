@@ -7,7 +7,7 @@ interface LoginSectionProps {
 
 export default function InitialSection({ scrollTo }: LoginSectionProps) {
   return (
-    <div className="bg-[var(--background-color)] min-h-screen">
+    <div className="min-h-screen">
       <LandingHeader scrollTo={scrollTo} />
       <LoginBody />
     </div>
