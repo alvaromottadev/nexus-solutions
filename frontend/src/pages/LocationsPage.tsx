@@ -17,6 +17,7 @@ export default function LocationsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [numberPage, setNumberPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
+  const [name, setName] = useState<string>("");
 
   useEffect(() => {
     async function getLocations() {
@@ -39,11 +40,16 @@ export default function LocationsPage() {
 
   async function handleNextPage() {
     await api
-      .get(`/locations?page=${numberPage + 1}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .get(
+        `/locations?page=${numberPage + 1}${
+          name != null ? `&name=${name}` : null
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
       .then((res) => {
         const data: LocationResponseType = res.data;
         setLocations(data.content);
@@ -55,7 +61,28 @@ export default function LocationsPage() {
 
   async function handlePreviousPage() {
     await api
-      .get(`/locations?page=${numberPage - 1}`, {
+      .get(
+        `/locations?page=${numberPage - 1}${
+          name != null ? `&name=${name}` : null
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data: LocationResponseType = res.data;
+        setLocations(data.content);
+        setNumberPage(data.pageable.pageNumber);
+        setTotalPage(data.totalPages);
+        setIsLoading(false);
+      });
+  }
+
+  async function handleSearch() {
+    await api
+      .get(`/locations?name=${name}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -88,8 +115,17 @@ export default function LocationsPage() {
               <Input
                 className="font-poppins placeholder:font-poppins w-full lg:h-[3rem] border-black"
                 placeholder="Ex.: Almoxarifado Central"
+                onChange={(e) => setName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
               />
-              <Button className="cursor-pointer bg-transparent shadow-none hover:bg-transparent">
+              <Button
+                onClick={handleSearch}
+                className="cursor-pointer bg-transparent shadow-none hover:bg-transparent"
+              >
                 <Search color="purple" />
               </Button>
             </div>

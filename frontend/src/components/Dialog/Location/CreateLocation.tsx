@@ -16,6 +16,7 @@ import createLocationSchema from "@/schemas/createLocationSchema";
 import type { LocationType } from "@/types/LocationType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
