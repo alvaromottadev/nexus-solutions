@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,13 +59,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getAllProducts(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                @RequestParam(required = false) String locationId,
-                                                                @RequestParam(required = false) String code,
-                                                                @RequestParam(required = false) String name,
-                                                                @RequestParam(required = false, defaultValue = "10") Integer size,
-                                                                @RequestParam(required = false, defaultValue = "0") Integer page) {
-        List<ProductResponse> response = productService.getAllProducts(locationId, code, userDetails.getCompany(), name, size, page);
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                               @RequestParam(required = false) String locationId,
+                                               @RequestParam(required = false) String code,
+                                               @RequestParam(required = false) String name,
+                                               @RequestParam(required = false, defaultValue = "10") Integer size,
+                                               @RequestParam(required = false, defaultValue = "0") Integer page) {
+        Page<ProductResponse> response = productService.getAllProducts(locationId, code, userDetails.getCompany(), name, size, page);
         return ResponseEntity.ok(response);
     }
 

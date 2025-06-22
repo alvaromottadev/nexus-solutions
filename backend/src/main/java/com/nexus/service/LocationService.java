@@ -10,11 +10,12 @@ import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.Location;
 import com.nexus.repository.LocationRepository;
+import com.nexus.repository.specification.LocationSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class LocationService {
@@ -40,11 +41,12 @@ public class LocationService {
         return new LocationResponse(location, new AddressResponse(location.getAddress()));
     }
 
-    public List<LocationResponse> getAllLocations(Company company){
-        List<Location> locations = locationRepository.findAllByCompany(company);
-        return locations.stream()
-                .map(location -> new LocationResponse(location, new AddressResponse(location.getAddress())))
-                .toList();
+    public Page<LocationResponse> getAllLocations(String name, Integer size, Integer page, Company company){
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return locationRepository.findAll(LocationSpecification.filterBy(company, name), pageRequest).map(location -> {
+            AddressResponse addressResponse = new AddressResponse(location.getAddress());
+            return new LocationResponse(location, addressResponse);
+        });
     }
 
     @Transactional

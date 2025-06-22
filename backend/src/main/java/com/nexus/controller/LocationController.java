@@ -5,6 +5,7 @@ import com.nexus.dto.Location.LocationResponse;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.LocationService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,12 +36,18 @@ public class LocationController {
     public ResponseEntity<LocationResponse> getLocationById(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                @PathVariable String locationId) {
         LocationResponse response = locationService.getLocationById(locationId, userDetails.getCompany());
+
+
+
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<LocationResponse>> getAllLocations(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<LocationResponse> response = locationService.getAllLocations(userDetails.getCompany());
+    public ResponseEntity<Page<LocationResponse>> getAllLocations(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                  @RequestParam(required = false) String name,
+                                                                  @RequestParam(required = false, defaultValue = "5") Integer size,
+                                                                  @RequestParam(required = false, defaultValue = "0") Integer page) {
+        Page<LocationResponse> response = locationService.getAllLocations(name, size, page, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 

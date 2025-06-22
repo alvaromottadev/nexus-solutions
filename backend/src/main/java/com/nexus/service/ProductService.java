@@ -11,13 +11,13 @@ import com.nexus.model.Product;
 import com.nexus.repository.ProductRepository;
 import com.nexus.repository.specification.ProductSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -60,15 +60,13 @@ public class ProductService {
         return new ProductResponse(product);
     }
 
-    public List<ProductResponse> getAllProducts(String locationId, String code, Company company, String name, Integer size, Integer page) {
+    public Page<ProductResponse> getAllProducts(String locationId, String code, Company company, String name, Integer size, Integer page) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Location location = null;
         if (locationId != null) {
             location = locationService.findByIdAndCompany(locationId, company);
         }
-        return productRepository.findAll(ProductSpecification.filterBy(location, code, name, company), pageable)
-                .stream()
-                .map(ProductResponse::new).toList();
+        return productRepository.findAll(ProductSpecification.filterBy(location, code, name, company), pageable).map(ProductResponse::new);
     }
 
 
