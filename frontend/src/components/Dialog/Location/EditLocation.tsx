@@ -1,6 +1,5 @@
-import api from "@/client/api-client";
-import FormFieldComponent from "@/components/Form/FormFieldComponent";
-import { Button } from "@/components/ui/button";
+import { Edit } from "lucide-react";
+
 import {
   Dialog,
   DialogClose,
@@ -11,39 +10,67 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
-import formLocationSchema from "@/schemas/formLocationSchema";
-import type { LocationType } from "@/types/LocationType";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
+import FormFieldComponent from "@/components/Form/FormFieldComponent";
+import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import formLocationSchema from "@/schemas/formLocationSchema";
 import type { z } from "zod";
+import { Form } from "@/components/ui/form";
+import type { LocationType } from "@/types/LocationType";
+import api from "@/client/api-client";
+import { toast } from "sonner";
+import DeleteProductAlert from "@/components/AlertDialog/DeleteProduct";
 
-interface CreateLocationDialogProps {
+interface EditLocationDialogProps {
+  location: LocationType;
   setLocations: (locations: LocationType[]) => void;
   locations: LocationType[];
+  setOpen: (open: boolean) => void;
+  isOpen: boolean;
 }
 
-export default function CreateLocationDialog({
+export default function EditLocationDialog({
+  location,
   setLocations,
   locations,
-}: CreateLocationDialogProps) {
+  setOpen,
+  isOpen,
+}: EditLocationDialogProps) {
   const form = useForm<z.infer<typeof formLocationSchema>>({
     resolver: zodResolver(formLocationSchema),
     defaultValues: {
-      name: "",
-      street: "",
-      number: "",
-      complement: "",
-      district: "",
-      city: "",
-      state: "",
-      postalCode: "",
-      country: "",
+      name: location.name,
+      street: location.address.street,
+      number: location.address.number,
+      complement: location.address.complement,
+      district: location.address.district,
+      city: location.address.city,
+      state: location.address.state,
+      postalCode: location.address.postalCode,
+      country: location.address.country,
     },
   });
 
-  async function handleCreate(data: z.infer<typeof formLocationSchema>) {
+  async function handleDelete() {
+    api
+      .delete(`/locations/${location.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        toast.success("Almoxarifado excluído com sucesso!", {
+          description: "O almoxarifado foi removido da lista.",
+          duration: 3000,
+        });
+        const updatedLocations = locations.filter((l) => l.id !== location.id);
+        setLocations(updatedLocations);
+        setOpen(false);
+      });
+  }
+
+  async function handleUpdate(data: z.infer<typeof formLocationSchema>) {
     const jsonBody = {
       name: data.name,
       address: {
@@ -59,38 +86,43 @@ export default function CreateLocationDialog({
     };
 
     api
-      .post(`/locations`, JSON.stringify(jsonBody), {
+      .put(`/locations/${location.id}`, jsonBody, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((res) => {
-        const location: LocationType = res.data;
-        setLocations([location, ...locations]);
-        console.log(res.data);
+        toast.success("Almoxarifado atualizado com sucesso!", {
+          description: "As informações do almoxarifado foram atualizadas.",
+          duration: 3000,
+        });
+        const updatedLocations = locations.map((l) =>
+          l.id === location.id ? res.data : l
+        );
+        setLocations(updatedLocations);
       });
   }
 
   return (
     <>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button className="fixed right-5 bottom-5 w-[4rem] h-[4rem] rounded-full bg-[var(--primary-color)] font-poppins cursor-pointer">
-            <Plus />
-          </Button>
+      <Dialog open={isOpen}>
+        <DialogTrigger
+          onClick={() => setOpen(true)}
+          className="cursor-pointer"
+          asChild
+        >
+          <Edit size={48} color="black" />
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Cadastro de Almoxarifado</DialogTitle>
+            <DialogTitle>Editar Almoxarifado</DialogTitle>
             <DialogDescription>
-              Preencha os campos abaixo para cadastrar um novo almoxarifado.
-              Após o cadastro, você poderá adicionar produtos a este
-              almoxarifado.
+              Aqui você pode editar as informações do almoxarifado.
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleCreate)}>
+            <form onSubmit={form.handleSubmit(handleUpdate)}>
               <FormFieldComponent
                 control={form.control}
                 name="name"
@@ -154,16 +186,18 @@ export default function CreateLocationDialog({
                 isRequired
               />
               <DialogFooter>
-                <DialogClose asChild>
+                <DeleteProductAlert onDelete={handleDelete} />
+                <DialogClose onClick={() => setOpen(false)} asChild>
                   <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
                     Cancelar
                   </Button>
                 </DialogClose>
                 <Button
+                  onClick={() => setOpen(false)}
                   type="submit"
                   className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer"
                 >
-                  Cadastrar
+                  Editar
                 </Button>
               </DialogFooter>
             </form>

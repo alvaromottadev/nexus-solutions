@@ -34,7 +34,7 @@ export default function DeleteProductAlert({
             </AlertDialogTitle>
             <AlertDialogDescription className="text-black">
               Esta ação não pode ser desfeita. Todos os dados relacionados a
-              este produto serão perdidos.
+              este recurso serão perdidos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

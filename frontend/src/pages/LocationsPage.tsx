@@ -139,9 +139,10 @@ export default function LocationsPage() {
                   (location, index) =>
                     index < 5 && (
                       <LocationCard
+                        locations={locations}
+                        setLocations={setLocations}
                         key={location.id}
-                        name={location.name}
-                        address={location.address}
+                        location={location}
                       />
                     )
                 )}

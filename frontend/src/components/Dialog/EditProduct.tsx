@@ -36,8 +36,8 @@ interface CreateProductForm {
   products: ProductType[];
   setProducts: (products: ProductType[]) => void;
   product: ProductType;
-  setOpen?: (open: boolean) => void;
-  isOpen?: boolean;
+  setOpen: (open: boolean) => void;
+  isOpen: boolean;
 }
 
 export default function EditProductDialog({

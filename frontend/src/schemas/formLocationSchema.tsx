@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const createLocationSchema = z.object({
+const formLocationSchema = z.object({
   name: z.string().min(1, "O nome do almoxarifado é obrigatório."),
   street: z.string().min(1, "A rua é obrigatória."),
   number: z.string().min(1, "O número é obrigatório."),
@@ -12,4 +12,4 @@ const createLocationSchema = z.object({
   country: z.string().min(1, "O país é obrigatório."),
 });
 
-export default createLocationSchema;
+export default formLocationSchema;
