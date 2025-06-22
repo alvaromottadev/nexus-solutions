@@ -1,6 +1,7 @@
 import api from "@/client/api-client";
 import LocationCard from "@/components/Card/LocationCard";
 import CustomText from "@/components/CustomText";
+import CreateLocationDialog from "@/components/Dialog/Location/CreateLocation";
 import Pagination from "@/components/Pagination";
 import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import DotLoader from "react-spinners/DotLoader";
 
 export default function LocationsPage() {
   const [locations, setLocations] = useState<LocationType[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [numberPage, setNumberPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
 
@@ -30,7 +31,7 @@ export default function LocationsPage() {
           setLocations(data.content);
           setNumberPage(data.pageable.pageNumber);
           setTotalPage(data.totalPages);
-          console.log(res.data);
+          setIsLoading(false);
         });
     }
     getLocations();
@@ -48,7 +49,7 @@ export default function LocationsPage() {
         setLocations(data.content);
         setNumberPage(data.pageable.pageNumber);
         setTotalPage(data.totalPages);
-        console.log(res.data);
+        setIsLoading(false);
       });
   }
 
@@ -64,6 +65,7 @@ export default function LocationsPage() {
         setLocations(data.content);
         setNumberPage(data.pageable.pageNumber);
         setTotalPage(data.totalPages);
+        setIsLoading(false);
       });
   }
 
@@ -71,7 +73,11 @@ export default function LocationsPage() {
     <>
       <div className="flex flex-col min-h-screen">
         <TopBar />
-        <div className="flex flex-col gap-y-2 items-center justify-center mt-[2rem]">
+        <CreateLocationDialog
+          locations={locations}
+          setLocations={setLocations}
+        />
+        <div className="flex flex-col items-center justify-center mt-[2rem] ">
           <div className="flex items-center justify-between w-[80%] lg:w-[90%]">
             <div>
               <CustomText className="text-[var(--primary-color)] font-bold lg:text-[1.5rem]">
@@ -91,14 +97,19 @@ export default function LocationsPage() {
         </div>
         {!isLoading ? (
           locations.length > 0 ? (
-            <div className="flex flex-col items-center justify-center p-4">
-              {locations.map((location) => (
-                <LocationCard
-                  key={location.id}
-                  name={location.name}
-                  address={location.address}
-                />
-              ))}
+            <div className="flex flex-col items-center">
+              <div className="flex items-center w-[90%] flex-col">
+                {locations.map(
+                  (location, index) =>
+                    index < 5 && (
+                      <LocationCard
+                        key={location.id}
+                        name={location.name}
+                        address={location.address}
+                      />
+                    )
+                )}
+              </div>
             </div>
           ) : (
             <div className="flex flex-1 flex-col justify-center items-center">
