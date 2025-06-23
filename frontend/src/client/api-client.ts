@@ -20,6 +20,15 @@ api.interceptors.response.use(
           duration: 5000,
         });
       }
+      if (status === 401 && data.error === "Token expired") {
+        toast.error("Sessão expirada.", {
+          description: "Por favor, faça login novamente.",
+          duration: 5000,
+        });
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+        return;
+      }
       if (status === 401 || status === 403) {
         toast.error(data.error, {
           duration: 5000,

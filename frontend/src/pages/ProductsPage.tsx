@@ -90,7 +90,7 @@ export default function ProductsPage() {
   }
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-[var(--background-color)]">
+      <div className="flex flex-col min-h-screen">
         <TopBar />
         <CreateProductDialog setProducts={setProducts} products={products} />
         <div className="flex flex-col gap-y-2 items-center justify-center mt-[2rem]">

@@ -15,6 +15,7 @@ import DotLoader from "react-spinners/DotLoader";
 export default function LocationsPage() {
   const [locations, setLocations] = useState<LocationType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isCreating, setIsCreating] = useState<boolean>(false);
   const [numberPage, setNumberPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [name, setName] = useState<string>("");
@@ -98,7 +99,7 @@ export default function LocationsPage() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <TopBar />
         <CreateLocationDialog
           locations={locations}
@@ -113,7 +114,7 @@ export default function LocationsPage() {
             </div>
             <div className="flex items-center gap-x-3 w-[50%]">
               <Input
-                className="font-poppins placeholder:font-poppins w-full lg:h-[3rem] border-black"
+                className="bg-[#f9f9f9] font-poppins placeholder:font-poppins w-full lg:h-[3rem] border-black"
                 placeholder="Ex.: Almoxarifado Central"
                 onChange={(e) => setName(e.target.value)}
                 onKeyDown={(e) => {

@@ -25,7 +25,7 @@ export default function OpinionsSection() {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 135"
-        className="bg-[var(--background-color)] absolute"
+        className="absolute"
       >
         <path
           fill="#322866"
