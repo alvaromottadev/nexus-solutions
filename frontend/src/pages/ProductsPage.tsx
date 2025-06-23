@@ -8,10 +8,11 @@ import { Input } from "@/components/ui/input";
 import type { ProductType } from "@/types/ProductType";
 import { ArchiveX, Image, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import DotLoader from "react-spinners/DotLoader";
 import type { ProductResponseType } from "@/types/ProductResponseType";
+import ProductCard from "@/components/Card/ProductCard";
 import Pagination from "@/components/Pagination";
+import SearchComponent from "@/components/SearchComponent";
+import DotLoader from "react-spinners/DotLoader";
 export default function ProductsPage() {
   const token = localStorage.getItem("token");
 
@@ -21,7 +22,6 @@ export default function ProductsPage() {
   const [sizePage, setSizePage] = useState<number>(10);
   const [totalPage, setTotalPage] = useState<number>(0);
 
-  const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function handleSearch() {
@@ -43,7 +43,7 @@ export default function ProductsPage() {
   useEffect(() => {
     async function getProducts() {
       await api
-        .get(`/products`, {
+        .get(`/products?size=12`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -90,85 +90,39 @@ export default function ProductsPage() {
   }
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="min-h-screen flex flex-col">
         <TopBar />
-        <CreateProductDialog setProducts={setProducts} products={products} />
-        <div className="flex flex-col gap-y-2 items-center justify-center mt-[2rem]">
-          <div className="flex items-center justify-between w-[80%] lg:w-[90%]">
-            <div>
-              <CustomText className="lg:text-[1.5rem]">
-                Lista de Produtos
-              </CustomText>
-            </div>
-            <div className="flex items-center gap-x-3 w-[50%]">
-              <Input
-                onChange={(e) => setName(e.target.value)}
-                className="font-poppins placeholder:font-poppins w-full lg:h-[3rem] border-black"
-                placeholder="Ex.: Disjuntor 10A"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch();
-                  }
-                }}
-              />
-              <Button
-                onClick={handleSearch}
-                className="cursor-pointer bg-transparent shadow-none hover:bg-transparent"
-              >
-                <Search color="purple" />
-              </Button>
-            </div>
-          </div>
+        <CreateProductDialog products={products} setProducts={setProducts} />
+        <div className="flex flex-col h-full items-center justify-center mt-[2rem]">
+          <SearchComponent
+            label="Produtos"
+            placeholder="Ex.: Disjuntor 10A"
+            handleSearch={handleSearch}
+            setName={setName}
+          />
         </div>
-        {/* transform into a list later */}
+
         {!isLoading ? (
           products.length > 0 ? (
-            <>
-              <div className="p-2 mt-[2rem] w-full flex flex-col items-center gap-y-5 lg:grid lg:grid-cols-2 lg:place-items-center max-w-5xl mx-auto">
-                {products.map((product) => (
-                  <div className="flex items-center p-5 bg-[var(--color-gray)] h-[8rem] w-[80%] lg:w-[80%] rounded-[1rem] mx-auto">
-                    <div>
-                      {product.image ? (
-                        <img
-                          src={product.image}
-                          className="w-[4rem] h-[4rem] object-cover border-[1px] border-[var(--primary-color)] rounded-[0.5rem] lg:w-[6rem] lg:h-[6rem]"
-                        />
-                      ) : (
-                        <Image
-                          className="w-[4rem] h-[4rem] lg:w-[6rem] lg:h-[4rem]"
-                          color="white"
-                        />
-                      )}
-                    </div>
-                    <div className="flex flex-col ml-[2rem]">
-                      <CustomText className="text-white">
-                        {product.name}
-                      </CustomText>
-                      <CustomText>{product.description}</CustomText>
-                    </div>
-                    <div className="ml-auto cursor-pointer">
-                      <EditProductDialog
-                        product={product}
-                        products={products}
-                        setProducts={setProducts}
-                        setOpen={setEditDialogOpen}
-                        isOpen={editDialogOpen}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
+            <div className="w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
+              {products.map((product) => (
+                <ProductCard
+                  product={product}
+                  products={products}
+                  setProducts={setProducts}
+                />
+              ))}
+            </div>
           ) : (
             <div className="flex flex-1 flex-col justify-center items-center">
               <ArchiveX color="purple" size={64} />
               <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
-                Nenhum produto encontrado
+                Nenhum produto cadastrado
               </CustomText>
             </div>
           )
         ) : (
-          <div className="flex flex-1 justify-center items-center">
+          <div className="h-full flex flex-1 justify-center items-center">
             <DotLoader color="purple" size={96} />
           </div>
         )}

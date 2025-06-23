@@ -3,6 +3,7 @@ import LocationCard from "@/components/Card/LocationCard";
 import CustomText from "@/components/CustomText";
 import CreateLocationDialog from "@/components/Dialog/Location/CreateLocation";
 import Pagination from "@/components/Pagination";
+import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -106,31 +107,12 @@ export default function LocationsPage() {
           setLocations={setLocations}
         />
         <div className="flex flex-col items-center justify-center mt-[2rem] ">
-          <div className="flex items-center justify-between w-[80%] lg:w-[90%]">
-            <div>
-              <CustomText className="text-[var(--primary-color)] font-bold lg:text-[1.5rem]">
-                Almoxarifados
-              </CustomText>
-            </div>
-            <div className="flex items-center gap-x-3 w-[50%]">
-              <Input
-                className="bg-[#f9f9f9] font-poppins placeholder:font-poppins w-full lg:h-[3rem] border-black"
-                placeholder="Ex.: Almoxarifado Central"
-                onChange={(e) => setName(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch();
-                  }
-                }}
-              />
-              <Button
-                onClick={handleSearch}
-                className="cursor-pointer bg-transparent shadow-none hover:bg-transparent"
-              >
-                <Search color="purple" />
-              </Button>
-            </div>
-          </div>
+          <SearchComponent
+            label="Almoxarifados"
+            placeholder="Ex.: Almoxarifado Central"
+            handleSearch={handleSearch}
+            setName={setName}
+          />
         </div>
         {!isLoading ? (
           locations.length > 0 ? (

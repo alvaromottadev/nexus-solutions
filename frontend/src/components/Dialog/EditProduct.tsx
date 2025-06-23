@@ -122,17 +122,26 @@ export default function EditProductDialog({
 
   return (
     <Dialog open={open}>
-      <DialogTrigger onClick={() => setOpen(true)} asChild>
-        <Edit color="white" size={48} />
+      <DialogTrigger
+        className="cursor-pointer"
+        onClick={() => setOpen(true)}
+        asChild
+      >
+        <Edit color="purple" size={48} />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex">
         <DialogHeader>
           <DialogTitle>Edição de Produto</DialogTitle>
           <DialogDescription>
             Edite as informações do produto abaixo.
           </DialogDescription>
+          <img
+            src={product.qrCode}
+            className="w-[10rem] h-[10rem] object-cover"
+          />
+          <DialogDescription>QR Code do Produto</DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-y-2">
+        <div className="flex">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleUpdate)}>
               <FormFieldComponent
