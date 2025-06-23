@@ -5,18 +5,15 @@ import CreateLocationDialog from "@/components/Dialog/Location/CreateLocation";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import type { LocationResponseType } from "@/types/LocationResponseType";
 import type { LocationType } from "@/types/LocationType";
-import { ArchiveX, Search } from "lucide-react";
+import { ArchiveX } from "lucide-react";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
 
 export default function LocationsPage() {
   const [locations, setLocations] = useState<LocationType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isCreating, setIsCreating] = useState<boolean>(false);
   const [numberPage, setNumberPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [name, setName] = useState<string>("");

@@ -13,9 +13,9 @@ export default function SocialContact({
 }: ContactSectionProps) {
   return (
     <>
-      <div className="flex gap-x-3 items-center">
+      <div className="flex gap-x-3 items-center md:text-[1.5rem]">
         {children}
-        <CustomText>{socialName}:</CustomText>
+        <CustomText className="">{socialName}:</CustomText>
         <CustomText className="text-[var(--primary-color)]">
           {socialHandle}
         </CustomText>

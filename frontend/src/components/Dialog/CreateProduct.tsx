@@ -143,7 +143,7 @@ export default function CreateProductDialog({
             <FormField
               control={form.control}
               name="image"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Imagem</FormLabel>
                   <FormControl>

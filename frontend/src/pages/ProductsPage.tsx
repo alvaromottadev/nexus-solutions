@@ -1,12 +1,9 @@
 import api from "@/client/api-client";
 import CustomText from "@/components/CustomText";
 import CreateProductDialog from "@/components/Dialog/CreateProduct";
-import EditProductDialog from "@/components/Dialog/EditProduct";
 import TopBar from "@/components/TopBar";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import type { ProductType } from "@/types/ProductType";
-import { ArchiveX, Image, Search } from "lucide-react";
+import { ArchiveX } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ProductResponseType } from "@/types/ProductResponseType";
 import ProductCard from "@/components/Card/ProductCard";
@@ -19,7 +16,6 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [name, setName] = useState<string>("");
   const [numberPage, setNumberPage] = useState<number>(0);
-  const [sizePage, setSizePage] = useState<number>(10);
   const [totalPage, setTotalPage] = useState<number>(0);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);

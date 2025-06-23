@@ -177,7 +177,7 @@ export default function EditProductDialog({
               <FormField
                 control={form.control}
                 name="image"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel>Imagem</FormLabel>
                     <FormControl>
