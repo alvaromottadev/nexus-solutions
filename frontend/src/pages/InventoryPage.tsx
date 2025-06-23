@@ -14,6 +14,10 @@ import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import TopBar from "@/components/TopBar";
 import CustomText from "@/components/CustomText";
+import api from "@/client/api-client";
+import CreateInventoryDialog from "@/components/Dialog/Inventory/CreateInventory";
+import type { ProductType } from "@/types/ProductType";
+import type { LocationType } from "@/types/LocationType";
 
 const mockInventories: InventoryType[] = [
   {
@@ -271,12 +275,26 @@ const columns = [
 export default function InventoryPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [inventories, setInventories] = useState<InventoryType[]>([]);
+  const [product, setProduct] = useState<ProductType | null>(null);
+  const [location, setLocation] = useState<LocationType | null>(null);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    api
+      .get(`/inventories`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setInventories(res.data);
+        setIsLoading(false);
+      });
+  }, []);
   return (
     <>
       <div className="min-h-screen flex flex-col ">
         <TopBar />
+        <CreateInventoryDialog />
         <div className="flex justify-center">
           <CustomText className="text-[var(--primary-color)] text-[2.5rem] font-bold">
             Gestão de Estoque
@@ -284,7 +302,7 @@ export default function InventoryPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-[80%]">
-            <DataTable data={mockInventories} columns={columns} />
+            <DataTable data={inventories} columns={columns} />
           </div>
         </div>
       </div>

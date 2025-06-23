@@ -21,21 +21,18 @@ import type { LocationType } from "@/types/LocationType";
 import api from "@/client/api-client";
 import { toast } from "sonner";
 import DeleteProductAlert from "@/components/AlertDialog/DeleteProduct";
+import { useState } from "react";
 
 interface EditLocationDialogProps {
   location: LocationType;
   setLocations: (locations: LocationType[]) => void;
   locations: LocationType[];
-  setOpen: (open: boolean) => void;
-  isOpen: boolean;
 }
 
 export default function EditLocationDialog({
   location,
   setLocations,
   locations,
-  setOpen,
-  isOpen,
 }: EditLocationDialogProps) {
   const form = useForm<z.infer<typeof formLocationSchema>>({
     resolver: zodResolver(formLocationSchema),
@@ -104,9 +101,11 @@ export default function EditLocationDialog({
       });
   }
 
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-      <Dialog open={isOpen}>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger
           onClick={() => setOpen(true)}
           className="cursor-pointer"

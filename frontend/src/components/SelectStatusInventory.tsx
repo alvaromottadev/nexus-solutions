@@ -15,7 +15,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState, type ChangeEventHandler } from "react";
-import type { T } from "node_modules/react-router/dist/development/route-data-ByAYLHuM.d.mts";
 
 const status = [
   {

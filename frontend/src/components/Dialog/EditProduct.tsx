@@ -121,7 +121,7 @@ export default function EditProductDialog({
   }
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         className="cursor-pointer"
         onClick={() => setOpen(true)}

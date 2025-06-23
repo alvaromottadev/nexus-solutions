@@ -27,8 +27,6 @@ export default function LocationCard({
           setLocations={setLocations}
           locations={locations}
           location={location}
-          setOpen={setOpen}
-          isOpen={open}
         />
       </div>
     </>
