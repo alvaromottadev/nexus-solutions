@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import LocationsPage from "./pages/LocationsPage";
+import InventoryPage from "./pages/InventoryPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="home" element={<HomePage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="locations" element={<LocationsPage />} />
+        <Route path="inventories" element={<InventoryPage />} />
       </Routes>
     </>
   );
