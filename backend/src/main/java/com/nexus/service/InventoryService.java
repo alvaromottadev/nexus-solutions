@@ -2,6 +2,7 @@ package com.nexus.service;
 
 import com.nexus.dto.Inventory.InventoryRequest;
 import com.nexus.dto.Inventory.InventoryResponse;
+import com.nexus.dto.Inventory.StockStatus;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.ResourceNotFoundException;
 import com.nexus.model.Company;
@@ -32,19 +33,22 @@ public class InventoryService {
         Location location = locationService.findByIdAndCompany(inventoryRequest.locationId(), company);
         Product product = productService.findByIdAndCompany(inventoryRequest.productId(), company);
         Inventory inventory = new Inventory(inventoryRequest, location, product);
+        StockStatus status = getStockStatus(inventory);
         inventoryRepository.save(inventory);
-        return new InventoryResponse(inventory, company);
+        return new InventoryResponse(inventory, status, company);
     }
 
     public InventoryResponse getInventoryById(String inventoryId, Company company){
         Inventory inventory = findByIdAndCompany(inventoryId, company);
-        return new InventoryResponse(inventory, company);
+        StockStatus status = getStockStatus(inventory);
+        return new InventoryResponse(inventory, status, company);
     }
 
     public List<InventoryResponse> getAllInventories(Company company) {
         List<Inventory> inventories = inventoryRepository.findAllByProductCompany(company);
+
         return inventories.stream()
-                .map(inventory -> new InventoryResponse(inventory, company))
+                .map(inventory -> new InventoryResponse(inventory, getStockStatus(inventory), company))
                 .toList();
     }
 
@@ -54,9 +58,11 @@ public class InventoryService {
         Location location = locationService.findByIdAndCompany(inventoryRequest.locationId(), company);
         Product product = productService.findByIdAndCompany(inventoryRequest.productId(), company);
 
+        StockStatus status = getStockStatus(inventory);
+
         inventory.update(inventoryRequest, location, product);
         inventoryRepository.save(inventory);
-        return new InventoryResponse(inventory, company);
+        return new InventoryResponse(inventory, status, company);
     }
 
     @Transactional
@@ -82,6 +88,16 @@ public class InventoryService {
 
     public List<Inventory> findAllWithLowStock(){
         return inventoryRepository.findAllWithLowStock();
+    }
+
+    private StockStatus getStockStatus(Inventory inventory) {
+        if (inventory.getQuantity() < inventory.getMinStock()) {
+            return StockStatus.LOW;
+        } else if (inventory.getQuantity() == 0) {
+            return StockStatus.OUT_OF_STOCK;
+        } else {
+            return StockStatus.OK;
+        }
     }
 
 }
