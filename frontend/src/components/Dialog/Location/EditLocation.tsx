@@ -56,7 +56,7 @@ export default function EditLocationDialog({
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then(() => {
         toast.success("Almoxarifado excluído com sucesso!", {
           description: "O almoxarifado foi removido da lista.",
           duration: 3000,

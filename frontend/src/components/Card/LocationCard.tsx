@@ -1,7 +1,6 @@
 import type { LocationType } from "@/types/LocationType";
 import CustomText from "../CustomText";
 import EditLocationDialog from "../Dialog/Location/EditLocation";
-import { useState } from "react";
 
 interface LocationCardProps {
   location: LocationType;
@@ -14,7 +13,6 @@ export default function LocationCard({
   setLocations,
   locations,
 }: LocationCardProps) {
-  const [open, setOpen] = useState<boolean>(false);
   const addressText = `${location.address.street}, ${location.address.number}, ${location.address.district}, ${location.address.city} - ${location.address.state}, ${location.address.country}`;
   return (
     <>
