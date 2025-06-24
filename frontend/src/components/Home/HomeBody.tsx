@@ -11,13 +11,14 @@ export default function HomeBody() {
             <CustomText className="text-[2.5rem] text-[var(--primary-color)] font-bold lg:text-left">
               Olá, Meliy!
             </CustomText>
+
             <CustomText className="text-[1.5rem] text-center lg:text-left lg:w-[30rem] lg:text-[2rem]">
               Obrigado por confiar em nossa empresa! Estamos aqui para oferecer
               as melhores soluções e apoiar seu sucesso.
             </CustomText>
             <Contacts />
           </div>
-          <div className="hidden lg:block flex flex-col items-center justify-center">
+          <div className="hidden lg:block flex-col items-center justify-center">
             <CustomText>Produtos mais movimentados</CustomText>
             <GraphicComponent />
           </div>

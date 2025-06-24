@@ -20,6 +20,7 @@ export default function Pagination({
 
   return (
     <>
+      <br />
       <div className="flex items-end justify-center mb-10 mt-auto">
         <div className="flex items-center gap-x-5">
           {!isFirstPage ? (

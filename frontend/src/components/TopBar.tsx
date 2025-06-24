@@ -2,6 +2,7 @@ import { AlignJustify } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router";
 import CustomText from "./CustomText";
+import SideBar from "./Sidebar";
 
 export default function TopBar() {
   const navigation = useNavigate();
@@ -14,8 +15,8 @@ export default function TopBar() {
     <>
       <div className="h-[5rem]">
         <div className="h-full lg:hidden flex items-center">
-          <div className="ml-3">
-            <AlignJustify color="black" size={40} />
+          <div className="ml-3 self-center z-1">
+            <SideBar />
           </div>
           <div className="absolute self-center flex justify-center items-center w-full">
             <label className="font-poppins text-[var(--color-gray)] text-[2.5rem]">
