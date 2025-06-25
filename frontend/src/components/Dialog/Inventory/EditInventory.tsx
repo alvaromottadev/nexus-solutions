@@ -20,7 +20,7 @@ import type { LocationType } from "@/types/LocationType";
 import type { ProductType } from "@/types/ProductType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { Edit, Plus } from "lucide-react";
+import { Edit } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
