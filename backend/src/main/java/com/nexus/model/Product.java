@@ -49,7 +49,7 @@ public class Product {
     @ManyToOne
     private Company company;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Inventory> inventories;
 
     @OneToMany(mappedBy = "product")
