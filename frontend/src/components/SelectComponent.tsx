@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,15 +20,30 @@ interface SelectComponentProps {
   data: any[];
   placeholder: string;
   label: string;
+  onChange: (value: string) => void;
+  isError: boolean;
+  setError: (value: boolean) => void;
+  defaultValue?: string;
 }
 
 export default function SelectComponent({
   data,
   placeholder,
   label,
+  onChange,
+  isError = false,
+  setError,
+  defaultValue = "",
 }: SelectComponentProps) {
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>(defaultValue ? defaultValue : "");
+
+  useEffect(() => {
+    if (defaultValue) {
+      onChange(defaultValue);
+    }
+  });
+
   return (
     <>
       <div className="max-w-sm">
@@ -38,10 +53,12 @@ export default function SelectComponent({
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="min-w-[12.5rem] justify-between "
+              className={`min-w-[12.5rem] justify-between ${
+                isError ? "border-red-500 text-red-500" : ""
+              }`}
             >
               {value
-                ? data.find((data) => data.name + data.id === value)?.name
+                ? data.find((data) => data.id === value)?.name
                 : placeholder}
               <ChevronsUpDown className="opacity-50" />
             </Button>
@@ -55,19 +72,19 @@ export default function SelectComponent({
                   {data.map((data) => (
                     <CommandItem
                       key={data.id}
-                      value={data.name + data.id}
+                      value={data.id}
                       onSelect={(currentValue) => {
                         setValue(currentValue === value ? "" : currentValue);
                         setOpen(false);
+                        onChange(data.id);
+                        setError(false);
                       }}
                     >
                       {data.name}
                       <Check
                         className={cn(
                           "ml-auto",
-                          value === data.name + data.id
-                            ? "opacity-100"
-                            : "opacity-0"
+                          value === data.id ? "opacity-100" : "opacity-0"
                         )}
                       />
                     </CommandItem>

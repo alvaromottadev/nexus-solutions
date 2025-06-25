@@ -18,6 +18,7 @@ interface FormFieldComponentProps {
   placeholder?: string;
   description?: string;
   isRequired?: boolean;
+  type?: string;
 }
 
 export default function FormFieldComponent({
@@ -27,6 +28,7 @@ export default function FormFieldComponent({
   placeholder = "",
   description = "",
   isRequired = false,
+  type = "text",
 }: FormFieldComponentProps) {
   return (
     <>
@@ -41,6 +43,7 @@ export default function FormFieldComponent({
             </FormLabel>
             <FormControl>
               <Input
+                type={type}
                 autoComplete="off"
                 className="font-poppins placeholder:font-poppins"
                 placeholder={placeholder}

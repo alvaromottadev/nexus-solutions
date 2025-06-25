@@ -14,7 +14,6 @@ export default function Pagination({
   handleNextPage,
   handlePreviousPage,
 }: PaginationProps) {
-  console.log(`${numberPage} / ${totalPage}`);
   const isLastPage = numberPage + 1 === totalPage || totalPage === 0;
   const isFirstPage = numberPage === 0;
 

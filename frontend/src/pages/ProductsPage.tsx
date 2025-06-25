@@ -22,7 +22,7 @@ export default function ProductsPage() {
 
   async function handleSearch() {
     await api
-      .get(`/products?name=${name}`, {
+      .get(`/products?name=${name}&size=12`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,11 +57,16 @@ export default function ProductsPage() {
 
   async function handleNextPage() {
     await api
-      .get(`/products?page=${numberPage + 1}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .get(
+        `/products?page=${numberPage + 1}&size=12${
+          name ? `&name=${name}` : ""
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
       .then((res) => {
         const data: ProductResponseType = res.data;
         setProducts(data.content);
@@ -72,11 +77,16 @@ export default function ProductsPage() {
 
   async function handlePreviousPage() {
     await api
-      .get(`/products?page=${numberPage - 1}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .get(
+        `/products?page=${numberPage - 1}&size=12${
+          name ? `&name=${name}` : ""
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
       .then((res) => {
         const data: ProductResponseType = res.data;
         setProducts(data.content);
@@ -103,6 +113,7 @@ export default function ProductsPage() {
             <div className="w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
               {products.map((product) => (
                 <ProductCard
+                  key={product.id}
                   product={product}
                   products={products}
                   setProducts={setProducts}

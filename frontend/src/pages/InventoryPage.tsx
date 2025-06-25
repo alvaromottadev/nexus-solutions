@@ -10,72 +10,98 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
+import { Edit, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import TopBar from "@/components/TopBar";
 import CustomText from "@/components/CustomText";
 import api from "@/client/api-client";
 import CreateInventoryDialog from "@/components/Dialog/Inventory/CreateInventory";
-import type { ProductType } from "@/types/ProductType";
-import type { LocationType } from "@/types/LocationType";
-
-const columns = [
-  {
-    accessorKey: "productName",
-    header: "Produto",
-    accessorFn: (row: { product: { name: any } }) => row.product.name,
-    cell: ({ row }: { row: { original: InventoryType } }) =>
-      row.original.product.name,
-  },
-  {
-    accessorKey: "quantity",
-    header: "Quantidade",
-  },
-  {
-    accessorKey: "minStock",
-    header: "Estoque Mínimo",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    id: "actions",
-    cell: ({ row }: { row: { original: InventoryType } }) => {
-      const inventory = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
-
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Edit />
-              Editar estoque
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log("Delete stock")}>
-              <Trash />
-              Apagar Estoque
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+import { toast } from "sonner";
+import DeleteInventoryAlert from "@/components/AlertDialog/DeleteInventory";
+import EditInventoryDialog from "@/components/Dialog/Inventory/EditInventory";
 
 export default function InventoryPage() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [inventories, setInventories] = useState<InventoryType[]>([]);
-  const [product, setProduct] = useState<ProductType | null>(null);
-  const [location, setLocation] = useState<LocationType | null>(null);
+
+  const columns = [
+    {
+      accessorKey: "productName",
+      header: "Produto",
+      accessorFn: (row: { product: { name: any } }) => row.product.name,
+      cell: ({ row }: { row: { original: InventoryType } }) =>
+        row.original.product.name,
+    },
+    {
+      accessorKey: "quantity",
+      header: "Quantidade",
+    },
+    {
+      accessorKey: "minStock",
+      header: "Estoque Mínimo",
+    },
+    {
+      accessorKey: "location",
+      header: "Almoxarifado",
+      accessorFn: (row: { location: { name: any } }) => row.location.name,
+      cell: ({ row }: { row: { original: InventoryType } }) =>
+        row.original.location.name,
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+    },
+    {
+      id: "actions",
+      cell: ({ row }: { row: { original: InventoryType } }) => {
+        const inventory = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Ações</DropdownMenuLabel>
+
+              <DropdownMenuSeparator />
+              <EditInventoryDialog
+                inventories={inventories}
+                inventory={inventory}
+                setInventories={setInventories}
+              />
+              <DeleteInventoryAlert
+                inventoryId={inventory.id}
+                onDelete={handleDelete}
+              />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
+  async function handleEdit(inventoryId: string) {
+    console.log("Edit stock");
+  }
+
+  async function handleDelete(inventoryId: string) {
+    api
+      .delete(`/inventories/${inventoryId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setInventories(
+          inventories.filter((inventory) => inventory.id !== inventoryId)
+        );
+        toast.success("Estoque deletado com sucesso!");
+      });
+    console.log("Delete stock");
+  }
 
   useEffect(() => {
     api
@@ -86,14 +112,16 @@ export default function InventoryPage() {
       })
       .then((res) => {
         setInventories(res.data);
-        setIsLoading(false);
       });
   }, []);
   return (
     <>
       <div className="min-h-screen flex flex-col ">
         <TopBar />
-        <CreateInventoryDialog />
+        <CreateInventoryDialog
+          inventories={inventories}
+          setInventories={setInventories}
+        />
         <div className="flex justify-center">
           <CustomText className="text-[var(--primary-color)] text-[2.5rem] font-bold">
             Gestão de Estoque
