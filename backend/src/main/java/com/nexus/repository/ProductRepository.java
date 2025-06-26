@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, String>, JpaSpecificationExecutor<Product> {
 
-    Optional<Product> findByIdAndCompany(String id, Company company);
+    Optional<Product> findByIdAndCompanyAndDeletedAtIsNull(String id, Company company);
 
-    Optional<Product> findByPublicIdAndCompany(String publicId, Company company);
+    Optional<Product> findByPublicIdAndCompanyAndDeletedAtIsNull(String publicId, Company company);
 
 }

@@ -15,6 +15,7 @@ public class ProductSpecification {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.equal(root.get("company").get("id"), company.getId()));
+            predicates.add(cb.isNull(root.get("deletedAt")));
             if (location != null){
                 predicates.add(cb.equal(root.join("inventories").get("location").get("id"), location.getId()));
             }

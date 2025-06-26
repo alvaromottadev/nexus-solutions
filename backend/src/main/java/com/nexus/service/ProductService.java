@@ -87,17 +87,18 @@ public class ProductService {
     @Transactional
     public SuccessResponse deleteProduct(String productId, Company company) {
         Product product = findByIdAndCompany(productId, company);
-        productRepository.delete(product);
+        product.setDeletedAt(LocalDateTime.now());
+        productRepository.save(product);
         return new SuccessResponse("Product deleted successfully");
     }
 
     public Product findByIdAndCompany(String id, Company company){
-        return productRepository.findByIdAndCompany(id, company)
+        return productRepository.findByIdAndCompanyAndDeletedAtIsNull(id, company)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
     }
 
     private Product findByPublicIdAndCompany(String publicId, Company company) {
-        return productRepository.findByPublicIdAndCompany(publicId, company)
+        return productRepository.findByPublicIdAndCompanyAndDeletedAtIsNull(publicId, company)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
     }
 
