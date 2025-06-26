@@ -1,7 +1,5 @@
-import { AlignJustify } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router";
-import CustomText from "./CustomText";
 import SideBar from "./Sidebar";
 
 export default function TopBar() {
@@ -49,7 +47,10 @@ export default function TopBar() {
           >
             Estoque
           </Button>
-          <Button className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
+          <Button
+            onClick={() => handleClick("movements ")}
+            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
+          >
             Movimentações
           </Button>
           <Button className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">

@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import LocationsPage from "./pages/LocationsPage";
 import InventoryPage from "./pages/InventoryPage";
+import MovementPage from "./pages/MovementPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="products" element={<ProductsPage />} />
         <Route path="locations" element={<LocationsPage />} />
         <Route path="inventories" element={<InventoryPage />} />
+        <Route path="movements" element={<MovementPage />} />
       </Routes>
     </>
   );
