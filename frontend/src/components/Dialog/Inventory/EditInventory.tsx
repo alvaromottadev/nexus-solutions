@@ -116,7 +116,20 @@ export default function EditInventoryDialog({
       });
   }
 
-  async function handleDelete() {}
+  async function handleDelete(inventoryId: string) {
+    api
+      .delete(`/inventories/${inventoryId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setInventories(
+          inventories.filter((inventory) => inventory.id !== inventoryId)
+        );
+        toast.success("Estoque deletado com sucesso!");
+      });
+  }
 
   function resetForm() {
     setProductId("");
@@ -198,7 +211,7 @@ export default function EditInventoryDialog({
               />
             </div>
             <DialogFooter className="mt-5">
-              <DeleteProductAlert onDelete={handleDelete} />
+              <DeleteProductAlert onDelete={() => handleDelete(inventory.id)} />
               <DialogClose asChild>
                 <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
                   Cancelar

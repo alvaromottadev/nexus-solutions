@@ -65,7 +65,6 @@ export default function InventoryPage() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
-
               <DropdownMenuSeparator />
               <EditInventoryDialog
                 inventories={inventories}
@@ -83,10 +82,6 @@ export default function InventoryPage() {
     },
   ];
 
-  async function handleEdit(inventoryId: string) {
-    console.log("Edit stock");
-  }
-
   async function handleDelete(inventoryId: string) {
     api
       .delete(`/inventories/${inventoryId}`, {
@@ -100,7 +95,6 @@ export default function InventoryPage() {
         );
         toast.success("Estoque deletado com sucesso!");
       });
-    console.log("Delete stock");
   }
 
   useEffect(() => {
@@ -114,6 +108,7 @@ export default function InventoryPage() {
         setInventories(res.data);
       });
   }, []);
+
   return (
     <>
       <div className="min-h-screen flex flex-col ">
