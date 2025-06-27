@@ -71,7 +71,10 @@ export default function SideBar() {
               </Button>
             </div>
             <div>
-              <Button className="min-w-[10rem] max-w-[10rem] ">
+              <Button
+                onClick={() => handleClick("movements")}
+                className="min-w-[10rem] max-w-[10rem] "
+              >
                 <Package />
                 <CustomText>Movimentações</CustomText>
               </Button>

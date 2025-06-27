@@ -16,28 +16,20 @@ import {
 } from "@/components/ui/popover";
 import { useState, type ChangeEventHandler } from "react";
 
-const status = [
-  {
-    value: "OK",
-    label: "OK",
-  },
-  {
-    value: "LOW",
-    label: "LOW",
-  },
-  {
-    value: "OUT OF STOCK",
-    label: "OUT OF STOCK",
-  },
-];
-
-interface SelectStatusInventoryProps {
+interface SelectdataInventoryProps {
   onChange: (value: string) => void;
+  label: string;
+  data: {
+    value: string;
+    label: string;
+  }[];
 }
 
-export default function SelectStatusInventory({
+export default function SelectdataInventory({
   onChange,
-}: SelectStatusInventoryProps) {
+  label,
+  data,
+}: SelectdataInventoryProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
   return (
@@ -51,32 +43,35 @@ export default function SelectStatusInventory({
             className="w-[200px] justify-between"
           >
             {value
-              ? status.find((status) => status.value === value)?.label
-              : "Selecione um status..."}
+              ? data.find((data) => data.value === value)?.label
+              : `Selecione um(a) ${label}`}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Procure o status..." className="h-9" />
+            <CommandInput
+              placeholder={`Procure o(a) ${label}`}
+              className="h-9"
+            />
             <CommandList>
-              <CommandEmpty>No framework found.</CommandEmpty>
+              <CommandEmpty>Nenhum(a) {label} encontrado(a)</CommandEmpty>
               <CommandGroup>
-                {status.map((status) => (
+                {data.map((data) => (
                   <CommandItem
-                    key={status.value}
-                    value={status.value}
+                    key={data.value}
+                    value={data.value}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
                       setOpen(false);
                       onChange(currentValue === value ? "" : currentValue);
                     }}
                   >
-                    {status.label}
+                    {data.label}
                     <Check
                       className={cn(
                         "ml-auto",
-                        value === status.value ? "opacity-100" : "opacity-0"
+                        value === data.value ? "opacity-100" : "opacity-0"
                       )}
                     />
                   </CommandItem>

@@ -19,15 +19,31 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { Input } from "./ui/input";
 import SelectStatusInventory from "./SelectStatusInventory";
+import SelectComponent from "./SelectComponent";
 
 interface DataTableProps<TData, TValue> {
+  filter?: {
+    type: "input" | "select";
+    label: string;
+    columnName: string;
+    data?: {
+      value: string;
+      label: string;
+    }[];
+  }[];
+
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filters?: boolean;
+  pageSize?: number;
 }
 
 export default function DataTable<TData, TValue>({
+  filter,
   columns,
   data,
+  filters = true,
+  pageSize = 10,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -41,27 +57,61 @@ export default function DataTable<TData, TValue>({
     state: {
       columnFilters,
     },
+    initialState: {
+      pagination: {
+        pageSize,
+      },
+    },
   });
   return (
     <div>
       <div className="rounded-md border p-10 bg-[#f9f9f9] shadow-md">
-        <div className="flex items-center py-4 gap-x-3">
-          <Input
-            placeholder="Pesquise pelo nome..."
-            value={
-              (table.getColumn("productName")?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn("productName")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm bg-white"
-          />
-          <SelectStatusInventory
-            onChange={(value: string) =>
-              table.getColumn("status")?.setFilterValue(value)
-            }
-          />
-        </div>
+        {filters && filter && (
+          <div className="flex gap-x-2">
+            {filter.map((filterItem) => {
+              const type = filterItem.type;
+              const columnName = filterItem.columnName;
+
+              if (type === "input") {
+                return (
+                  <>
+                    <Input
+                      placeholder={`Filtrar por ${filterItem.label}...`}
+                      value={
+                        (table
+                          .getColumn(columnName)
+                          ?.getFilterValue() as string) ?? ""
+                      }
+                      onChange={(event) =>
+                        table
+                          .getColumn(columnName)
+                          ?.setFilterValue(event.target.value)
+                      }
+                      className="max-w-sm bg-white"
+                    />
+                  </>
+                );
+              } else if (
+                type === "select" &&
+                filterItem.data &&
+                filterItem.label
+              ) {
+                return (
+                  <SelectStatusInventory
+                    label={filterItem.label}
+                    data={filterItem.data}
+                    key={columnName}
+                    onChange={(value: string) =>
+                      table.getColumn(columnName)?.setFilterValue(value)
+                    }
+                  />
+                );
+              }
+              return <></>;
+            })}
+          </div>
+        )}
+
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

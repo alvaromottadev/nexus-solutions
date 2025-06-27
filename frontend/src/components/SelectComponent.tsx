@@ -19,21 +19,23 @@ import {
 interface SelectComponentProps {
   data: any[];
   placeholder: string;
-  label: string;
-  onChange: (value: string) => void;
+  label?: string;
+  onChange: (value: any) => void;
   isError: boolean;
   setError: (value: boolean) => void;
   defaultValue?: string;
+  valueType?: "id" | "name" | "object";
 }
 
 export default function SelectComponent({
   data,
   placeholder,
-  label,
+  label = "recurso",
   onChange,
   isError = false,
   setError,
   defaultValue = "",
+  valueType = "id",
 }: SelectComponentProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>(defaultValue ? defaultValue : "");
@@ -76,7 +78,13 @@ export default function SelectComponent({
                       onSelect={(currentValue) => {
                         setValue(currentValue === value ? "" : currentValue);
                         setOpen(false);
-                        onChange(data.id);
+                        onChange(
+                          valueType === "id"
+                            ? currentValue
+                            : valueType === "name"
+                            ? data.name
+                            : data
+                        );
                         setError(false);
                       }}
                     >

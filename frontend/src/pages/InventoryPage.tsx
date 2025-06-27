@@ -4,14 +4,13 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { Edit, MoreHorizontal } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MoreHorizontal } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import TopBar from "@/components/TopBar";
 import CustomText from "@/components/CustomText";
 import api from "@/client/api-client";
@@ -82,6 +81,24 @@ export default function InventoryPage() {
     },
   ];
 
+  const status = useMemo(
+    () => [
+      {
+        value: "OK",
+        label: "OK",
+      },
+      {
+        value: "LOW",
+        label: "LOW",
+      },
+      {
+        value: "OUT OF STOCK",
+        label: "OUT OF STOCK",
+      },
+    ],
+    []
+  );
+
   async function handleDelete(inventoryId: string) {
     api
       .delete(`/inventories/${inventoryId}`, {
@@ -89,7 +106,7 @@ export default function InventoryPage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then(() => {
         setInventories(
           inventories.filter((inventory) => inventory.id !== inventoryId)
         );
@@ -124,7 +141,29 @@ export default function InventoryPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-[80%]">
-            <DataTable data={inventories} columns={columns} />
+            <DataTable
+              data={inventories}
+              columns={columns}
+              filters={true}
+              filter={[
+                {
+                  type: "input",
+                  columnName: "productName",
+                  label: "produto",
+                },
+                {
+                  type: "input",
+                  columnName: "location",
+                  label: "almoxarifado",
+                },
+                {
+                  type: "select",
+                  columnName: "status",
+                  data: status,
+                  label: "status",
+                },
+              ]}
+            />
           </div>
         </div>
       </div>

@@ -27,6 +27,7 @@ import { useState } from "react";
 import api from "@/client/api-client";
 import { toast } from "sonner";
 import type { ProductType } from "@/types/ProductType";
+import z3, { z } from "zod";
 
 interface CreateProductForm {
   products: ProductType[];
@@ -38,6 +39,7 @@ export default function CreateProductDialog({
   setProducts,
 }: CreateProductForm) {
   const form = useForm({});
+  const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<File | null | undefined>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -88,11 +90,12 @@ export default function CreateProductDialog({
           duration: 5000,
         });
         setProducts([res.data, ...products]);
+        setOpen(false);
       });
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
           <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">

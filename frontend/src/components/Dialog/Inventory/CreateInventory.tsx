@@ -150,8 +150,8 @@ export default function CreateInventoryDialog({
             </CustomText>
             <SelectComponent
               data={locations}
-              placeholder="Selecione um produto..."
-              label="Produto"
+              placeholder="Selecione um almoxarifado..."
+              label="Almoxarifado"
               onChange={setLocationId}
               isError={locationError}
               setError={setLocationError}

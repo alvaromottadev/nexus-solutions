@@ -40,6 +40,12 @@ api.interceptors.response.use(
           duration: 5000,
         });
       }
+      if (status === 409) {
+        toast.error(data.error, {
+          description: "Conflito de dados. Verifique as informações.",
+          duration: 5000,
+        });
+      }
       if (status === 500) {
         toast.error("Erro interno do servidor.", {
           description:
