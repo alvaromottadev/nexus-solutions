@@ -13,7 +13,13 @@ export default function LocationCard({
   setLocations,
   locations,
 }: LocationCardProps) {
-  const addressText = `${location.address.street}, ${location.address.number}, ${location.address.district}, ${location.address.city} - ${location.address.state}, ${location.address.country}`;
+  const addressText = `${location.address.street}, ${
+    location.address.number
+  }, ${location.address.complement && `${location.address.complement}, `} ${
+    location.address.district
+  }, ${location.address.city} - ${location.address.state}, ${
+    location.address.country
+  }`;
   return (
     <>
       <div className="p-5 flex items-center justify-between mt-[1rem] bg-[#f9f9f9] min-h-[4rem] w-full border-[1px] rounded-[0.5rem] border-black hover:translate-y-[-5px] duration-300 shadow-md">

@@ -16,7 +16,9 @@ import formLocationSchema from "@/schemas/formLocationSchema";
 import type { LocationType } from "@/types/LocationType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
 
 interface CreateLocationDialogProps {
@@ -43,6 +45,8 @@ export default function CreateLocationDialog({
     },
   });
 
+  const [open, setOpen] = useState<boolean>(false);
+
   async function handleCreate(data: z.infer<typeof formLocationSchema>) {
     const jsonBody = {
       name: data.name,
@@ -68,13 +72,14 @@ export default function CreateLocationDialog({
       .then((res) => {
         const location: LocationType = res.data;
         setLocations([location, ...locations]);
-        console.log(res.data);
+        toast.success("Almoxarifado cadastrado com sucesso!");
+        setOpen(false);
       });
   }
 
   return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="fixed right-5 bottom-5 w-[4rem] h-[4rem] rounded-full bg-[var(--primary-color)] font-poppins cursor-pointer">
             <Plus />
