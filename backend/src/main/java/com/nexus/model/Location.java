@@ -30,6 +30,9 @@ public class Location {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     @JoinColumn(name = "address_id")
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;

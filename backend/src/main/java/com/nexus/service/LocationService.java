@@ -17,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class LocationService {
 
@@ -61,12 +63,13 @@ public class LocationService {
     @Transactional
     public SuccessResponse deleteLocation(String locationId, Company company) {
         Location location = findByIdAndCompany(locationId, company);
-        locationRepository.delete(location);
+        location.setDeletedAt(LocalDateTime.now());
+        locationRepository.save(location);
         return new SuccessResponse("Location deleted successfully");
     }
 
     public Location findByIdAndCompany(String id, Company company){
-        return locationRepository.findByIdAndCompany(id, company)
+        return locationRepository.findByIdAndCompanyAndDeletedAtIsNull(id, company)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found"));
     }
 

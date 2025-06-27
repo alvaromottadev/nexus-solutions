@@ -10,7 +10,6 @@ import com.nexus.model.Employee;
 import com.nexus.model.User;
 import com.nexus.repository.EmployeeRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,7 +40,7 @@ public class EmployeeService {
     }
 
     public List<EmployeeResponse> getAllEmployees(Company company) {
-        List<Employee> employees = employeeRepository.findAllByCompany(company);
+        List<Employee> employees = employeeRepository.findAllByCompanyAndDeletedAtIsNull(company);
         return employees.stream()
                 .map(EmployeeResponse::new)
                 .toList();
@@ -60,12 +59,13 @@ public class EmployeeService {
     @Transactional
     public SuccessResponse deleteEmployee(String employeeId, Company company) {
         Employee employee = findByIdAndCompany(employeeId, company);
-        employeeRepository.delete(employee);
+        employee.setDeletedAt(LocalDateTime.now());
+        employeeRepository.save(employee);
         return new SuccessResponse("Employee deleted successfully");
     }
 
     private Employee findByIdAndCompany(String employeeId, Company company){
-        return employeeRepository.findByIdAndCompany(employeeId, company)
+        return employeeRepository.findByIdAndCompanyAndDeletedAtIsNull(employeeId, company)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
     }
 

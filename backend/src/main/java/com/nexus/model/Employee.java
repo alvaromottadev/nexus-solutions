@@ -33,6 +33,9 @@ public class Employee {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     @JoinColumn(name = "user_id")
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
