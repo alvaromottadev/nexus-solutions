@@ -7,11 +7,13 @@ import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.EmployeeService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -56,6 +58,16 @@ public class EmployeeController {
         EmployeeResponse response = employeeService.updateEmployee(employeeId, employeeRequest, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{employeeId}/avatar")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<EmployeeResponse> updateEmployeeAvatar(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                 @PathVariable String employeeId,
+                                                                 @RequestPart(value = "avatar") MultipartFile avatar) {
+        EmployeeResponse response = employeeService.updateEmployeeAvatar(employeeId, avatar, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @DeleteMapping("/{employeeId}")

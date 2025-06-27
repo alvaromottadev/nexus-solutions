@@ -16,6 +16,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -25,11 +26,13 @@ public class EmployeeService {
     private final UserService userService;
     private final EmployeeRepository employeeRepository;
     private final MessageSource messageSource;
+    private final StorageService storageService;
 
-    public EmployeeService(UserService userService, EmployeeRepository employeeRepository, MessageSource messageSource) {
+    public EmployeeService(UserService userService, EmployeeRepository employeeRepository, MessageSource messageSource, StorageService storageService) {
         this.userService = userService;
         this.employeeRepository = employeeRepository;
         this.messageSource = messageSource;
+        this.storageService = storageService;
     }
 
     @Transactional
@@ -57,6 +60,14 @@ public class EmployeeService {
         employee.setRole(employeeRequest.role());
         employee.setUpdatedAt(LocalDateTime.now());
         employeeRepository.save(employee);
+        return new EmployeeResponse(employee);
+    }
+
+    @Transactional
+    public EmployeeResponse updateEmployeeAvatar(String employeeId, MultipartFile avatar, Company company) {
+        Employee employee = findByIdAndCompany(employeeId, company);
+        String avatarUrl = storageService.uploadImage(avatar, "avatar_" + employee.getId());
+        employee.setAvatar(avatarUrl);
         return new EmployeeResponse(employee);
     }
 

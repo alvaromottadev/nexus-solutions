@@ -23,6 +23,9 @@ public class Employee {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private EmployeeRole role;
