@@ -11,6 +11,9 @@ import com.nexus.model.Product;
 import com.nexus.repository.ProductRepository;
 import com.nexus.repository.specification.ProductSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,12 +30,14 @@ public class ProductService {
     private final LocationService locationService;
     private final QrCodeGeneratorService qrCodeGeneratorService;
     private final StorageService storageService;
+    private final MessageSource messageSource;
 
-    public ProductService(ProductRepository productRepository, LocationService locationService, QrCodeGeneratorService qrCodeGeneratorService, StorageService storageService) {
+    public ProductService(ProductRepository productRepository, LocationService locationService, QrCodeGeneratorService qrCodeGeneratorService, StorageService storageService, MessageSource messageSource) {
         this.productRepository = productRepository;
         this.locationService = locationService;
         this.qrCodeGeneratorService = qrCodeGeneratorService;
         this.storageService = storageService;
+        this.messageSource = messageSource;
     }
 
     @Transactional
@@ -89,17 +94,17 @@ public class ProductService {
         Product product = findByIdAndCompany(productId, company);
         product.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
-        return new SuccessResponse("Product deleted successfully");
+        return new SuccessResponse(messageSource.getMessage("product.deleted.success", null, LocaleContextHolder.getLocale()));
     }
 
     public Product findByIdAndCompany(String id, Company company){
         return productRepository.findByIdAndCompanyAndDeletedAtIsNull(id, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product"));
     }
 
     private Product findByPublicIdAndCompany(String publicId, Company company) {
         return productRepository.findByPublicIdAndCompanyAndDeletedAtIsNull(publicId, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product"));
     }
 
 }

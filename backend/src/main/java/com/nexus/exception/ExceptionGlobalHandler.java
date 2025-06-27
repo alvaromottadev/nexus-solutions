@@ -2,6 +2,8 @@ package com.nexus.exception;
 
 import com.nexus.dto.ErrorResponse;
 import jakarta.validation.UnexpectedTypeException;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,12 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionGlobalHandler {
 
+    private final MessageSource messageSource;
+
+    public ExceptionGlobalHandler(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return ResponseEntity
@@ -27,7 +35,8 @@ public class ExceptionGlobalHandler {
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
         return ResponseEntity
                 .status(404)
-                .body(new ErrorResponse(e.getMessage()));
+                .body(new ErrorResponse(messageSource.getMessage("error.not.found",
+                        new Object[]{e.getMessage()}, LocaleContextHolder.getLocale())));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -63,14 +72,15 @@ public class ExceptionGlobalHandler {
     public ResponseEntity<ErrorResponse> handleInsufficientStockException(InsufficientStockException e) {
         return ResponseEntity
                 .status(409)
-                .body(new ErrorResponse(e.getMessage()));
+                .body(new ErrorResponse(messageSource.getMessage("error.insufficient.stock",
+                        new Object[]{e.getMessage()}, LocaleContextHolder.getLocale())));
     }
 
     @ExceptionHandler(EmailSendException.class)
     public ResponseEntity<ErrorResponse> handleEmailSendException(EmailSendException e) {
         return ResponseEntity
                 .status(500)
-                .body(new ErrorResponse(e.getMessage()));
+                .body(new ErrorResponse(messageSource.getMessage("error.mail.send", null, LocaleContextHolder.getLocale())));
     }
 
 }

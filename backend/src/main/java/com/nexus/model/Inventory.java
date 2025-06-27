@@ -45,7 +45,7 @@ public class Inventory {
 
     public void decrementQuantity(Integer quantity) {
         if (this.quantity < quantity) {
-            throw new InsufficientStockException("Insufficient stock for product: " + this.product.getName());
+            throw new InsufficientStockException(this.product.getName());
         }
         this.quantity -= quantity;
         this.updatedAt = LocalDateTime.now();

@@ -11,6 +11,8 @@ import com.nexus.model.User;
 import com.nexus.repository.EmployeeRepository;
 import com.nexus.repository.specification.EmployeeSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,12 @@ public class EmployeeService {
 
     private final UserService userService;
     private final EmployeeRepository employeeRepository;
+    private final MessageSource messageSource;
 
-    public EmployeeService(UserService userService, EmployeeRepository employeeRepository) {
+    public EmployeeService(UserService userService, EmployeeRepository employeeRepository, MessageSource messageSource) {
         this.userService = userService;
         this.employeeRepository = employeeRepository;
+        this.messageSource = messageSource;
     }
 
     @Transactional
@@ -61,12 +65,12 @@ public class EmployeeService {
         Employee employee = findByIdAndCompany(employeeId, company);
         employee.setDeletedAt(LocalDateTime.now());
         employeeRepository.save(employee);
-        return new SuccessResponse("Employee deleted successfully");
+        return new SuccessResponse(messageSource.getMessage("employee.deleted.success", null, LocaleContextHolder.getLocale()));
     }
 
     private Employee findByIdAndCompany(String employeeId, Company company){
         return employeeRepository.findByIdAndCompanyAndDeletedAtIsNull(employeeId, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee"));
     }
 
 }

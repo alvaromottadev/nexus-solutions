@@ -3,7 +3,6 @@ package com.nexus.service;
 import com.nexus.dto.Email.EmailRequest;
 import com.nexus.dto.Inventory.InventoryRestockResponse;
 import com.nexus.exception.EmailSendException;
-import com.nexus.model.Product;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +49,7 @@ public class EmailService {
 
             mailSender.send(message);
         } catch (MessagingException e){
-            throw new EmailSendException("Failed to send email: ");
+            throw new EmailSendException();
         }
     }
 
