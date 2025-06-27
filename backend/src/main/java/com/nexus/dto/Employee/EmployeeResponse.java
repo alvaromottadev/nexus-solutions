@@ -10,6 +10,7 @@ public record EmployeeResponse(
 
         String id,
         String name,
+        String avatar,
         EmployeeRole role,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
@@ -20,6 +21,7 @@ public record EmployeeResponse(
         this(
                 employee.getId(),
                 employee.getName(),
+                employee.getAvatar(),
                 employee.getRole(),
                 employee.getCreatedAt(),
                 employee.getUpdatedAt()
