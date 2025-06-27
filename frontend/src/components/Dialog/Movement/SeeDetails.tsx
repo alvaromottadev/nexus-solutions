@@ -11,17 +11,9 @@ import {
 import { DialogClose, DialogDescription } from "@radix-ui/react-dialog";
 import CustomText from "@/components/CustomText";
 import DataTable from "@/components/DataTable";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { useMemo, useState } from "react";
-import type ProductWithQuantityType from "@/types/ProductWithQuantityType";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
 
 interface SeeDetailsDialogProps {
   movement: MovementType;

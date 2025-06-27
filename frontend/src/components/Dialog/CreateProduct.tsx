@@ -27,7 +27,6 @@ import { useState } from "react";
 import api from "@/client/api-client";
 import { toast } from "sonner";
 import type { ProductType } from "@/types/ProductType";
-import z3, { z } from "zod";
 
 interface CreateProductForm {
   products: ProductType[];

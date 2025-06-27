@@ -158,7 +158,7 @@ export default function CreateMovementDialog() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then(() => {
         toast.success("Movimentação registrada com sucesso!", {
           duration: 2000,
         });

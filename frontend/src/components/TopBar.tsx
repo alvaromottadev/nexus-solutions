@@ -59,6 +59,12 @@ export default function TopBar() {
           <Button className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
             Oraculo
           </Button>
+          <Button
+            onClick={() => handleClick("employees")}
+            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
+          >
+            Funcionários
+          </Button>
           <Button className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
             Perfil
           </Button>

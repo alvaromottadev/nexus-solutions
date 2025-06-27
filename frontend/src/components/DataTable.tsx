@@ -18,8 +18,7 @@ import {
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Input } from "./ui/input";
-import SelectStatusInventory from "./SelectStatusInventory";
-import SelectComponent from "./SelectComponent";
+import SelectComponentTwo from "./SelectComponentTwo";
 
 interface DataTableProps<TData, TValue> {
   filter?: {
@@ -97,7 +96,7 @@ export default function DataTable<TData, TValue>({
                 filterItem.label
               ) {
                 return (
-                  <SelectStatusInventory
+                  <SelectComponentTwo
                     label={filterItem.label}
                     data={filterItem.data}
                     key={columnName}

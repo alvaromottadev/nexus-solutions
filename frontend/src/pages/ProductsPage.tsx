@@ -20,22 +20,6 @@ export default function ProductsPage() {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  async function handleSearch() {
-    await api
-      .get(`/products?name=${name}&size=12`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        const data: ProductResponseType = res.data;
-        setProducts(data.content);
-        setNumberPage(data.pageable.pageNumber);
-        setTotalPage(data.totalPages);
-        setIsLoading(false);
-      });
-  }
-
   useEffect(() => {
     async function getProducts() {
       await api
@@ -54,6 +38,22 @@ export default function ProductsPage() {
     }
     getProducts();
   }, []);
+
+  async function handleSearch() {
+    await api
+      .get(`/products?name=${name}&size=12`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const data: ProductResponseType = res.data;
+        setProducts(data.content);
+        setNumberPage(data.pageable.pageNumber);
+        setTotalPage(data.totalPages);
+        setIsLoading(false);
+      });
+  }
 
   async function handleNextPage() {
     await api

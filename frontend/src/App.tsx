@@ -9,6 +9,7 @@ import ProductsPage from "./pages/ProductsPage";
 import LocationsPage from "./pages/LocationsPage";
 import InventoryPage from "./pages/InventoryPage";
 import MovementPage from "./pages/MovementPage";
+import EmployeePage from "./pages/EmployeePage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="locations" element={<LocationsPage />} />
         <Route path="inventories" element={<InventoryPage />} />
         <Route path="movements" element={<MovementPage />} />
+        <Route path="employees" element={<EmployeePage />} />
       </Routes>
     </>
   );

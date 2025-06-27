@@ -14,24 +14,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState, type ChangeEventHandler } from "react";
+import { useState } from "react";
 
-interface SelectdataInventoryProps {
+interface SelectComponentTwoProps {
   onChange: (value: string) => void;
   label: string;
   data: {
     value: string;
     label: string;
   }[];
+  defaultValue?: string;
 }
 
-export default function SelectdataInventory({
+export default function SelectComponentTwo({
   onChange,
   label,
   data,
-}: SelectdataInventoryProps) {
+  defaultValue,
+}: SelectComponentTwoProps) {
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>(defaultValue ? defaultValue : "");
   return (
     <div className="max-w-sm">
       <Popover open={open} onOpenChange={setOpen}>
