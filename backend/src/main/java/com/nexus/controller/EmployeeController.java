@@ -6,13 +6,13 @@ import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -40,9 +40,12 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeResponse>> getAllEmployees(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        List<EmployeeResponse> responses = employeeService.getAllEmployees(userDetails.getCompany());
-        return ResponseEntity.ok(responses);
+    public ResponseEntity<Page<EmployeeResponse>> getAllEmployees(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                  @RequestParam(required = false) String name,
+                                                                  @RequestParam(required = false, defaultValue = "0") Integer page,
+                                                                  @RequestParam(required = false, defaultValue = "10") Integer size) {
+        Page<EmployeeResponse> response = employeeService.getAllEmployees(name, page, size, userDetails.getCompany());
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER') or #userDetails.employee.id == #employeeId")

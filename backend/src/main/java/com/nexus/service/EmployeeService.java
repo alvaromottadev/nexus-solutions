@@ -9,11 +9,13 @@ import com.nexus.model.Company;
 import com.nexus.model.Employee;
 import com.nexus.model.User;
 import com.nexus.repository.EmployeeRepository;
+import com.nexus.repository.specification.EmployeeSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class EmployeeService {
@@ -39,11 +41,9 @@ public class EmployeeService {
         return new EmployeeResponse(employee);
     }
 
-    public List<EmployeeResponse> getAllEmployees(Company company) {
-        List<Employee> employees = employeeRepository.findAllByCompanyAndDeletedAtIsNull(company);
-        return employees.stream()
-                .map(EmployeeResponse::new)
-                .toList();
+    public Page<EmployeeResponse> getAllEmployees(String name, Integer page, Integer size, Company company) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return employeeRepository.findAll(EmployeeSpecification.filterBy(name, company), pageRequest).map(EmployeeResponse::new);
     }
 
     @Transactional
