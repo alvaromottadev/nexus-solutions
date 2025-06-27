@@ -4,7 +4,7 @@ export interface MovementType {
   id: string;
   type: "IN" | "OUT";
   description: string | null;
-  date: string;
+  movementDate: string;
   performedBy: {
     id: string;
     name: string;

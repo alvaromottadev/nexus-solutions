@@ -13,8 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Eye, MoreHorizontal, User } from "lucide-react";
-import { useEffect, useState } from "react";
-import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
+import { useEffect, useMemo, useState } from "react";
+import SeeDetailsDialog from "@/components/Dialog/Movement/SeeDetails";
 
 export default function MovementPage() {
   const [movements, setMovements] = useState<MovementType[]>([]);
@@ -84,10 +84,16 @@ export default function MovementPage() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem>
-                <Eye />
-                Ver detalhes
-              </DropdownMenuItem>
+              <SeeDetailsDialog movement={item}>
+                <div
+                  className="focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4
+          hover:bg-gray-100"
+                >
+                  <Eye />
+                  Ver detalhes
+                </div>
+              </SeeDetailsDialog>
+
               <DropdownMenuItem>
                 <User />
                 Ver usuário responsável{" "}
@@ -98,6 +104,20 @@ export default function MovementPage() {
       },
     },
   ];
+
+  const types = useMemo(
+    () => [
+      {
+        value: "IN",
+        label: "IN",
+      },
+      {
+        value: "OUT",
+        label: "OUT",
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     api
@@ -127,13 +147,14 @@ export default function MovementPage() {
               filters={true}
               filter={[
                 {
-                  type: "input",
-                  placeholder: "Filtrar por tipo",
+                  type: "select",
+                  label: "tipo",
                   columnName: "type",
+                  data: types,
                 },
                 {
                   type: "input",
-                  placeholder: "Filtrar por movimentador",
+                  label: "movimentador",
                   columnName: "perfomedByName",
                 },
               ]}
