@@ -39,8 +39,8 @@ public class AuthService {
     @Transactional
     public SuccessResponse register(UserCompanyRegisterRequest registerRequest) {
         User user = userService.createUser(registerRequest.user());
-        Address address = createAddress(registerRequest.company().address());
-        createCompany(user, address, registerRequest.company());
+        Address address = addressService.createAddress(registerRequest.company().address());
+        companyService.createCompany(user, address, registerRequest.company());
         return new SuccessResponse("Registration successfull");
     }
 
@@ -55,15 +55,7 @@ public class AuthService {
         return new UserCompanyLoginResponse(token, new UserResponse(user), new CompanyResponse(company));
     }
 
-    private Company createCompany(User user, Address address, CompanyRequest companyRequest){
-        Company company = new Company(user, address, companyRequest);
-        return companyService.save(company);
-    }
 
-    private Address createAddress(AddressRequest addressRequest){
-        Address address = new Address(addressRequest);
-        return addressService.save(address);
-    }
 
     private void validatePassword(String rawPassword, String encodedPassword){
         if (!passwordEncoder.matches(rawPassword, encodedPassword)){

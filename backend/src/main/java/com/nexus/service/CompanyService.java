@@ -3,6 +3,7 @@ package com.nexus.service;
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.SuccessResponse;
+import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.User;
 import com.nexus.repository.CompanyRepository;
@@ -20,6 +21,12 @@ public class CompanyService {
 
     public CompanyResponse getCompany(Company company) {
         return new CompanyResponse(company);
+    }
+
+    @Transactional
+    public Company createCompany(User user, Address address, CompanyRequest companyRequest){
+        Company company = new Company(user, address, companyRequest);
+        return save(company);
     }
 
     @Transactional
