@@ -6,9 +6,13 @@ import com.nexus.dto.Employee.EmployeeUpdateRequest;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.EmployeeNotFoundException;
+import com.nexus.exception.UnauthorizedRoleChangeException;
+import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Company;
 import com.nexus.model.Employee;
 import com.nexus.model.User;
+import com.nexus.model.enums.EmployeeRole;
+import com.nexus.model.enums.UserType;
 import com.nexus.repository.EmployeeRepository;
 import com.nexus.repository.specification.EmployeeSpecification;
 import com.nexus.utils.MessageUtils;
@@ -55,15 +59,23 @@ public class EmployeeService {
     }
 
     @Transactional
-    public EmployeeResponse updateEmployee(String employeeId, EmployeeUpdateRequest employeeRequest, Company company) {
-        Employee employee = findByIdAndCompany(employeeId, company);
+    public EmployeeResponse updateEmployee(String employeeId, EmployeeUpdateRequest employeeUpdateRequest, UserDetailsImpl userDetails) {
+        Employee employee = findByIdAndCompany(employeeId, userDetails.getCompany());
 
-        if (!employee.getUser().getEmail().equals(employeeRequest.user().email())) userService.existsByEmail(employeeRequest.user().email());
+        if (employeeUpdateRequest.role() != null)
+            if (!isRoleChangeAllowed(userDetails)) throw new UnauthorizedRoleChangeException();
 
-        userService.updateUser(employee.getUser(), employeeRequest.user());
-        employee.update(employeeRequest.employee());
+        if (!employee.getUser().getEmail().equals(employeeUpdateRequest.user().email())) userService.existsByEmail(employeeUpdateRequest.user().email());
+
+        userService.updateUser(employee.getUser(), employeeUpdateRequest.user());
+        employee.update(employeeUpdateRequest);
 
         return new EmployeeResponse(employee);
+    }
+
+    private boolean isRoleChangeAllowed(UserDetailsImpl userDetails) {
+        UserType currentType = userDetails.getType();
+        return (currentType == UserType.COMPANY || (currentType == UserType.EMPLOYEE && userDetails.getEmployee().getRole() == EmployeeRole.MANAGER));
     }
 
     @Transactional

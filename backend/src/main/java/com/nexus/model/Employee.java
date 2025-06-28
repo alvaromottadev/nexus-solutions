@@ -48,9 +48,10 @@ public class Employee {
     @ManyToOne
     private Company company;
 
-    public void update(EmployeeRequest employeeRequest){
+    public void update(EmployeeUpdateRequest employeeRequest){
         this.name = employeeRequest.name();
-        this.role = employeeRequest.role();
+        if (employeeRequest.role() != null)
+            this.role = employeeRequest.role();
         this.updatedAt = LocalDateTime.now();
     }
 

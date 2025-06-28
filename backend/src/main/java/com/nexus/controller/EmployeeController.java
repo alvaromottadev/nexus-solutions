@@ -56,7 +56,7 @@ public class EmployeeController {
     public ResponseEntity<EmployeeResponse> updateEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                            @PathVariable String employeeId,
                                                            @Validated @RequestBody EmployeeUpdateRequest employeeRequest) {
-        EmployeeResponse response = employeeService.updateEmployee(employeeId, employeeRequest, userDetails.getCompany());
+        EmployeeResponse response = employeeService.updateEmployee(employeeId, employeeRequest, userDetails);
         return ResponseEntity.ok(response);
     }
 

@@ -100,6 +100,20 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.cnpj.duplicate")));
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException e) {
+        return ResponseEntity
+                .status(403)
+                .body(new ErrorResponse(messageUtils.getMessage("error.unauthorized")));
+    }
+
+    @ExceptionHandler(UnauthorizedRoleChangeException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedRoleChangeException(UnauthorizedRoleChangeException e) {
+        return ResponseEntity
+                .status(403)
+                .body(new ErrorResponse(messageUtils.getMessage("error.unauthorized.role.change")));
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         return ResponseEntity

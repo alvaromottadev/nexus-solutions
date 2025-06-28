@@ -34,7 +34,7 @@ public class UserService {
 
     public User updateUser(User user, UserUpdateRequest userUpdateRequest){
         user.setEmail(userUpdateRequest.email());
-        user.setPassword(passwordEncoder.encode(userUpdateRequest.password()));
+        if (userUpdateRequest.password() != null) user.setPassword(passwordEncoder.encode(userUpdateRequest.password()));
         return user;
     }
 
