@@ -1,6 +1,6 @@
 package com.nexus.dto.Employee;
 
-import com.nexus.dto.Company.CompanyResponse;
+import com.nexus.dto.User.UserResponse;
 import com.nexus.model.Employee;
 import com.nexus.model.enums.EmployeeRole;
 
@@ -13,7 +13,8 @@ public record EmployeeResponse(
         String avatar,
         EmployeeRole role,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        UserResponse user
 
 ) {
 
@@ -24,7 +25,8 @@ public record EmployeeResponse(
                 employee.getAvatar(),
                 employee.getRole(),
                 employee.getCreatedAt(),
-                employee.getUpdatedAt()
+                employee.getUpdatedAt(),
+                new UserResponse(employee.getUser())
         );
     }
 
