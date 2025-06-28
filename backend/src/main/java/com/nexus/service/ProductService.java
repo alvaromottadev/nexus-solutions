@@ -4,7 +4,7 @@ import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
 import com.nexus.dto.Product.ProductUpdateRequest;
 import com.nexus.dto.SuccessResponse;
-import com.nexus.exception.ResourceNotFoundException;
+import com.nexus.exception.ProductNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Location;
 import com.nexus.model.Product;
@@ -12,7 +12,6 @@ import com.nexus.repository.ProductRepository;
 import com.nexus.repository.specification.ProductSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -99,12 +98,12 @@ public class ProductService {
 
     public Product findByIdAndCompany(String id, Company company){
         return productRepository.findByIdAndCompanyAndDeletedAtIsNull(id, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Product"));
+                .orElseThrow(ProductNotFoundException::new);
     }
 
     private Product findByPublicIdAndCompany(String publicId, Company company) {
         return productRepository.findByPublicIdAndCompanyAndDeletedAtIsNull(publicId, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Product"));
+                .orElseThrow(ProductNotFoundException::new);
     }
 
 }

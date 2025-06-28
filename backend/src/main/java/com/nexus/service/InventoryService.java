@@ -4,7 +4,7 @@ import com.nexus.dto.Inventory.InventoryRequest;
 import com.nexus.dto.Inventory.InventoryResponse;
 import com.nexus.dto.Inventory.StockStatus;
 import com.nexus.dto.SuccessResponse;
-import com.nexus.exception.ResourceNotFoundException;
+import com.nexus.exception.InventoryNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Inventory;
 import com.nexus.model.Location;
@@ -74,12 +74,12 @@ public class InventoryService {
 
     private Inventory findByIdAndCompany(String inventoryId, Company company) {
         return inventoryRepository.findByIdAndProductCompany(inventoryId, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Inventory not found"));
+                .orElseThrow((InventoryNotFoundException::new));
     }
 
     public Inventory findByProductAndLocation(Product product, Location location) {
         return inventoryRepository.findByProductAndLocation(product, location)
-                .orElseThrow(() -> new ResourceNotFoundException("Inventory not found for product and location"));
+                .orElseThrow((InventoryNotFoundException::new));
     }
 
     public void save(Inventory inventory){

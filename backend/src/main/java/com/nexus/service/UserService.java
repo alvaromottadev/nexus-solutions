@@ -1,7 +1,7 @@
 package com.nexus.service;
 
 import com.nexus.dto.User.UserRequest;
-import com.nexus.exception.ResourceNotFoundException;
+import com.nexus.exception.UserNotFoundException;
 import com.nexus.model.User;
 import com.nexus.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +26,7 @@ public class UserService {
 
     public User findByEmail(String email){
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+                .orElseThrow((UserNotFoundException::new));
     }
 
     public User save(User user){

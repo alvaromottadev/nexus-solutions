@@ -3,8 +3,6 @@ package com.nexus.service;
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.SuccessResponse;
-import com.nexus.exception.ResourceNotFoundException;
-import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.User;
 import com.nexus.repository.CompanyRepository;
@@ -15,11 +13,9 @@ import org.springframework.stereotype.Service;
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
-    private final AddressService addressService;
 
-    public CompanyService(CompanyRepository companyRepository, AddressService addressService) {
+    public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
-        this.addressService = addressService;
     }
 
     public CompanyResponse getCompany(Company company) {

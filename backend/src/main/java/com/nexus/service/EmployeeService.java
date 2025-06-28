@@ -4,7 +4,7 @@ import com.nexus.dto.Employee.EmployeeRequest;
 import com.nexus.dto.Employee.EmployeeResponse;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
-import com.nexus.exception.ResourceNotFoundException;
+import com.nexus.exception.EmployeeNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Employee;
 import com.nexus.model.User;
@@ -81,7 +81,7 @@ public class EmployeeService {
 
     private Employee findByIdAndCompany(String employeeId, Company company){
         return employeeRepository.findByIdAndCompanyAndDeletedAtIsNull(employeeId, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee"));
+                .orElseThrow((EmployeeNotFoundException::new));
     }
 
 }

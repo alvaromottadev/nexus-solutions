@@ -4,7 +4,7 @@ import com.nexus.dto.Movement.MovementRequest;
 import com.nexus.dto.Movement.MovementResponse;
 import com.nexus.dto.MovementItem.MovementItemRequest;
 import com.nexus.dto.MovementItem.MovementItemResponse;
-import com.nexus.exception.ResourceNotFoundException;
+import com.nexus.exception.MovementNotFoundException;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.*;
 import com.nexus.model.enums.MovementType;
@@ -88,6 +88,6 @@ public class MovementService {
 
     private Movement findByIdAndCompany(String movementId, Company company) {
         return movementRepository.findByIdAndLocationCompany(movementId, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Movement not found"));
+                .orElseThrow((MovementNotFoundException::new));
     }
 }

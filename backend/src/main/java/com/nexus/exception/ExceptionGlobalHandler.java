@@ -1,6 +1,7 @@
 package com.nexus.exception;
 
 import com.nexus.dto.ErrorResponse;
+import com.nexus.utils.MessageUtils;
 import jakarta.validation.UnexpectedTypeException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -18,10 +19,10 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionGlobalHandler {
 
-    private final MessageSource messageSource;
+    private final MessageUtils messageUtils;
 
-    public ExceptionGlobalHandler(MessageSource messageSource) {
-        this.messageSource = messageSource;
+    public ExceptionGlobalHandler(MessageUtils messageUtils) {
+        this.messageUtils = messageUtils;
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -35,8 +36,49 @@ public class ExceptionGlobalHandler {
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
         return ResponseEntity
                 .status(404)
-                .body(new ErrorResponse(messageSource.getMessage("error.not.found",
-                        new Object[]{e.getMessage()}, LocaleContextHolder.getLocale())));
+                .body(new ErrorResponse(messageUtils.getMessage("error.not.found")));
+    }
+
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEmployeeNotFoundException(EmployeeNotFoundException e) {
+        return ResponseEntity
+                .status(404)
+                .body(new ErrorResponse(messageUtils.getMessage("error.employee.not.found")));
+    }
+
+    @ExceptionHandler(InventoryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleInventoryNotFoundException(InventoryNotFoundException e) {
+        return ResponseEntity
+                .status(404)
+                .body(new ErrorResponse(messageUtils.getMessage("error.inventory.not.found")));
+    }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleLocationNotFoundException(LocationNotFoundException e) {
+        return ResponseEntity
+                .status(404)
+                .body(new ErrorResponse(messageUtils.getMessage("error.location.not.found")));
+    }
+
+    @ExceptionHandler(MovementNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleMovementNotFoundException(MovementNotFoundException e) {
+        return ResponseEntity
+                .status(404)
+                .body(new ErrorResponse(messageUtils.getMessage("error.movement.not.found")));
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProductNotFoundException(ProductNotFoundException e) {
+        return ResponseEntity
+                .status(404)
+                .body(new ErrorResponse(messageUtils.getMessage("error.product.not.found")));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException e) {
+        return ResponseEntity
+                .status(404)
+                .body(new ErrorResponse(messageUtils.getMessage("error.user.not.found")));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -72,15 +114,14 @@ public class ExceptionGlobalHandler {
     public ResponseEntity<ErrorResponse> handleInsufficientStockException(InsufficientStockException e) {
         return ResponseEntity
                 .status(409)
-                .body(new ErrorResponse(messageSource.getMessage("error.insufficient.stock",
-                        new Object[]{e.getMessage()}, LocaleContextHolder.getLocale())));
+                .body(new ErrorResponse(messageUtils.getMessage("error.insufficient.stock")));
     }
 
     @ExceptionHandler(EmailSendException.class)
     public ResponseEntity<ErrorResponse> handleEmailSendException(EmailSendException e) {
         return ResponseEntity
                 .status(500)
-                .body(new ErrorResponse(messageSource.getMessage("error.mail.send", null, LocaleContextHolder.getLocale())));
+                .body(new ErrorResponse(messageUtils.getMessage("error.mail.send")));
     }
 
 }

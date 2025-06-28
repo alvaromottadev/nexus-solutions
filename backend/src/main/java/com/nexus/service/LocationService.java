@@ -5,7 +5,7 @@ import com.nexus.dto.Address.AddressResponse;
 import com.nexus.dto.Location.LocationRequest;
 import com.nexus.dto.Location.LocationResponse;
 import com.nexus.dto.SuccessResponse;
-import com.nexus.exception.ResourceNotFoundException;
+import com.nexus.exception.LocationNotFoundException;
 import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.Location;
@@ -70,7 +70,7 @@ public class LocationService {
 
     public Location findByIdAndCompany(String id, Company company){
         return locationRepository.findByIdAndCompanyAndDeletedAtIsNull(id, company)
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found"));
+                .orElseThrow((LocationNotFoundException::new));
     }
 
     private Address createAddress(AddressRequest addressRequest) {
