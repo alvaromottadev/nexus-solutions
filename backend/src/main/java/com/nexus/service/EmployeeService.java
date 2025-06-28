@@ -10,8 +10,8 @@ import com.nexus.model.Employee;
 import com.nexus.model.User;
 import com.nexus.repository.EmployeeRepository;
 import com.nexus.repository.specification.EmployeeSpecification;
+import com.nexus.utils.MessageUtils;
 import jakarta.transaction.Transactional;
-import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,14 +25,14 @@ public class EmployeeService {
 
     private final UserService userService;
     private final EmployeeRepository employeeRepository;
-    private final MessageSource messageSource;
     private final StorageService storageService;
+    private final MessageUtils messageUtils;
 
-    public EmployeeService(UserService userService, EmployeeRepository employeeRepository, MessageSource messageSource, StorageService storageService) {
+    public EmployeeService(UserService userService, EmployeeRepository employeeRepository, StorageService storageService, MessageUtils messageUtils) {
         this.userService = userService;
         this.employeeRepository = employeeRepository;
-        this.messageSource = messageSource;
         this.storageService = storageService;
+        this.messageUtils = messageUtils;
     }
 
     @Transactional
@@ -76,7 +76,7 @@ public class EmployeeService {
         Employee employee = findByIdAndCompany(employeeId, company);
         employee.setDeletedAt(LocalDateTime.now());
         employeeRepository.save(employee);
-        return new SuccessResponse(messageSource.getMessage("employee.deleted.success", null, LocaleContextHolder.getLocale()));
+        return new SuccessResponse(messageUtils.getMessage("employee.deleted.success"));
     }
 
     private Employee findByIdAndCompany(String employeeId, Company company){

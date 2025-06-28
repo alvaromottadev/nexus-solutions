@@ -10,9 +10,8 @@ import com.nexus.model.Location;
 import com.nexus.model.Product;
 import com.nexus.repository.ProductRepository;
 import com.nexus.repository.specification.ProductSpecification;
+import com.nexus.utils.MessageUtils;
 import jakarta.transaction.Transactional;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -29,14 +28,14 @@ public class ProductService {
     private final LocationService locationService;
     private final QrCodeGeneratorService qrCodeGeneratorService;
     private final StorageService storageService;
-    private final MessageSource messageSource;
+    private final MessageUtils messageUtils;
 
-    public ProductService(ProductRepository productRepository, LocationService locationService, QrCodeGeneratorService qrCodeGeneratorService, StorageService storageService, MessageSource messageSource) {
+    public ProductService(ProductRepository productRepository, LocationService locationService, QrCodeGeneratorService qrCodeGeneratorService, StorageService storageService, MessageUtils messageUtils) {
         this.productRepository = productRepository;
         this.locationService = locationService;
         this.qrCodeGeneratorService = qrCodeGeneratorService;
         this.storageService = storageService;
-        this.messageSource = messageSource;
+        this.messageUtils = messageUtils;
     }
 
     @Transactional
@@ -93,7 +92,7 @@ public class ProductService {
         Product product = findByIdAndCompany(productId, company);
         product.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
-        return new SuccessResponse(messageSource.getMessage("product.deleted.success", null, LocaleContextHolder.getLocale()));
+        return new SuccessResponse(messageUtils.getMessage("product.deleted.success"));
     }
 
     public Product findByIdAndCompany(String id, Company company){

@@ -3,8 +3,6 @@ package com.nexus.exception;
 import com.nexus.dto.ErrorResponse;
 import com.nexus.utils.MessageUtils;
 import jakarta.validation.UnexpectedTypeException;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
