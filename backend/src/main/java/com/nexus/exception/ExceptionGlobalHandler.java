@@ -81,6 +81,21 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.user.not.found")));
     }
 
+    @ExceptionHandler(DuplicateException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateException(DuplicateException e) {
+        return ResponseEntity
+                .status(409)
+                .body(new ErrorResponse(messageUtils.getMessage("error.duplicate")));
+    }
+
+    @ExceptionHandler(EmailDuplicateException.class)
+    public ResponseEntity<ErrorResponse> handleEmailDuplicateException(EmailDuplicateException e) {
+        return ResponseEntity
+                .status(409)
+                .body(new ErrorResponse(messageUtils.getMessage("error.email.duplicate")));
+    }
+
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         return ResponseEntity

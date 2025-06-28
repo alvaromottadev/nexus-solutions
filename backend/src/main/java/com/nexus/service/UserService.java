@@ -1,6 +1,7 @@
 package com.nexus.service;
 
 import com.nexus.dto.User.UserRequest;
+import com.nexus.exception.EmailDuplicateException;
 import com.nexus.exception.UserNotFoundException;
 import com.nexus.model.User;
 import com.nexus.repository.UserRepository;
@@ -19,6 +20,7 @@ public class UserService {
     }
 
     public User createUser(UserRequest userRequest){
+        existsByEmail(userRequest.email());
         String encodedPassword = passwordEncoder.encode(userRequest.password());
         User user = new User(userRequest, encodedPassword);
         return save(user);
@@ -31,6 +33,12 @@ public class UserService {
 
     public User save(User user){
         return userRepository.save(user);
+    }
+
+    private void existsByEmail(String email){
+        if (userRepository.existsByEmail(email)) {
+            throw new EmailDuplicateException();
+        }
     }
 
 }
