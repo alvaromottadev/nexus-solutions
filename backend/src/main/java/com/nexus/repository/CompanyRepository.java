@@ -10,4 +10,6 @@ public interface CompanyRepository extends JpaRepository<Company, String> {
 
     Optional<Company> findByUser(User user);
 
+    boolean existsByCnpj(String cnpj);
+
 }

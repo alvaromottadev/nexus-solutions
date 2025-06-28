@@ -93,6 +93,12 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.email.duplicate")));
     }
 
+    @ExceptionHandler(CnpjDuplicateException.class)
+    public ResponseEntity<ErrorResponse> handleCnpjDuplicateException(CnpjDuplicateException e) {
+        return ResponseEntity
+                .status(409)
+                .body(new ErrorResponse(messageUtils.getMessage("error.cnpj.duplicate")));
+    }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
@@ -127,7 +133,7 @@ public class ExceptionGlobalHandler {
     public ResponseEntity<ErrorResponse> handleInsufficientStockException(InsufficientStockException e) {
         return ResponseEntity
                 .status(409)
-                .body(new ErrorResponse(messageUtils.getMessage("error.insufficient.stock")));
+                .body(new ErrorResponse(messageUtils.getMessage("error.insufficient.stock", e.getMessage())));
     }
 
     @ExceptionHandler(EmailSendException.class)

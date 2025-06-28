@@ -3,6 +3,7 @@ package com.nexus.service;
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.SuccessResponse;
+import com.nexus.exception.CnpjDuplicateException;
 import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.User;
@@ -25,6 +26,7 @@ public class CompanyService {
 
     @Transactional
     public Company createCompany(User user, Address address, CompanyRequest companyRequest){
+        existsByCnpj(companyRequest.cnpj());
         Company company = new Company(user, address, companyRequest);
         return save(company);
     }
@@ -52,6 +54,12 @@ public class CompanyService {
 
     public Company save(Company company){
         return companyRepository.save(company);
+    }
+
+    private void existsByCnpj(String cnpj){
+        if (companyRepository.existsByCnpj(cnpj)) {
+            throw new CnpjDuplicateException();
+        }
     }
 
 }
