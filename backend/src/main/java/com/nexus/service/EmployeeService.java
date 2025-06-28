@@ -2,6 +2,7 @@ package com.nexus.service;
 
 import com.nexus.dto.Employee.EmployeeRequest;
 import com.nexus.dto.Employee.EmployeeResponse;
+import com.nexus.dto.Employee.EmployeeUpdateRequest;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.EmployeeNotFoundException;
@@ -54,12 +55,14 @@ public class EmployeeService {
     }
 
     @Transactional
-    public EmployeeResponse updateEmployee(String employeeId, EmployeeRequest employeeRequest, Company company) {
+    public EmployeeResponse updateEmployee(String employeeId, EmployeeUpdateRequest employeeRequest, Company company) {
         Employee employee = findByIdAndCompany(employeeId, company);
-        employee.setName(employeeRequest.name());
-        employee.setRole(employeeRequest.role());
-        employee.setUpdatedAt(LocalDateTime.now());
-        employeeRepository.save(employee);
+
+        if (!employee.getUser().getEmail().equals(employeeRequest.user().email())) userService.existsByEmail(employeeRequest.user().email());
+
+        userService.updateUser(employee.getUser(), employeeRequest.user());
+        employee.update(employeeRequest.employee());
+
         return new EmployeeResponse(employee);
     }
 

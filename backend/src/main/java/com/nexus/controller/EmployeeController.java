@@ -2,6 +2,7 @@ package com.nexus.controller;
 
 import com.nexus.dto.Employee.EmployeeRequest;
 import com.nexus.dto.Employee.EmployeeResponse;
+import com.nexus.dto.Employee.EmployeeUpdateRequest;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
@@ -54,7 +55,7 @@ public class EmployeeController {
     @PutMapping("/{employeeId}")
     public ResponseEntity<EmployeeResponse> updateEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                            @PathVariable String employeeId,
-                                                           @Validated @RequestBody EmployeeRequest employeeRequest) {
+                                                           @Validated @RequestBody EmployeeUpdateRequest employeeRequest) {
         EmployeeResponse response = employeeService.updateEmployee(employeeId, employeeRequest, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }

@@ -1,6 +1,7 @@
 package com.nexus.model;
 
 import com.nexus.dto.Employee.EmployeeRequest;
+import com.nexus.dto.Employee.EmployeeUpdateRequest;
 import com.nexus.model.enums.EmployeeRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -46,6 +47,12 @@ public class Employee {
     @JoinColumn(name = "company_id")
     @ManyToOne
     private Company company;
+
+    public void update(EmployeeRequest employeeRequest){
+        this.name = employeeRequest.name();
+        this.role = employeeRequest.role();
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Employee(EmployeeRequest employeeRequest, User user, Company company){
         this.name = employeeRequest.name();
