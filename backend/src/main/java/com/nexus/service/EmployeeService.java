@@ -73,11 +73,6 @@ public class EmployeeService {
         return new EmployeeResponse(employee);
     }
 
-    private boolean isRoleChangeAllowed(UserDetailsImpl userDetails) {
-        UserType currentType = userDetails.getType();
-        return (currentType == UserType.COMPANY || (currentType == UserType.EMPLOYEE && userDetails.getEmployee().getRole() == EmployeeRole.MANAGER));
-    }
-
     @Transactional
     public EmployeeResponse updateEmployeeAvatar(String employeeId, MultipartFile avatar, Company company) {
         Employee employee = findByIdAndCompany(employeeId, company);
@@ -97,6 +92,11 @@ public class EmployeeService {
     private Employee findByIdAndCompany(String employeeId, Company company){
         return employeeRepository.findByIdAndCompanyAndDeletedAtIsNull(employeeId, company)
                 .orElseThrow((EmployeeNotFoundException::new));
+    }
+
+    private boolean isRoleChangeAllowed(UserDetailsImpl userDetails) {
+        UserType currentType = userDetails.getType();
+        return (currentType == UserType.COMPANY || (currentType == UserType.EMPLOYEE && userDetails.getEmployee().getRole() == EmployeeRole.MANAGER));
     }
 
 }
