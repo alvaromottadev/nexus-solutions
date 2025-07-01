@@ -15,6 +15,8 @@ import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.User;
+import com.nexus.model.enums.EmployeeRole;
+import com.nexus.model.enums.UserType;
 import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,7 +42,8 @@ public class AuthService {
     public AuthMeResponse getMe(UserDetailsImpl userDetails){
         User user = userDetails.getUser();
         Company company = userDetails.getCompany();
-        return new AuthMeResponse(user, company);
+        EmployeeRole role = getEmployeeRole(user);
+        return new AuthMeResponse(user, company, role);
     }
 
     @Transactional
@@ -65,6 +68,14 @@ public class AuthService {
     private void validatePassword(String rawPassword, String encodedPassword){
         if (!passwordEncoder.matches(rawPassword, encodedPassword)){
             throw new BadCredentialsException("Invalid email or password");
+        }
+    }
+
+    private EmployeeRole getEmployeeRole(User user) {
+        if (user.getType() == UserType.COMPANY) {
+            return EmployeeRole.MANAGER;
+        } else {
+            return user.getEmployee().getRole();
         }
     }
 
