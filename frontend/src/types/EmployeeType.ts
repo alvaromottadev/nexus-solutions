@@ -5,4 +5,9 @@ export default interface EmployeeType {
   role: "OPERATOR" | "MANAGER" | "VIEWER";
   createdAt: string;
   updatedAt: string;
+  user: {
+    id: string;
+    email: string;
+    type: "EMPLOYEE" | "COMPANY";
+  };
 }

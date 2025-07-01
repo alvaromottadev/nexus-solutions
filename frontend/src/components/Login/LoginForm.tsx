@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import { toast } from "sonner";
 import api from "@/client/api-client";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -25,6 +26,8 @@ export default function LoginForm() {
       password: "",
     },
   });
+
+  const auth = useAuth();
 
   const navigation = useNavigate();
 
@@ -44,7 +47,7 @@ export default function LoginForm() {
           description: "Redirecionando para a página inicial.",
           duration: 2000,
         });
-        localStorage.setItem("token", res.data.token);
+        auth?.login(res.data.token);
         setTimeout(() => {
           navigation("/home");
         }, 2000);

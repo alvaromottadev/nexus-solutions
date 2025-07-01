@@ -1,6 +1,8 @@
 import type EmployeeType from "@/types/EmployeeType";
 import CustomText from "../CustomText";
 import defaultAvatar from "@/assets/default-avatar.jpg";
+import { Edit } from "lucide-react";
+import EmployeeDialog from "../Dialog/Employee/EmployeeDialog";
 
 interface EmployeeCardProps {
   employee: EmployeeType;
@@ -18,6 +20,12 @@ export default function EmployeeCard({ employee }: EmployeeCardProps) {
           <CustomText className="text-[var(--primary-color)] font-bold">
             {employee.name}
           </CustomText>
+          <CustomText>Cargo: {employee.role}</CustomText>
+        </div>
+        <div>
+          <EmployeeDialog employee={employee}>
+            <Edit color="purple" size={48} className="cursor-pointer" />
+          </EmployeeDialog>
         </div>
       </div>
     </>

@@ -1,0 +1,21 @@
+export interface AuthMeType {
+  id: string;
+  email: string;
+  type: string;
+  role: string | null;
+  company: {
+    id: string;
+    name: string;
+    address: {
+      id: string;
+      street: string;
+      number: string;
+      complement: string;
+      district: string;
+      city: string;
+      state: string;
+      postalCode: string;
+      country: string;
+    };
+  };
+}

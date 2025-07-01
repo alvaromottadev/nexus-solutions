@@ -10,22 +10,28 @@ import LocationsPage from "./pages/LocationsPage";
 import InventoryPage from "./pages/InventoryPage";
 import MovementPage from "./pages/MovementPage";
 import EmployeePage from "./pages/EmployeePage";
+import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoute from "./routes/PrivateRoute";
 
 function App() {
   return (
     <>
       <Toaster richColors />
-      <Routes>
-        <Route index element={<LandingPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
-        <Route path="home" element={<HomePage />} />
-        <Route path="products" element={<ProductsPage />} />
-        <Route path="locations" element={<LocationsPage />} />
-        <Route path="inventories" element={<InventoryPage />} />
-        <Route path="movements" element={<MovementPage />} />
-        <Route path="employees" element={<EmployeePage />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route index element={<LandingPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="home" element={<HomePage />} />
+            <Route path="products" element={<ProductsPage />} />
+            <Route path="locations" element={<LocationsPage />} />
+            <Route path="inventories" element={<InventoryPage />} />
+            <Route path="movements" element={<MovementPage />} />
+            <Route path="employees" element={<EmployeePage />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </>
   );
 }
