@@ -1,16 +1,16 @@
 package com.nexus.controller;
 
+import com.nexus.dto.Auth.AuthMeResponse;
 import com.nexus.dto.Auth.UserCompanyLoginRequest;
 import com.nexus.dto.Auth.UserCompanyLoginResponse;
 import com.nexus.dto.Auth.UserCompanyRegisterRequest;
 import com.nexus.dto.SuccessResponse;
+import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.AuthService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -21,6 +21,12 @@ public class AuthController {
 
     public AuthController(AuthService authService) {
         this.authService = authService;
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<AuthMeResponse> getMe(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        AuthMeResponse response = authService.getMe(userDetails);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")

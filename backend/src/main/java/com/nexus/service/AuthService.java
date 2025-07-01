@@ -1,6 +1,7 @@
 package com.nexus.service;
 
 import com.nexus.dto.Address.AddressRequest;
+import com.nexus.dto.Auth.AuthMeResponse;
 import com.nexus.dto.Auth.UserCompanyLoginRequest;
 import com.nexus.dto.Auth.UserCompanyLoginResponse;
 import com.nexus.dto.Auth.UserCompanyRegisterRequest;
@@ -36,6 +37,12 @@ public class AuthService {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
+    public AuthMeResponse getMe(UserDetailsImpl userDetails){
+        User user = userDetails.getUser();
+        Company company = userDetails.getCompany();
+        return new AuthMeResponse(user, company);
+    }
+
     @Transactional
     public SuccessResponse register(UserCompanyRegisterRequest registerRequest) {
         User user = userService.createUser(registerRequest.user());
@@ -54,8 +61,6 @@ public class AuthService {
 
         return new UserCompanyLoginResponse(token, new UserResponse(user), new CompanyResponse(company));
     }
-
-
 
     private void validatePassword(String rawPassword, String encodedPassword){
         if (!passwordEncoder.matches(rawPassword, encodedPassword)){
