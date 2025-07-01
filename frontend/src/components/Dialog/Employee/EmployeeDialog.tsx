@@ -33,11 +33,15 @@ import { useAuth } from "@/hooks/useAuth";
 import { editEmployeeFormSchema } from "@/schemas/editEmployeeSchema";
 
 interface EmployeeDialogProps {
+  employees: EmployeeType[];
+  setEmployees: (employees: EmployeeType[]) => void;
   employee?: EmployeeType;
   children: React.ReactNode;
 }
 
 export default function EmployeeDialog({
+  employees,
+  setEmployees,
   children,
   employee,
 }: EmployeeDialogProps) {
@@ -114,6 +118,7 @@ export default function EmployeeDialog({
       .then((res) => {
         toast.success("Funcionário cadastrado com sucesso!");
         if (image) handleUploadAvatar(res.data.id);
+        setEmployees([...res.data, ...employees]);
         setOpen(false);
       });
   }
@@ -139,6 +144,7 @@ export default function EmployeeDialog({
       })
       .then(() => {
         toast.success("Funcionário excluído com sucesso!");
+        setEmployees(employees.filter((emp) => emp.id !== employee.id));
         setOpen(false);
       });
   }
@@ -162,9 +168,12 @@ export default function EmployeeDialog({
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then(() => {
+      .then((res) => {
         toast.success("Funcionário atualizado com sucesso!");
         if (image) handleUploadAvatar(employee.id);
+        setEmployees(
+          employees.map((emp) => (emp.id === employee.id ? res.data : emp))
+        );
         setOpen(false);
       });
   }

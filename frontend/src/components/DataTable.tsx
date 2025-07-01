@@ -19,6 +19,7 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { Input } from "./ui/input";
 import SelectComponentTwo from "./SelectComponentTwo";
+import { randomUUID } from "crypto";
 
 interface DataTableProps<TData, TValue> {
   filter?: {
@@ -73,22 +74,21 @@ export default function DataTable<TData, TValue>({
 
               if (type === "input") {
                 return (
-                  <>
-                    <Input
-                      placeholder={`Filtrar por ${filterItem.label}...`}
-                      value={
-                        (table
-                          .getColumn(columnName)
-                          ?.getFilterValue() as string) ?? ""
-                      }
-                      onChange={(event) =>
-                        table
-                          .getColumn(columnName)
-                          ?.setFilterValue(event.target.value)
-                      }
-                      className="max-w-sm bg-white"
-                    />
-                  </>
+                  <Input
+                    key={columnName}
+                    placeholder={`Filtrar por ${filterItem.label}...`}
+                    value={
+                      (table
+                        .getColumn(columnName)
+                        ?.getFilterValue() as string) ?? ""
+                    }
+                    onChange={(event) =>
+                      table
+                        .getColumn(columnName)
+                        ?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm bg-white"
+                  />
                 );
               } else if (
                 type === "select" &&

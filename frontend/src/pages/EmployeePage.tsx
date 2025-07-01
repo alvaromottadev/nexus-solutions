@@ -55,7 +55,7 @@ export default function EmployeePage() {
     <>
       <div className="min-h-screen flex flex-col">
         <TopBar />
-        <EmployeeDialog>
+        <EmployeeDialog employees={employees} setEmployees={setEmployees}>
           <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
             <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">
               <Plus color="white" />
@@ -74,7 +74,12 @@ export default function EmployeePage() {
           employees.length > 0 ? (
             <div className="w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
               {employees.map((employee) => (
-                <EmployeeCard employee={employee} key={employee.id} />
+                <EmployeeCard
+                  employee={employee}
+                  employees={employees}
+                  setEmployees={setEmployees}
+                  key={employee.id}
+                />
               ))}
             </div>
           ) : (
