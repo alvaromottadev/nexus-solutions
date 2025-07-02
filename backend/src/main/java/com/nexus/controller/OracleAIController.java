@@ -1,6 +1,11 @@
 package com.nexus.controller;
 
+import com.nexus.dto.Oracle.AIRequest;
+import com.nexus.dto.Oracle.AIResponse;
+import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.OracleAIService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +22,9 @@ public class OracleAIController {
     }
 
     @PostMapping
-    public String askQuestion(@RequestBody String question){
-        return oracleAIService.askQuestion(question);
+    public AIResponse askQuestion(@Validated @RequestBody AIRequest aiRequest,
+                                  @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return oracleAIService.askQuestion(aiRequest, userDetails.getCompany().getId());
     }
 
 }

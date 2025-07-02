@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -72,7 +73,6 @@ public class ProductService {
         return productRepository.findAll(ProductSpecification.filterBy(location, code, name, company), pageable).map(ProductResponse::new);
     }
 
-
     @Transactional
     public ProductResponse updateProduct(String productId, MultipartFile file, ProductUpdateRequest productRequest, Company company) {
         Product product = findByIdAndCompany(productId, company);
@@ -93,6 +93,14 @@ public class ProductService {
         product.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
         return new SuccessResponse(messageUtils.getMessage("product.deleted.success"));
+    }
+
+    public List<ProductResponse> getProductsWithLowStock(String companyId){
+        System.out.println(companyId);
+        List<Product> products = productRepository.findAllWithLowStock(companyId);
+        return products.stream()
+                .map(ProductResponse::new)
+                .toList();
     }
 
     public Product findByIdAndCompany(String id, Company company){
