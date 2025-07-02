@@ -1,5 +1,6 @@
 export interface AuthMeType {
   id: string;
+  name: string;
   email: string;
   type: string;
   role: string | null;

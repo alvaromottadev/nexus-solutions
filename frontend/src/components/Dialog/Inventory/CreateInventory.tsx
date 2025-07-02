@@ -43,6 +43,7 @@ export default function CreateInventoryDialog({
     },
   });
 
+  const [open, setOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<ProductType[]>([]);
   const [locations, setLocations] = useState<LocationType[]>([]);
   const [productId, setProductId] = useState<string>("");
@@ -99,6 +100,7 @@ export default function CreateInventoryDialog({
       .then((res) => {
         const inventory = res.data;
         setInventories([...inventories, inventory]);
+        setOpen(false);
         resetForm();
         toast.success("Estoque cadastrado com sucesso!");
       });
@@ -113,7 +115,7 @@ export default function CreateInventoryDialog({
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
           <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">

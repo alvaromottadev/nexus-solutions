@@ -14,6 +14,10 @@ export default function LandingHeader({ scrollTo }: LoginHeaderProps) {
     navigation("/login");
   }
 
+  function handleHome() {
+    navigation("/home");
+  }
+
   return (
     <>
       <div className="h-[5rem]">
@@ -51,6 +55,12 @@ export default function LandingHeader({ scrollTo }: LoginHeaderProps) {
             className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
           >
             Sobre
+          </Button>
+          <Button
+            onClick={handleHome}
+            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
+          >
+            Home
           </Button>
           <Button
             onClick={handleLogin}

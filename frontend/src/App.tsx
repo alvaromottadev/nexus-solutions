@@ -12,6 +12,8 @@ import MovementPage from "./pages/MovementPage";
 import EmployeePage from "./pages/EmployeePage";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./routes/PrivateRoute";
+import ProfilePage from "./pages/ProfilePage";
+import { SidebarProvider } from "./components/ui/sidebar";
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
             <Route path="inventories" element={<InventoryPage />} />
             <Route path="movements" element={<MovementPage />} />
             <Route path="employees" element={<EmployeePage />} />
+            <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Routes>
       </AuthProvider>

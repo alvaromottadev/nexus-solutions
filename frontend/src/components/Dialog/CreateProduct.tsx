@@ -27,6 +27,9 @@ import { useState } from "react";
 import api from "@/client/api-client";
 import { toast } from "sonner";
 import type { ProductType } from "@/types/ProductType";
+import type { z } from "zod";
+import { createProductSchema } from "@/schemas/createProductSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface CreateProductForm {
   products: ProductType[];
@@ -37,7 +40,12 @@ export default function CreateProductDialog({
   products,
   setProducts,
 }: CreateProductForm) {
-  const form = useForm({});
+  const form = useForm<z.infer<typeof createProductSchema>>({
+    resolver: zodResolver(createProductSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
   const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<File | null | undefined>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -53,28 +61,16 @@ export default function CreateProductDialog({
     }
   }
 
-  async function handleCreate() {
+  async function handleCreate(data: z.infer<typeof createProductSchema>) {
     const formData = new FormData();
-
-    if (!form.getValues("name")) {
-      toast.error("O nome do produto é obrigatório.", {
-        description: "Por favor, preencha o campo nome.",
-        duration: 5000,
-      });
-      form.setError("name", {
-        type: "minLength",
-        message: "O nome do produto é obrigatório.",
-      });
-      return;
-    }
 
     if (image) {
       formData.append("file", image);
     }
 
-    formData.append("name", form.getValues("name"));
-    formData.append("description", form.getValues("description") || "");
-    formData.append("code", form.getValues("code") || "");
+    formData.append("name", data.name);
+    formData.append("description", data.description || "");
+    formData.append("code", data.code || "");
 
     api
       .post(`/products`, formData, {
@@ -112,68 +108,73 @@ export default function CreateProductDialog({
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
           <Form {...form}>
-            <FormFieldComponent
-              control={form.control}
-              name="name"
-              label="Nome"
-              placeholder="Ex.: Disjuntor 10A"
-              isRequired
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descrição</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="font-poppins placeholder:font-poppins"
-                      placeholder="Ex.: Ideal para proteção de circuitos elétricos residenciais e comerciais."
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
+            <form onSubmit={form.handleSubmit(handleCreate)}>
+              <FormFieldComponent
+                control={form.control}
+                name="name"
+                label="Nome"
+                placeholder="Ex.: Disjuntor 10A"
+                isRequired
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descrição</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="font-poppins placeholder:font-poppins"
+                        placeholder="Ex.: Ideal para proteção de circuitos elétricos residenciais e comerciais."
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormFieldComponent
+                control={form.control}
+                name="code"
+                label="Código"
+                placeholder="Ex.: 123456789"
+                description="Utilize o código de barras do produto."
+              />
+              <FormField
+                control={form.control}
+                name="image"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Imagem</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        onChange={(e) => handleFileChange(e)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Selecione uma imagem do produto.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {imagePreview && (
+                <img src={imagePreview} className="h-[20rem] object-contain" />
               )}
-            />
-            <FormFieldComponent
-              control={form.control}
-              name="code"
-              label="Código"
-              placeholder="Ex.: 123456789"
-              description="Utilize o código de barras do produto."
-            />
-            <FormField
-              control={form.control}
-              name="image"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Imagem</FormLabel>
-                  <FormControl>
-                    <Input type="file" onChange={(e) => handleFileChange(e)} />
-                  </FormControl>
-                  <FormDescription>
-                    Selecione uma imagem do produto.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {imagePreview && (
-              <img src={imagePreview} className="h-[20rem] object-contain" />
-            )}
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
-                  Cancelar
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
+                    Cancelar
+                  </Button>
+                </DialogClose>
+                <Button
+                  type="submit"
+                  className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer"
+                >
+                  Cadastrar
                 </Button>
-              </DialogClose>
-              <Button
-                className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer"
-                onClick={handleCreate}
-              >
-                Cadastrar
-              </Button>
-            </DialogFooter>
+              </DialogFooter>
+            </form>
           </Form>
         </div>
       </DialogContent>

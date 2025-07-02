@@ -134,7 +134,7 @@ export default function MovementPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <TopBar />
-      <CreateMovementDialog />
+      <CreateMovementDialog movements={movements} setMovements={setMovements} />
       <div className="flex flex-1 flex-col items-center w-full">
         <CustomText className="text-[var(--primary-color)] text-[2.5rem] font-bold">
           Movimentações

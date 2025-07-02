@@ -37,8 +37,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { MovementType } from "@/types/MovementType";
 
-export default function CreateMovementDialog() {
+interface CreateMovementDialogProps {
+  movements: MovementType[];
+  setMovements: (movements: MovementType[]) => void;
+}
+
+export default function CreateMovementDialog({
+  movements,
+  setMovements,
+}: CreateMovementDialogProps) {
   const form = useForm();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -158,10 +167,12 @@ export default function CreateMovementDialog() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then(() => {
+      .then((res) => {
         toast.success("Movimentação registrada com sucesso!", {
           duration: 2000,
         });
+        const movement = res.data;
+        setMovements([movement, ...movements]);
       });
     setOpen(false);
   }
