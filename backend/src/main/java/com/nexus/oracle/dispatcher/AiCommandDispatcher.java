@@ -1,8 +1,8 @@
 package com.nexus.oracle.dispatcher;
 
 import com.nexus.dto.Oracle.AIResponse;
-import com.nexus.dto.Oracle.Action;
 import com.nexus.dto.Oracle.Message;
+import com.nexus.model.Company;
 import com.nexus.oracle.command.AiCommandHandler;
 import com.nexus.utils.MessageUtils;
 import org.springframework.stereotype.Component;
@@ -24,12 +24,12 @@ public class AiCommandDispatcher {
         this.messageUtils = messageUtils;
     }
 
-    public AIResponse dispatch(AIResponse originalResponseFromAI, String companyId){
+    public AIResponse dispatch(AIResponse originalResponseFromAI, Company company){
         AiCommandHandler handler = handlers.get(originalResponseFromAI.action().name());
         if (handler == null){
-            return new AIResponse(404, originalResponseFromAI.header(), new Message("text", null, messageUtils.getMessage("oracle.command.not.found")), null);
+            return new AIResponse(400, originalResponseFromAI.header(), new Message("text", null, messageUtils.getMessage("oracle.command.not.found")), null);
         }
-        return handler.handle(originalResponseFromAI, companyId);
+        return handler.handle(originalResponseFromAI, company);
     }
 
 }

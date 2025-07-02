@@ -5,8 +5,8 @@ import com.nexus.dto.Oracle.AIRequest;
 import com.nexus.dto.Oracle.AIResponse;
 import com.nexus.dto.Oracle.Message;
 import com.nexus.infra.OracleAIConfig;
+import com.nexus.model.Company;
 import com.nexus.oracle.dispatcher.AiCommandDispatcher;
-import org.aspectj.bridge.IMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -39,7 +39,7 @@ public class OracleAIService {
         this.aiCommandDispatcher = aiCommandDispatcher;
     }
 
-    public AIResponse askQuestion(AIRequest aiRequest, String companyId){
+    public AIResponse askQuestion(AIRequest aiRequest, Company company){
 
         AIResponse originalResponseFromAI = sendToAI(aiRequest.question());
 
@@ -47,7 +47,7 @@ public class OracleAIService {
             return originalResponseFromAI;
         }
 
-        AIResponse response = aiCommandDispatcher.dispatch(originalResponseFromAI, companyId);
+        AIResponse response = aiCommandDispatcher.dispatch(originalResponseFromAI, company);
         return response;
 
     }

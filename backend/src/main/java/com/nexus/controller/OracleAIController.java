@@ -24,7 +24,7 @@ public class OracleAIController {
     @PostMapping
     public AIResponse askQuestion(@Validated @RequestBody AIRequest aiRequest,
                                   @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return oracleAIService.askQuestion(aiRequest, userDetails.getCompany().getId());
+        return oracleAIService.askQuestion(aiRequest, userDetails.getCompany());
     }
 
 }

@@ -1,10 +1,11 @@
 package com.nexus.oracle.command;
 
 import com.nexus.dto.Oracle.AIResponse;
+import com.nexus.model.Company;
 
 public interface AiCommandHandler {
 
     public String getName();
-    AIResponse handle(AIResponse originalResponseFromAI, String companyId);
+    AIResponse handle(AIResponse originalResponseFromAI, Company company);
 
 }

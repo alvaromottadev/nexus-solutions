@@ -1,6 +1,5 @@
 package com.nexus.dto.Oracle;
 
-import java.util.Map;
 
 public record AIResponse(
 
@@ -10,18 +9,5 @@ public record AIResponse(
         Action action
 
 ) {
-
-    public AIResponse(Map<String, Object> message){
-        this(
-            (Integer) message.get("status"),
-            (String) message.get("header"),
-            new Message(
-                (String) message.get("message.type"),
-                (String) message.get("message.schema"),
-                message.get("message.content")
-            ),
-            null
-        );
-    }
 
 }

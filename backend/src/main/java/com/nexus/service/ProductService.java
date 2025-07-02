@@ -95,9 +95,15 @@ public class ProductService {
         return new SuccessResponse(messageUtils.getMessage("product.deleted.success"));
     }
 
-    public List<ProductResponse> getProductsWithLowStock(String companyId){
-        System.out.println(companyId);
-        List<Product> products = productRepository.findAllWithLowStock(companyId);
+    public List<ProductResponse> getProductsWithLowStock(Company company){
+        List<Product> products = productRepository.findAllWithLowStock(company);
+        return products.stream()
+                .map(ProductResponse::new)
+                .toList();
+    }
+
+    public List<ProductResponse> getAllProducts(Company company){
+        List<Product> products = productRepository.findAll(ProductSpecification.filterBy(null, null, null, company));
         return products.stream()
                 .map(ProductResponse::new)
                 .toList();

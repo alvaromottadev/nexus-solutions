@@ -3,6 +3,7 @@ package com.nexus.oracle.command;
 import com.nexus.dto.Oracle.AIResponse;
 import com.nexus.dto.Oracle.Message;
 import com.nexus.dto.Product.ProductResponse;
+import com.nexus.model.Company;
 import com.nexus.service.ProductService;
 import com.nexus.utils.MessageUtils;
 import org.springframework.stereotype.Component;
@@ -24,9 +25,9 @@ public class GetLowStockHandler implements AiCommandHandler {
         return "get_low_stock_products";
     }
 
-    public AIResponse handle(AIResponse originalResponseFromAI, String companyId){
+    public AIResponse handle(AIResponse originalResponseFromAI, Company company){
 
-        List<ProductResponse> lowStockProducts = productService.getProductsWithLowStock(companyId);
+        List<ProductResponse> lowStockProducts = productService.getProductsWithLowStock(company);
 
         if (lowStockProducts.isEmpty()){
             return new AIResponse(200, originalResponseFromAI.header(), new Message("text", null, messageUtils.getMessage("oracle.no.low.stock.products")), null);

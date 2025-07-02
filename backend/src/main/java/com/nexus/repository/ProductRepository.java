@@ -21,9 +21,9 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     SELECT p FROM Product p
     INNER JOIN Inventory i ON p.id = i.product.id
     WHERE i.quantity < i.minStock
-        AND p.company.id = :company
+        AND p.company = :company
             AND p.deletedAt IS NULL
     """)
-    List<Product> findAllWithLowStock(@Param("company") String companyId);
+    List<Product> findAllWithLowStock(@Param("company") Company company);
 
 }
