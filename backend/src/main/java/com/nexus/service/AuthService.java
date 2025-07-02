@@ -43,7 +43,7 @@ public class AuthService {
         User user = userDetails.getUser();
         Company company = userDetails.getCompany();
         EmployeeRole role = getEmployeeRole(user);
-        return new AuthMeResponse(user, company, role);
+        return new AuthMeResponse(userDetails.getName(), user, company, role);
     }
 
     @Transactional

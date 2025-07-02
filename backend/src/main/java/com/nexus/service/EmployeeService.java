@@ -20,6 +20,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,7 +55,7 @@ public class EmployeeService {
     }
 
     public Page<EmployeeResponse> getAllEmployees(String name, Integer page, Integer size, Company company) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
         return employeeRepository.findAll(EmployeeSpecification.filterBy(name, company), pageRequest).map(EmployeeResponse::new);
     }
 

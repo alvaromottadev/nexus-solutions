@@ -43,6 +43,14 @@ public class UserDetailsImpl implements UserDetails {
         }
     }
 
+    public String getName() {
+        if (user.getType() == UserType.COMPANY){
+            return user.getCompany().getName();
+        } else {
+            return user.getEmployee().getName();
+        }
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();

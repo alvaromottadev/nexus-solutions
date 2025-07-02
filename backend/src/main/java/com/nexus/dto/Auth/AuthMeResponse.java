@@ -9,6 +9,7 @@ import com.nexus.model.enums.UserType;
 public record AuthMeResponse(
 
         String id,
+        String name,
         String email,
         UserType type,
         EmployeeRole role,
@@ -16,9 +17,10 @@ public record AuthMeResponse(
 
 ) {
 
-    public AuthMeResponse(User user, Company company, EmployeeRole role){
+    public AuthMeResponse(String name, User user, Company company, EmployeeRole role){
         this(
                 user.getId(),
+                name,
                 user.getEmail(),
                 user.getType(),
                 role,
