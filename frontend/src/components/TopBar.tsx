@@ -1,8 +1,12 @@
-import { Button } from "./ui/button";
 import { useNavigate } from "react-router";
 import SideBar from "./Sidebar";
+import TopBarButton from "./TopBarButton";
 
-export default function TopBar() {
+interface TopBarProps {
+  isOracle?: boolean;
+}
+
+export default function TopBar({ isOracle = false }: TopBarProps) {
   const navigation = useNavigate();
 
   function handleClick(page: string) {
@@ -17,60 +21,73 @@ export default function TopBar() {
             <SideBar />
           </div>
           <div className="absolute self-center flex justify-center items-center w-full">
-            <label className="font-poppins text-[var(--color-gray)] text-[2.5rem]">
+            <label
+              className={`font-poppins ${
+                isOracle ? "text-white" : "text-[var(--color-gray)]"
+              } text-[2.5rem]`}
+            >
               Nexus Solutions
             </label>
           </div>
         </div>
         <div className=" h-full hidden lg:flex items-center justify-around">
-          <Button
-            onClick={() => handleClick("home")}
-            className="bg-transparent text-[var(--primary-color)] text-[1.5rem] hover:bg-transparent border-none shadow-none cursor-pointer"
-          >
-            Nexus Solutions
-          </Button>
-          <Button
-            onClick={() => handleClick("locations")}
-            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
-          >
-            Almoxarifados
-          </Button>
-          <Button
-            onClick={() => handleClick("products")}
-            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
-          >
-            Produtos
-          </Button>
-          <Button
-            onClick={() => handleClick("inventories")}
-            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
-          >
-            Estoque
-          </Button>
-          <Button
-            onClick={() => handleClick("movements ")}
-            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
-          >
-            Movimentações
-          </Button>
-          <Button className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
-            Relatórios
-          </Button>
-          <Button className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer">
-            Oraculo
-          </Button>
-          <Button
-            onClick={() => handleClick("employees")}
-            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
-          >
-            Funcionários
-          </Button>
-          <Button
-            onClick={() => handleClick("profile")}
-            className="bg-transparent text-[var(--color-gray)] text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer"
-          >
-            Perfil
-          </Button>
+          <TopBarButton
+            onClick={handleClick}
+            label="Nexus Solutions"
+            url="home"
+            isOracle={isOracle}
+            className={`text-[1.5rem] ${
+              isOracle ? "text-white" : "text-[var(--primary-color)]"
+            }`}
+          />
+          <TopBarButton
+            onClick={handleClick}
+            label="Almoxarifados"
+            url="locations"
+            isOracle={isOracle}
+          />
+          <TopBarButton
+            onClick={handleClick}
+            label="Produtos"
+            url="products"
+            isOracle={isOracle}
+          />
+          <TopBarButton
+            onClick={handleClick}
+            label="Estoque"
+            url="inventories"
+            isOracle={isOracle}
+          />
+          <TopBarButton
+            onClick={handleClick}
+            label="Movimentações"
+            url="movements"
+            isOracle={isOracle}
+          />
+          <TopBarButton
+            onClick={handleClick}
+            label="Relatórios"
+            url="reports"
+            isOracle={isOracle}
+          />
+          <TopBarButton
+            onClick={handleClick}
+            label="Oraculo"
+            url="oracle"
+            isOracle={isOracle}
+          />
+          <TopBarButton
+            onClick={handleClick}
+            label="Funcionários"
+            url="employees"
+            isOracle={isOracle}
+          />
+          <TopBarButton
+            onClick={handleClick}
+            label="Perfil"
+            url="profile"
+            isOracle={isOracle}
+          />
         </div>
       </div>
     </>
