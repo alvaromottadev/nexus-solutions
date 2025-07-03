@@ -43,8 +43,7 @@ public class MovementsByTypeHandler implements AiCommandHandler {
                             "text",
                             null,
                             messageUtils.getMessage("oracle.no.movements")
-                    ),
-                    null
+                    )
             );
         }
 
@@ -55,8 +54,7 @@ public class MovementsByTypeHandler implements AiCommandHandler {
                         "list",
                         "movement",
                         movementsByType
-                ),
-                null
+                )
         );
     }
 

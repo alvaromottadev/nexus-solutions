@@ -31,16 +31,14 @@ public class ListLocationsHandler implements AiCommandHandler{
             return new AIResponse(
                     200,
                     originalResponseFromAI.header(),
-                    new Message("text", null, messageUtils.getMessage("oracle.no.locations.found")),
-                    null
+                    new Message("text", null, messageUtils.getMessage("oracle.no.locations.found"))
             );
         }
 
         return new AIResponse(
                 200,
                 originalResponseFromAI.header(),
-                new Message("list", "location", locations),
-                null
+                new Message("list", "location", locations)
         );
 
     }

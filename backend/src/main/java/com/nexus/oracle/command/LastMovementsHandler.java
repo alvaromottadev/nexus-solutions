@@ -30,16 +30,14 @@ public class LastMovementsHandler implements AiCommandHandler  {
             return new AIResponse(
                     200,
                     originalResponseFromAI.header(),
-                    new com.nexus.dto.Oracle.Message("text", null, messageUtils.getMessage("oracle.no.last.movements")),
-                    null
+                    new com.nexus.dto.Oracle.Message("text", null, messageUtils.getMessage("oracle.no.last.movements"))
             );
         }
 
         return new AIResponse(
                 200,
                 originalResponseFromAI.header(),
-                new com.nexus.dto.Oracle.Message("list", "movement", lastMovements),
-                null
+                new com.nexus.dto.Oracle.Message("list", "movement", lastMovements)
         );
     }
 }

@@ -30,8 +30,7 @@ public class EmployeesQuantityHandler implements AiCommandHandler {
                         "text",
                         null,
                         messageUtils.getMessage("oracle.employees.quantity", employeesQuantity)
-                ),
-                null
+                )
         );
     }
 }

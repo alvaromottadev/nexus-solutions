@@ -31,16 +31,14 @@ public class ListAllProductsHandler implements AiCommandHandler {
             return new AIResponse(
                     200,
                     originalResponseFromAI.header(),
-                    new Message("text", null, messageUtils.getMessage("oracle.no.products.found")),
-                    null
+                    new Message("text", null, messageUtils.getMessage("oracle.no.products.found"))
             );
         }
 
         return new AIResponse(
                 200,
                 originalResponseFromAI.header(),
-                new Message("list", "product", products),
-                null
+                new Message("list", "product", products)
         );
 
     };

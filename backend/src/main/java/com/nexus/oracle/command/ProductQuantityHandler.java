@@ -33,7 +33,7 @@ public class ProductQuantityHandler implements AiCommandHandler {
                         "text",
                         null,
                         messageUtils.getMessage("oracle.product.quantity", productName, productQuantity)
-                ), null
+                )
         );
     }
 

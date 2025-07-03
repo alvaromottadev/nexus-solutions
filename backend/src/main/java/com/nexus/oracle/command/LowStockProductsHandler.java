@@ -30,10 +30,10 @@ public class LowStockProductsHandler implements AiCommandHandler {
         List<ProductResponse> lowStockProducts = productService.getProductsWithLowStock(company);
 
         if (lowStockProducts.isEmpty()){
-            return new AIResponse(200, originalResponseFromAI.header(), new Message("text", null, messageUtils.getMessage("oracle.no.low.stock.products")), null);
+            return new AIResponse(200, originalResponseFromAI.header(), new Message("text", null, messageUtils.getMessage("oracle.no.low.stock.products")));
         }
 
-        return new AIResponse(200, originalResponseFromAI.header(), new Message("list", "product", lowStockProducts), null);
+        return new AIResponse(200, originalResponseFromAI.header(), new Message("list", "product", lowStockProducts));
     }
 
 }

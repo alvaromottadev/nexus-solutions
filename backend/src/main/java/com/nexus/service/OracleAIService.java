@@ -72,7 +72,7 @@ public class OracleAIService {
         catch (Exception e) {
             e.printStackTrace();
         }
-        return new AIResponse(400, "Error", new Message("text", null, "An error occurred while processing your request."), null);
+        return new AIResponse(400, "Error", new Message("text", null, "An error occurred while processing your request."));
     }
 
     private JSONObject createRequestBody(String question){

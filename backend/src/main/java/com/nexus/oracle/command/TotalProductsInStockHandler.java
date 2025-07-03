@@ -28,8 +28,7 @@ public class TotalProductsInStockHandler implements AiCommandHandler {
         return new AIResponse(
                 200,
                 originalResponseFromAI.header(),
-                new Message("text", null, messageUtils.getMessage("oracle.total.products.in.stock", totalProductsInStock)),
-                null
+                new Message("text", null, messageUtils.getMessage("oracle.total.products.in.stock", totalProductsInStock))
         );
 
     }

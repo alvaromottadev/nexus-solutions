@@ -27,7 +27,7 @@ public class AiCommandDispatcher {
     public AIResponse dispatch(AIResponse originalResponseFromAI, Company company){
         AiCommandHandler handler = handlers.get(originalResponseFromAI.action().name());
         if (handler == null){
-            return new AIResponse(400, originalResponseFromAI.header(), new Message("text", null, messageUtils.getMessage("oracle.command.not.found")), null);
+            return new AIResponse(400, originalResponseFromAI.header(), new Message("text", null, messageUtils.getMessage("oracle.command.not.found")));
         }
         return handler.handle(originalResponseFromAI, company);
     }

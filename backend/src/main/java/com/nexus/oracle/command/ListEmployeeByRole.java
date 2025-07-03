@@ -39,8 +39,7 @@ public class ListEmployeeByRole implements AiCommandHandler {
                             "text",
                             null,
                             messageUtils.getMessage("oracle.no.employees.found.by.role")
-                    ),
-                    null
+                    )
             );
         }
 
@@ -51,8 +50,7 @@ public class ListEmployeeByRole implements AiCommandHandler {
                         "list",
                         "employee",
                         employeesByRole
-                ),
-                null
+                )
         );
     }
 }

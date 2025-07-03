@@ -33,16 +33,14 @@ public class ProductLocationHandler implements AiCommandHandler{
             return new AIResponse(
                     404,
                     originalResponseFromAI.header(),
-                    new Message("text", null, messageUtils.getMessage("oracle.product.location.not.found", productName)),
-                    null
+                    new Message("text", null, messageUtils.getMessage("oracle.product.location.not.found", productName))
             );
         }
 
         return new AIResponse(
                 200,
                 originalResponseFromAI.header(),
-                new Message("list", "location", locations),
-                null
+                new Message("list", "location", locations)
         );
     }
 }
