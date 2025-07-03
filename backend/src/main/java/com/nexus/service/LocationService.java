@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class LocationService {
@@ -66,6 +67,26 @@ public class LocationService {
         location.setDeletedAt(LocalDateTime.now());
         locationRepository.save(location);
         return new SuccessResponse("Location deleted successfully");
+    }
+
+    public List<LocationResponse> getAllLocations(Company company){
+        return locationRepository.findAll(LocationSpecification.filterBy(company, null))
+                .stream()
+                .map(location -> {
+                    AddressResponse addressResponse = new AddressResponse(location.getAddress());
+                    return new LocationResponse(location, addressResponse);
+                })
+                .toList();
+    }
+
+    public List<LocationResponse> getLocationByProductName(String productName, Company company){
+        return locationRepository.getLocationByProduct(productName, company)
+                .stream()
+                .map(location -> {
+                    AddressResponse addressResponse = new AddressResponse(location.getAddress());
+                    return new LocationResponse(location, addressResponse);
+                })
+                .toList();
     }
 
     public Location findByIdAndCompany(String id, Company company){

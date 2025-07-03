@@ -76,19 +76,6 @@ public class OracleAIService {
     }
 
     private JSONObject createRequestBody(String question){
-//        Map<String, Object> system = Map.of(
-//                "role", "system",
-//                "content", prompt
-//        );
-//        Map<String, Object> user = Map.of(
-//                "role", "user",
-//                "content", question
-//        );
-//
-//        return Map.of(
-//                "model", "Qwen/Qwen2.5-Coder-32B-Instruct",
-//                "messages", List.of(system, user)
-//        );
 
         JSONObject body = new JSONObject();
 

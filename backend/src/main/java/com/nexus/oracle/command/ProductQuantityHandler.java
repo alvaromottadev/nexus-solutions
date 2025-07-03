@@ -23,7 +23,7 @@ public class ProductQuantityHandler implements AiCommandHandler {
     }
 
     public AIResponse handle(AIResponse originalResponseFromAI, Company company) {
-        String productName = (String) originalResponseFromAI.action().params().get("product");
+        String productName = originalResponseFromAI.action().params().get("product").toString();
         Integer productQuantity = productService.getProductQuantity(productName, company);
 
         if (productQuantity == null) {
