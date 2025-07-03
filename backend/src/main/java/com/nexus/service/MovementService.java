@@ -56,6 +56,19 @@ public class MovementService {
                 .toList();
     }
 
+    public List<MovementResponse> getMovementsByType(String type, String period, Company company){
+        Integer daysBefore = validatePeriod(period);
+        return movementRepository.findAll(MovementSpecification.filterBy(
+                MovementType.valueOf(type),
+                LocalDateTime.now().minusDays(daysBefore),
+                LocalDateTime.now(),
+                company))
+                .stream().map(movement -> new MovementResponse(movement,
+                        movement.getMovementItems().stream().map(MovementItemResponse::new)
+                                .toList()))
+                .toList();
+    }
+
     public MovementResponse getMovementById(String movementId, Company company){
         Movement movement = findByIdAndCompany(movementId, company);
         return new MovementResponse(movement, movement.getMovementItems().stream().map(MovementItemResponse::new).toList());
@@ -96,4 +109,11 @@ public class MovementService {
         return movementRepository.findByIdAndLocationCompany(movementId, company)
                 .orElseThrow((MovementNotFoundException::new));
     }
+
+    private Integer validatePeriod(String period){
+        if (period.equals("last_week")) return 7;
+        if (period.equals("last_month")) return 30;
+        return 90;
+    }
+
 }
