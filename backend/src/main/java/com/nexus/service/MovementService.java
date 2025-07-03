@@ -50,6 +50,12 @@ public class MovementService {
         return new MovementResponse(movement, movementItemResponses);
     }
 
+    public List<MovementResponse> getLastMovements(Company company){
+        return movementRepository.getLastMovements(company).stream()
+                .map(movement -> new MovementResponse(movement, movement.getMovementItems().stream().map(MovementItemResponse::new).toList()))
+                .toList();
+    }
+
     public MovementResponse getMovementById(String movementId, Company company){
         Movement movement = findByIdAndCompany(movementId, company);
         return new MovementResponse(movement, movement.getMovementItems().stream().map(MovementItemResponse::new).toList());
