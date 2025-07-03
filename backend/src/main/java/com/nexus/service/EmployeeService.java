@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeService {
@@ -92,6 +93,13 @@ public class EmployeeService {
 
     public Integer getEmployeesQuantity(Company company){
         return employeeRepository.getEmployeesQuantity(company).orElse(0);
+    }
+
+    public List<EmployeeResponse> getEmployeesByRole(EmployeeRole role, Company company) {
+        List<Employee> employees = employeeRepository.getEmployeesByRole(role, company);
+        return employees.stream()
+                .map(EmployeeResponse::new)
+                .toList();
     }
 
     private Employee findByIdAndCompany(String employeeId, Company company){
