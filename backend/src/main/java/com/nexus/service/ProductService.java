@@ -113,6 +113,10 @@ public class ProductService {
         return productRepository.getTotalProductsInStock(company);
     }
 
+    public Integer getProductQuantity(String productName, Company company){
+        return productRepository.getProductQuantity(productName, company);
+    }
+
     public Product findByIdAndCompany(String id, Company company){
         return productRepository.findByIdAndCompanyAndDeletedAtIsNull(id, company)
                 .orElseThrow(ProductNotFoundException::new);
