@@ -26,4 +26,13 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     """)
     List<Product> findAllWithLowStock(@Param("company") Company company);
 
+    @Query("""
+    SELECT COUNT(p) FROM Product p
+        INNER JOIN Inventory i ON p.id = i.product.id
+        WHERE p.company = :company
+            AND p.deletedAt IS NULL
+                AND i.quantity > i.minStock
+    """)
+    Integer getTotalProductsInStock(@Param("company") Company company);
+
 }

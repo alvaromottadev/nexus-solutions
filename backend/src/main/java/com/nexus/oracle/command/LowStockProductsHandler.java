@@ -11,18 +11,18 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetLowStockHandler implements AiCommandHandler {
+public class LowStockProductsHandler implements AiCommandHandler {
 
     private final ProductService productService;
     private final MessageUtils messageUtils;
 
-    public GetLowStockHandler(ProductService productService, MessageUtils messageUtils) {
+    public LowStockProductsHandler(ProductService productService, MessageUtils messageUtils) {
         this.productService = productService;
         this.messageUtils = messageUtils;
     }
 
     public String getName(){
-        return "get_low_stock_products";
+        return "low_stock_products";
     }
 
     public AIResponse handle(AIResponse originalResponseFromAI, Company company){
