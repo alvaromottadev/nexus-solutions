@@ -90,6 +90,10 @@ public class EmployeeService {
         return new SuccessResponse(messageUtils.getMessage("employee.deleted.success"));
     }
 
+    public Integer getEmployeesQuantity(Company company){
+        return employeeRepository.getEmployeesQuantity(company).orElse(0);
+    }
+
     private Employee findByIdAndCompany(String employeeId, Company company){
         return employeeRepository.findByIdAndCompanyAndDeletedAtIsNull(employeeId, company)
                 .orElseThrow((EmployeeNotFoundException::new));

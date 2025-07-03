@@ -42,6 +42,6 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
             AND p.company = :company
                 AND p.deletedAt IS NULL
     """)
-    Integer getProductQuantity(@Param("productName") String productName, @Param("company") Company company);
+    Optional<Integer> getProductQuantity(@Param("productName") String productName, @Param("company") Company company);
 
 }

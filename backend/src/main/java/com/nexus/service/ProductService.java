@@ -114,7 +114,7 @@ public class ProductService {
     }
 
     public Integer getProductQuantity(String productName, Company company){
-        return productRepository.getProductQuantity(productName, company);
+        return productRepository.getProductQuantity(productName, company).orElse(0);
     }
 
     public Product findByIdAndCompany(String id, Company company){

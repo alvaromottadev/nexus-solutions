@@ -26,15 +26,6 @@ public class ProductQuantityHandler implements AiCommandHandler {
         String productName = originalResponseFromAI.action().params().get("product").toString();
         Integer productQuantity = productService.getProductQuantity(productName, company);
 
-        if (productQuantity == null) {
-            return new AIResponse(
-                    404,
-                    originalResponseFromAI.header(),
-                    new Message("text", null, messageUtils.getMessage("oracle.product.not.found", productName)),
-                    null
-            );
-        }
-
         return new AIResponse(
                 200,
                 originalResponseFromAI.header(),
