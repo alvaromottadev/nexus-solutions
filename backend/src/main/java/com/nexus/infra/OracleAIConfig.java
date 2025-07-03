@@ -14,7 +14,8 @@ public class OracleAIConfig {
     public HttpHeaders defaultHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(apiKey);
+//        headers.setBearerAuth(apiKey);
+        headers.set("X-goog-api-key", apiKey);
         return headers;
     }
 }

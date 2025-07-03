@@ -7,6 +7,8 @@ import com.nexus.dto.Oracle.Message;
 import com.nexus.infra.OracleAIConfig;
 import com.nexus.model.Company;
 import com.nexus.oracle.dispatcher.AiCommandDispatcher;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -56,9 +58,9 @@ public class OracleAIService {
         try {
             HttpHeaders headers = config.defaultHeaders();
 
-            Map<String, Object> body = createRequestBody(question);
+            JSONObject body = createRequestBody(question);
 
-            HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(body.toMap(), headers);
 
             ResponseEntity<Map> response = restTemplate.postForEntity(OPENAI_URL, request, Map.class);
 
@@ -73,30 +75,63 @@ public class OracleAIService {
         return new AIResponse(400, "Error", new Message("text", null, "An error occurred while processing your request."), null);
     }
 
-    private Map<String, Object> createRequestBody(String question){
-        Map<String, Object> system = Map.of(
-                "role", "system",
-                "content", prompt
-        );
-        Map<String, Object> user = Map.of(
-                "role", "user",
-                "content", question
-        );
+    private JSONObject createRequestBody(String question){
+//        Map<String, Object> system = Map.of(
+//                "role", "system",
+//                "content", prompt
+//        );
+//        Map<String, Object> user = Map.of(
+//                "role", "user",
+//                "content", question
+//        );
+//
+//        return Map.of(
+//                "model", "Qwen/Qwen2.5-Coder-32B-Instruct",
+//                "messages", List.of(system, user)
+//        );
 
-        return Map.of(
-                "model", "meta-llama/Llama-3-8b-chat-hf",
-                "messages", List.of(system, user)
-        );
+        JSONObject body = new JSONObject();
 
+        JSONArray contents = new JSONArray();
+
+        JSONObject instruction = new JSONObject();
+        instruction.put("role", "user");
+
+        JSONArray instructionParts = new JSONArray();
+        instructionParts.put(new JSONObject().put("text", prompt));
+
+        instruction.put("parts", instructionParts);
+        contents.put(instruction);
+
+        JSONObject questionMessage = new JSONObject();
+        questionMessage.put("role", "user");
+
+        JSONArray questionParts = new JSONArray();
+
+        questionParts.put(new JSONObject().put("text", question));
+
+        questionMessage.put("parts", questionParts);
+
+        contents.put(questionMessage);
+
+        body.put("contents", contents);
+
+        return body;
     }
 
     private AIResponse processResponse(ResponseEntity<Map> response) throws Exception {
-        List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
+
+        List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.getBody().get("candidates");
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> rawAiMessage = (Map<String, Object>) choices.get(0).get("message");
+        Map<String, Object> content = (Map<String, Object>) candidates.getFirst().get("content");
 
-        String rawJson = rawAiMessage.get("content").toString();
+        List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
+
+        String context = (String) parts.getFirst().get("text");
+
+        String rawJson = context.replaceAll("(?s)```json\\s*|\\s*```", "").trim();
+
         return objectMapper.readValue(rawJson, AIResponse.class);
     }
 
