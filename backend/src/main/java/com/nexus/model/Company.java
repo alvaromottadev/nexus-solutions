@@ -53,6 +53,7 @@ public class Company {
     public void update(CompanyUpdateRequest companyUpdateRequest) {
         this.name = companyUpdateRequest.name();
         this.address.update(companyUpdateRequest.address());
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Company(User user, Address address, CompanyRequest data){
