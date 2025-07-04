@@ -1,5 +1,6 @@
 package com.nexus.controller;
 
+import com.nexus.dto.AvatarResponse;
 import com.nexus.dto.Employee.EmployeeResponse;
 import com.nexus.dto.Employee.EmployeeUpdateByIdRequest;
 import com.nexus.dto.Employee.EmployeeUpdateRequest;
@@ -68,12 +69,21 @@ public class EmployeeController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("#userDetails.type.name() == 'EMPLOYEE'")
+    @PutMapping("/avatar")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AvatarResponse> updateEmployeeAvatar(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                 @RequestPart(value = "avatar") MultipartFile avatar) {
+        AvatarResponse response = employeeService.updateEmployeeAvatar(userDetails.getEmployee(), avatar);
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping("/{employeeId}/avatar")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<EmployeeResponse> updateEmployeeAvatar(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                 @PathVariable String employeeId,
-                                                                 @RequestPart(value = "avatar") MultipartFile avatar) {
-        EmployeeResponse response = employeeService.updateEmployeeAvatar(employeeId, avatar, userDetails.getCompany());
+    public ResponseEntity<AvatarResponse> updateEmployeeAvatarById(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                   @PathVariable String employeeId,
+                                                                   @RequestPart(value = "avatar") MultipartFile avatar) {
+        AvatarResponse response = employeeService.updateEmployeeAvatarById(employeeId, avatar, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 

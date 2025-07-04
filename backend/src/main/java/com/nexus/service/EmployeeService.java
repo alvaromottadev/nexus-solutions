@@ -1,5 +1,6 @@
 package com.nexus.service;
 
+import com.nexus.dto.AvatarResponse;
 import com.nexus.dto.Employee.EmployeeResponse;
 import com.nexus.dto.Employee.EmployeeUpdateByIdRequest;
 import com.nexus.dto.Employee.EmployeeUpdateRequest;
@@ -18,7 +19,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -81,11 +81,16 @@ public class EmployeeService {
     }
 
     @Transactional
-    public EmployeeResponse updateEmployeeAvatar(String employeeId, MultipartFile avatar, Company company) {
+    public AvatarResponse updateEmployeeAvatarById(String employeeId, MultipartFile avatar, Company company) {
         Employee employee = findByIdAndCompany(employeeId, company);
-        String avatarUrl = storageService.uploadImage(avatar, "avatar_" + employee.getId());
-        employee.setAvatar(avatarUrl);
-        return new EmployeeResponse(employee);
+        String avatarUrl = uploadAvatar(employee, avatar);
+        return new AvatarResponse(avatarUrl);
+    }
+
+    @Transactional
+    public AvatarResponse updateEmployeeAvatar(Employee employee, MultipartFile avatar){
+        String avatarUrl = uploadAvatar(employee, avatar);
+        return new AvatarResponse(avatarUrl);
     }
 
     @Transactional
@@ -110,6 +115,13 @@ public class EmployeeService {
     private Employee findByIdAndCompany(String employeeId, Company company){
         return employeeRepository.findByIdAndCompanyAndDeletedAtIsNull(employeeId, company)
                 .orElseThrow((EmployeeNotFoundException::new));
+    }
+
+    private String uploadAvatar(Employee employee, MultipartFile avatar){
+        String avatarUrl = storageService.uploadImage(avatar, "avatar_" + employee.getId());
+        employee.setAvatar(avatarUrl);
+        employeeRepository.save(employee);
+        return avatarUrl;
     }
 
 }
