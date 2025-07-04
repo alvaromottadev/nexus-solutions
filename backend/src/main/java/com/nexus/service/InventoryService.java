@@ -4,6 +4,7 @@ import com.nexus.dto.Inventory.InventoryRequest;
 import com.nexus.dto.Inventory.InventoryResponse;
 import com.nexus.dto.Inventory.StockStatus;
 import com.nexus.dto.SuccessResponse;
+import com.nexus.exception.InventoryAlreadyExistsException;
 import com.nexus.exception.InventoryNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Inventory;
@@ -32,6 +33,9 @@ public class InventoryService {
     public InventoryResponse createInventory(InventoryRequest inventoryRequest, Company company){
         Location location = locationService.findByIdAndCompany(inventoryRequest.locationId(), company);
         Product product = productService.findByIdAndCompany(inventoryRequest.productId(), company);
+
+        validateInventoryDoesNotExist(product, location);
+
         Inventory inventory = new Inventory(inventoryRequest, location, product);
         StockStatus status = getStockStatus(inventory);
         inventoryRepository.save(inventory);
@@ -97,6 +101,12 @@ public class InventoryService {
             return StockStatus.OUT_OF_STOCK;
         } else {
             return StockStatus.OK;
+        }
+    }
+
+    private void validateInventoryDoesNotExist(Product product, Location location){
+        if (inventoryRepository.validateInventoryDoesNotExist(product, location)){
+            throw new InventoryAlreadyExistsException();
         }
     }
 

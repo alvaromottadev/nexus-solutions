@@ -165,6 +165,13 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.invalid.password")));
     }
 
+    @ExceptionHandler(InventoryAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleInventoryAlreadyExistsException(InventoryAlreadyExistsException e) {
+        return ResponseEntity
+                .status(409)
+                .body(new ErrorResponse(messageUtils.getMessage("error.inventory.already.exists")));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         return ResponseEntity
