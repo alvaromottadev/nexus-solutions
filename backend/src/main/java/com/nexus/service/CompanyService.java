@@ -2,6 +2,7 @@ package com.nexus.service;
 
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
+import com.nexus.dto.Company.CompanyUpdateRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.CnpjDuplicateException;
 import com.nexus.model.Address;
@@ -15,16 +16,17 @@ import org.springframework.stereotype.Service;
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
+    private final UserService userService;
 
-    public CompanyService(CompanyRepository companyRepository) {
+    public CompanyService(CompanyRepository companyRepository, UserService userService) {
         this.companyRepository = companyRepository;
+        this.userService = userService;
     }
 
     public CompanyResponse getCompany(Company company) {
         return new CompanyResponse(company);
     }
 
-    @Transactional
     public Company createCompany(User user, Address address, CompanyRequest companyRequest){
         existsByCnpj(companyRequest.cnpj());
         Company company = new Company(user, address, companyRequest);
@@ -32,9 +34,14 @@ public class CompanyService {
     }
 
     @Transactional
-    public CompanyResponse updateCompany(CompanyRequest companyRequest, Company company) {
-        company.update(companyRequest);
+    public CompanyResponse updateCompany(CompanyUpdateRequest companyUpdateRequest, Company company) {
+
+        userService.validatePassword(company.getUser(), companyUpdateRequest.password());
+        userService.updateUserWithoutPassword(company.getUser(), companyUpdateRequest.email());
+
+        company.update(companyUpdateRequest);
         companyRepository.save(company);
+
         return new CompanyResponse(company);
     }
 

@@ -37,10 +37,20 @@ public class UserService {
         user.setPassword(encodedPassword);
     }
 
-    public void updateUser(User user, String email, String newPassword){
+    public void updateUserWithPassword(User user, String email, String newPassword){
+        updateUserAttributes(user, email, newPassword);
+    }
+
+    public void updateUserWithoutPassword(User user, String email){
+        updateUserAttributes(user, email, null);
+    }
+
+    private void updateUserAttributes(User user, String email, String newPassword){
         validateEmail(user, email);
         user.setEmail(email);
-        if (newPassword != null && !newPassword.isEmpty()) updatePassword(user, newPassword);
+        if (newPassword != null && !newPassword.isEmpty()) {
+            updatePassword(user, newPassword);
+        }
         save(user);
     }
 

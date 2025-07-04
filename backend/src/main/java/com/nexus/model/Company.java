@@ -1,6 +1,7 @@
 package com.nexus.model;
 
 import com.nexus.dto.Company.CompanyRequest;
+import com.nexus.dto.Company.CompanyUpdateRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,13 +50,9 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Location> locations;
 
-    public void update(CompanyRequest companyRequest) {
-        this.name = companyRequest.name();
-        this.cnpj = companyRequest.cnpj();
-        this.updatedAt = LocalDateTime.now();
-        if (companyRequest.address() != null) {
-            this.address.update(companyRequest.address());
-        }
+    public void update(CompanyUpdateRequest companyUpdateRequest) {
+        this.name = companyUpdateRequest.name();
+        this.address.update(companyUpdateRequest.address());
     }
 
     public Company(User user, Address address, CompanyRequest data){

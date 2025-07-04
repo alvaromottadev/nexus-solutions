@@ -2,6 +2,7 @@ package com.nexus.controller;
 
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
+import com.nexus.dto.Company.CompanyUpdateRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.CompanyService;
@@ -27,15 +28,15 @@ public class CompanyController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @PreAuthorize("hasRole('COMPANY')")
     @PutMapping
     public ResponseEntity<CompanyResponse> updateCompany(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                            @Validated @RequestBody CompanyRequest companyRequest) {
-        CompanyResponse response = companyService.updateCompany(companyRequest, userDetails.getCompany());
+                                                            @Validated @RequestBody CompanyUpdateRequest companyUpdateRequest) {
+        CompanyResponse response = companyService.updateCompany(companyUpdateRequest, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAnyRole('COMPANY')")
+    @PreAuthorize("hasRole('COMPANY')")
     @DeleteMapping
     public ResponseEntity<SuccessResponse> deleteCompany(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         SuccessResponse response = companyService.deleteCompany(userDetails.getCompany());

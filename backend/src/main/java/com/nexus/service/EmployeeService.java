@@ -62,7 +62,7 @@ public class EmployeeService {
     public EmployeeResponse updateEmployee(Employee employee, EmployeeUpdateRequest employeeUpdateRequest){
 
         userService.validatePassword(employee.getUser(), employeeUpdateRequest.password());
-        userService.updateUser(employee.getUser(), employeeUpdateRequest.email(), employeeUpdateRequest.password());
+        userService.updateUserWithoutPassword(employee.getUser(), employeeUpdateRequest.email());
 
         employee.update(employeeUpdateRequest.name());
 
@@ -74,7 +74,7 @@ public class EmployeeService {
     public EmployeeResponse updateEmployeeById(String employeeId, EmployeeUpdateByIdRequest employeeUpdateRequest, UserDetailsImpl userDetails) {
         Employee employee = findByIdAndCompany(employeeId, userDetails.getCompany());
 
-        userService.updateUser(employee.getUser(), employeeUpdateRequest.user().email(), employeeUpdateRequest.user().password());
+        userService.updateUserWithPassword(employee.getUser(), employeeUpdateRequest.user().email(), employeeUpdateRequest.user().password());
         employee.update(employeeUpdateRequest);
 
         return new EmployeeResponse(employee);
