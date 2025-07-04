@@ -53,6 +53,10 @@ public class EmployeeService {
         return new EmployeeResponse(employee);
     }
 
+    public EmployeeResponse getMyEmployee(Employee employee){
+        return new EmployeeResponse(employee);
+    }
+
     public Page<EmployeeResponse> getAllEmployees(String name, Integer page, Integer size, Company company) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
         return employeeRepository.findAll(EmployeeSpecification.filterBy(name, company), pageRequest).map(EmployeeResponse::new);

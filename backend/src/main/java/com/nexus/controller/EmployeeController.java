@@ -43,6 +43,13 @@ public class EmployeeController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("#userDetails.type.name() == 'EMPLOYEE'")
+    @GetMapping("/me")
+    public ResponseEntity<EmployeeResponse> getMyEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        EmployeeResponse response = employeeService.getMyEmployee(userDetails.getEmployee());
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping
     public ResponseEntity<Page<EmployeeResponse>> getAllEmployees(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                   @RequestParam(required = false) String name,
@@ -78,6 +85,7 @@ public class EmployeeController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @PutMapping("/{employeeId}/avatar")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AvatarResponse> updateEmployeeAvatarById(@AuthenticationPrincipal UserDetailsImpl userDetails,
