@@ -38,7 +38,7 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     @Query("""
     SELECT SUM(i.quantity) FROM Product p
         INNER JOIN Inventory i ON p.id = i.product.id
-        WHERE p.name LIKE CONCAT('%', :productName, '%')
+        WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :productName, '%'))
             AND p.company = :company
                 AND p.deletedAt IS NULL
     """)
