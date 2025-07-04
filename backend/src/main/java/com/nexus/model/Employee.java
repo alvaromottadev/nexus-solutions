@@ -1,7 +1,7 @@
 package com.nexus.model;
 
 import com.nexus.dto.Employee.EmployeeRequest;
-import com.nexus.dto.Employee.EmployeeUpdateRequest;
+import com.nexus.dto.Employee.EmployeeUpdateByIdRequest;
 import com.nexus.model.enums.EmployeeRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -48,10 +48,14 @@ public class Employee {
     @ManyToOne
     private Company company;
 
-    public void update(EmployeeUpdateRequest employeeRequest){
+    public void update(String name){
+        this.name = name;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void update(EmployeeUpdateByIdRequest employeeRequest){
         this.name = employeeRequest.name();
-        if (employeeRequest.role() != null)
-            this.role = employeeRequest.role();
+        this.role = employeeRequest.role();
         this.updatedAt = LocalDateTime.now();
     }
 

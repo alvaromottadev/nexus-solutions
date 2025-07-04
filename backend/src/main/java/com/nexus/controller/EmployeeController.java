@@ -1,7 +1,7 @@
 package com.nexus.controller;
 
-import com.nexus.dto.Employee.EmployeeRequest;
 import com.nexus.dto.Employee.EmployeeResponse;
+import com.nexus.dto.Employee.EmployeeUpdateByIdRequest;
 import com.nexus.dto.Employee.EmployeeUpdateRequest;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
@@ -51,12 +51,20 @@ public class EmployeeController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER') or #userDetails.employee.id == #employeeId")
-    @PutMapping("/{employeeId}")
+    @PreAuthorize("#userDetails.type.name() == 'EMPLOYEE'")
+    @PutMapping
     public ResponseEntity<EmployeeResponse> updateEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                           @Validated @RequestBody EmployeeUpdateRequest employeeUpdateRequest){
+        EmployeeResponse response = employeeService.updateEmployee(userDetails.getEmployee(), employeeUpdateRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @PutMapping("/{employeeId}")
+    public ResponseEntity<EmployeeResponse> updateEmployeeById(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                            @PathVariable String employeeId,
-                                                           @Validated @RequestBody EmployeeUpdateRequest employeeRequest) {
-        EmployeeResponse response = employeeService.updateEmployee(employeeId, employeeRequest, userDetails);
+                                                           @Validated @RequestBody EmployeeUpdateByIdRequest employeeRequest) {
+        EmployeeResponse response = employeeService.updateEmployeeById(employeeId, employeeRequest, userDetails);
         return ResponseEntity.ok(response);
     }
 

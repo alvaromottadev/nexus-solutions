@@ -1,8 +1,8 @@
 package com.nexus.service;
 
 import com.nexus.dto.User.UserRequest;
-import com.nexus.dto.User.UserUpdateRequest;
 import com.nexus.exception.EmailDuplicateException;
+import com.nexus.exception.InvalidPasswordException;
 import com.nexus.exception.UserNotFoundException;
 import com.nexus.model.User;
 import com.nexus.repository.UserRepository;
@@ -32,10 +32,16 @@ public class UserService {
                 .orElseThrow((UserNotFoundException::new));
     }
 
-    public User updateUser(User user, UserUpdateRequest userUpdateRequest){
-        user.setEmail(userUpdateRequest.email());
-        if (userUpdateRequest.password() != null) user.setPassword(passwordEncoder.encode(userUpdateRequest.password()));
-        return user;
+    public void updatePassword(User user, String password){
+        String encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
+    }
+
+    public void updateUser(User user, String email, String newPassword){
+        validateEmail(user, email);
+        user.setEmail(email);
+        if (newPassword != null && !newPassword.isEmpty()) updatePassword(user, newPassword);
+        save(user);
     }
 
     public User save(User user){
@@ -48,4 +54,15 @@ public class UserService {
         }
     }
 
+    public void validatePassword(User user, String password){
+        if (!passwordEncoder.matches(password, user.getPassword())){
+            throw new InvalidPasswordException();
+        }
+    }
+
+    public void validateEmail(User user, String email) {
+        if (!user.getEmail().equals(email)) {
+            existsByEmail(email);
+        }
+    }
 }

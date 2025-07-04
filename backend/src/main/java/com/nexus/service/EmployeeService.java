@@ -1,26 +1,24 @@
 package com.nexus.service;
 
-import com.nexus.dto.Employee.EmployeeRequest;
 import com.nexus.dto.Employee.EmployeeResponse;
+import com.nexus.dto.Employee.EmployeeUpdateByIdRequest;
 import com.nexus.dto.Employee.EmployeeUpdateRequest;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.EmployeeNotFoundException;
-import com.nexus.exception.UnauthorizedRoleChangeException;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Company;
 import com.nexus.model.Employee;
 import com.nexus.model.User;
 import com.nexus.model.enums.EmployeeRole;
-import com.nexus.model.enums.UserType;
 import com.nexus.repository.EmployeeRepository;
 import com.nexus.repository.specification.EmployeeSpecification;
 import com.nexus.utils.MessageUtils;
 import jakarta.transaction.Transactional;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,15 +59,22 @@ public class EmployeeService {
     }
 
     @Transactional
-    public EmployeeResponse updateEmployee(String employeeId, EmployeeUpdateRequest employeeUpdateRequest, UserDetailsImpl userDetails) {
+    public EmployeeResponse updateEmployee(Employee employee, EmployeeUpdateRequest employeeUpdateRequest){
+
+        userService.validatePassword(employee.getUser(), employeeUpdateRequest.password());
+        userService.updateUser(employee.getUser(), employeeUpdateRequest.email(), employeeUpdateRequest.password());
+
+        employee.update(employeeUpdateRequest.name());
+
+        employeeRepository.save(employee);
+        return new EmployeeResponse(employee);
+    }
+
+    @Transactional
+    public EmployeeResponse updateEmployeeById(String employeeId, EmployeeUpdateByIdRequest employeeUpdateRequest, UserDetailsImpl userDetails) {
         Employee employee = findByIdAndCompany(employeeId, userDetails.getCompany());
 
-        if (employeeUpdateRequest.role() != null)
-            if (!isRoleChangeAllowed(userDetails)) throw new UnauthorizedRoleChangeException();
-
-        if (!employee.getUser().getEmail().equals(employeeUpdateRequest.user().email())) userService.existsByEmail(employeeUpdateRequest.user().email());
-
-        userService.updateUser(employee.getUser(), employeeUpdateRequest.user());
+        userService.updateUser(employee.getUser(), employeeUpdateRequest.user().email(), employeeUpdateRequest.user().password());
         employee.update(employeeUpdateRequest);
 
         return new EmployeeResponse(employee);
@@ -105,11 +110,6 @@ public class EmployeeService {
     private Employee findByIdAndCompany(String employeeId, Company company){
         return employeeRepository.findByIdAndCompanyAndDeletedAtIsNull(employeeId, company)
                 .orElseThrow((EmployeeNotFoundException::new));
-    }
-
-    private boolean isRoleChangeAllowed(UserDetailsImpl userDetails) {
-        UserType currentType = userDetails.getType();
-        return (currentType == UserType.COMPANY || (currentType == UserType.EMPLOYEE && userDetails.getEmployee().getRole() == EmployeeRole.MANAGER));
     }
 
 }
