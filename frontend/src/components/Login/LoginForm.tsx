@@ -69,7 +69,7 @@ export default function LoginForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="bg-[var(--color-gray)] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
+                      className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
                       placeholder="Ex.: nexus@gmail.com"
                       {...field}
                     />
@@ -90,7 +90,7 @@ export default function LoginForm() {
                   <FormControl>
                     <Input
                       type="password"
-                      className="bg-[var(--color-gray)] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
+                      className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
                       placeholder="Ex.: nexus123"
                       {...field}
                     />
@@ -103,14 +103,14 @@ export default function LoginForm() {
             <div className="w-full flex justify-end font-poppins">
               <label>
                 Esqueceu a senha?{" "}
-                <label className="text-[var(--primary-color)]">
-                  <label className="cursor-pointer">Clique aqui!</label>
+                <label className="cursor-pointer text-[#f472b6]">
+                  Clique aqui!
                 </label>
               </label>
             </div>
             <Button
               type="submit"
-              className="cursor-pointer w-full h-[4rem] mt-[0.25rem] bg-[var(--primary-color)]"
+              className="cursor-pointer w-full h-[4rem] mt-[0.25rem] bg-white text-[var(--primary-color)] font-poppins font-bold hover:bg-[var(--primary-color)] hover:text-white transition-colors duration-300"
             >
               Login
             </Button>
@@ -121,7 +121,7 @@ export default function LoginForm() {
             Não possui uma conta?{" "}
             <label
               onClick={handleRegister}
-              className="text-[var(--primary-color)] cursor-pointer"
+              className="text-[#f472b6] cursor-pointer"
             >
               Cadastre-se!
             </label>
