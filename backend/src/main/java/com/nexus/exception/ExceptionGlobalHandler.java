@@ -6,6 +6,7 @@ import jakarta.validation.UnexpectedTypeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -155,6 +156,13 @@ public class ExceptionGlobalHandler {
         return ResponseEntity
                 .status(500)
                 .body(new ErrorResponse(messageUtils.getMessage("error.mail.send")));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorResponse(messageUtils.getMessage("error.invalid.request.body")));
     }
 
 }
