@@ -20,7 +20,7 @@ export default function EmployeePage() {
 
   async function handleSearch() {
     api
-      .get(`/employees?name=${name}`, {
+      .get(`/employees?size=12&name=${name}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -32,13 +32,49 @@ export default function EmployeePage() {
       });
   }
 
-  async function handleNextPage() {}
+  async function handleNextPage() {
+    api
+      .get(
+        `/employees?size=12&page=${numberPage + 1}${
+          name ? `&name=${name}` : ""
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setEmployees(res.data.content);
+        setNumberPage(res.data.pageable.pageNumber);
+        setTotalPage(res.data.totalPages);
+        setIsLoading(false);
+      });
+  }
 
-  async function handlePreviousPage() {}
+  async function handlePreviousPage() {
+    api
+      .get(
+        `/employees?size=12&page=${numberPage - 1}${
+          name ? `&name=${name}` : ""
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setEmployees(res.data.content);
+        setNumberPage(res.data.pageable.pageNumber);
+        setTotalPage(res.data.totalPages);
+        setIsLoading(false);
+      });
+  }
 
   useEffect(() => {
     api
-      .get(`/employees`, {
+      .get(`/employees?size=12`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -73,14 +109,17 @@ export default function EmployeePage() {
         {!isLoading ? (
           employees.length > 0 ? (
             <div className="w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
-              {employees.map((employee) => (
-                <EmployeeCard
-                  employee={employee}
-                  employees={employees}
-                  setEmployees={setEmployees}
-                  key={employee.id}
-                />
-              ))}
+              {employees.map(
+                (employee, index) =>
+                  index < 12 && (
+                    <EmployeeCard
+                      employee={employee}
+                      employees={employees}
+                      setEmployees={setEmployees}
+                      key={employee.id}
+                    />
+                  )
+              )}
             </div>
           ) : (
             <div className="flex flex-1 flex-col justify-center items-center">

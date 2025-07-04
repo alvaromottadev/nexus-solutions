@@ -35,8 +35,8 @@ export default function LoginForm() {
     navigation("/register");
   }
 
-  async function handleSubmit(data: z.infer<typeof loginSchema>) {
-    await api
+  function handleSubmit(data: z.infer<typeof loginSchema>) {
+    api
       .post(`/auth/login`, data, {
         headers: {
           "Content-Type": "application/json",

@@ -8,8 +8,6 @@ interface PrivateRouteProps {
 export default function PrivateRoute({ allowedTypes }: PrivateRouteProps) {
   const auth = useAuth();
 
-  //   if (auth?.loading) return <p>Carregando...</p>;
-
   if (auth && !auth.loading) {
     if (!auth.user || !auth.token) {
       return <Navigate to="/login" />;

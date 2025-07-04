@@ -9,10 +9,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Eye, MoreHorizontal, User } from "lucide-react";
+import { Eye, MoreHorizontal } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import SeeDetailsDialog from "@/components/Dialog/Movement/SeeDetails";
 
@@ -93,11 +92,6 @@ export default function MovementPage() {
                   Ver detalhes
                 </div>
               </SeeDetailsDialog>
-
-              <DropdownMenuItem>
-                <User />
-                Ver usuário responsável{" "}
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -151,11 +145,6 @@ export default function MovementPage() {
                   label: "tipo",
                   columnName: "type",
                   data: types,
-                },
-                {
-                  type: "input",
-                  label: "movimentador",
-                  columnName: "perfomedByName",
                 },
               ]}
             />

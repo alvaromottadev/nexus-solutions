@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 
 export default function RegisterPage() {
   const form = useForm();
+
   return (
     <>
       <div className="p-5 flex items-center justify-center min-h-screen bg-[var(--primary-color)]">

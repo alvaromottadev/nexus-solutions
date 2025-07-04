@@ -4,6 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 interface AuthContextType {
+  isAuthenticated: boolean;
   user: AuthMeType | null;
   token: string | null;
   loading: boolean;
@@ -20,7 +21,8 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -43,8 +45,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       })
       .then((res) => {
         setUser(res.data);
-        setToken(token);
         setLoading(false);
+        setIsAuthenticated(true);
       });
   }
 
@@ -63,7 +65,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, loading, login, logout, isAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );

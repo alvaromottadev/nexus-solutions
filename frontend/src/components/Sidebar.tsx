@@ -10,10 +10,8 @@ import {
 } from "lucide-react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -80,19 +78,28 @@ export default function SideBar() {
               </Button>
             </div>
             <div>
-              <Button className="min-w-[10rem] max-w-[10rem] ">
+              <Button
+                onClick={() => handleClick("reports")}
+                className="min-w-[10rem] max-w-[10rem] "
+              >
                 <ChartBar />
                 <CustomText>Relatórios</CustomText>
               </Button>
             </div>
             <div>
-              <Button className="min-w-[10rem] max-w-[10rem] ">
+              <Button
+                onClick={() => handleClick("oracle")}
+                className="min-w-[10rem] max-w-[10rem] "
+              >
                 <Bot />
                 <CustomText>Oraculo</CustomText>
               </Button>
             </div>
             <div>
-              <Button className="min-w-[10rem] max-w-[10rem] ">
+              <Button
+                onClick={() => handleClick("profile")}
+                className="min-w-[10rem] max-w-[10rem] "
+              >
                 <User />
                 <CustomText>Perfil</CustomText>
               </Button>

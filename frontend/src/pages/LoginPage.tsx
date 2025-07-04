@@ -1,7 +1,6 @@
 import design from "@/assets/design.svg";
 import CustomText from "@/components/CustomText";
 import LoginForm from "@/components/Login/LoginForm";
-import { Typewriter } from "react-simple-typewriter";
 
 export default function LoginPage() {
   return (

@@ -13,7 +13,7 @@ export default function OraclePage() {
   const initialMessage: OracleMessageType[] = [
     {
       status: 200,
-      header: "Olá, eu sou o Oracle!",
+      header: "Olá, eu sou o Oráculo!",
       message: {
         type: "text",
         schema: null,
@@ -77,7 +77,7 @@ export default function OraclePage() {
             <div className="flex flex-col gap-y-2  h-[42rem] w-full overflow-y-auto">
               <div className="p-10">
                 {messages.length > 0 &&
-                  messages.map((message, _index) => {
+                  messages.map((message, index) => {
                     if (message.author === "user") {
                       return (
                         <div
@@ -91,7 +91,9 @@ export default function OraclePage() {
                         </div>
                       );
                     }
-                    return <OracleDispatcher OracleResponse={message} />;
+                    return (
+                      <OracleDispatcher key={index} OracleResponse={message} />
+                    );
                   })}
                 {waitingResponse && (
                   <CustomText className="text-[#e1e1e3]">

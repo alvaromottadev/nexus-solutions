@@ -74,7 +74,7 @@ export default function EmployeeDialog({
 
   const auth = useAuth();
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<File | null | undefined>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
     employee?.avatar || defaultAvatar
@@ -95,7 +95,7 @@ export default function EmployeeDialog({
     }
   }
 
-  async function handleCreate(data: z.infer<typeof typeForm>) {
+  function handleCreate(data: z.infer<typeof typeForm>) {
     const body = {
       user: {
         email: data.email,
@@ -118,12 +118,12 @@ export default function EmployeeDialog({
       .then((res) => {
         toast.success("Funcionário cadastrado com sucesso!");
         if (image) handleUploadAvatar(res.data.id);
-        setEmployees([...res.data, ...employees]);
+        setEmployees([res.data, ...employees]);
         setOpen(false);
       });
   }
 
-  async function handleUploadAvatar(id: string) {
+  function handleUploadAvatar(id: string) {
     const formData = new FormData();
     formData.append("avatar", image as File);
     api.put(`/employees/${id}/avatar`, formData, {
@@ -134,7 +134,7 @@ export default function EmployeeDialog({
     });
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!employee) return;
     api
       .delete(`/employees/${employee.id}`, {
@@ -149,7 +149,7 @@ export default function EmployeeDialog({
       });
   }
 
-  async function handleUpdate(data: z.infer<typeof typeForm>) {
+  function handleUpdate(data: z.infer<typeof typeForm>) {
     if (!employee) return;
 
     const body = {

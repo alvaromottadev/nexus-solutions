@@ -58,12 +58,20 @@ export default function ProfilePage() {
               </div>
               <Button className="mt-4">Ver dados do endereço</Button>
               <Button
-                className="bg-[var(--primary-color)] mt-4"
+                className={`${
+                  isDisabled
+                    ? "bg-[var(--primary-color)] hover:bg-[#f9f9f9] hover:text-[var(--primary-color)] hover:border-[1px] hover:border-[var(--primary-color)]"
+                    : "bg-[#f9f9f9] border-[1px] border-[var(--primary-color)] text-[var(--primary-color)] hover:bg-[var(--primary-color)] hover:text-white"
+                } cursor-pointer mt-5`}
                 onClick={toggleEdit}
               >
-                Editar Dados
+                {isDisabled ? "Editar Perfil" : "Salvar Alterações"}
               </Button>
-              <Button onClick={handleLogout} variant="destructive">
+              <Button
+                onClick={handleLogout}
+                variant="destructive"
+                className="cursor-pointer"
+              >
                 Logout
               </Button>
             </div>
