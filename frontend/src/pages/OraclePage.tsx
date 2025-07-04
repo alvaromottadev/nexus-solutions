@@ -73,27 +73,33 @@ export default function OraclePage() {
       <div className="min-h-screen flex flex-col bg-[#202124]">
         <TopBar isOracle />
         <div className="flex flex-col m-10 flex-1 mb-10 justify-center">
-          <div className="flex-1 flex flex-col gap-y-2 ">
-            {messages.length > 0 &&
-              messages.map((message, _index) => {
-                if (message.author === "user") {
-                  return (
-                    <div
-                      className={`${message.author === "user" && "text-right"}`}
-                    >
-                      <CustomText className="break-words text-white font-poppins">
-                        {message.message.content}
-                      </CustomText>
-                    </div>
-                  );
-                }
-                return <OracleDispatcher OracleResponse={message} />;
-              })}
-            {waitingResponse && (
-              <CustomText className="text-[#e1e1e3]">
-                Oracle está pensando...
-              </CustomText>
-            )}
+          <div className="flex flex-1">
+            <div className="flex flex-col gap-y-2  h-[42rem] w-full overflow-y-auto">
+              <div className="p-10">
+                {messages.length > 0 &&
+                  messages.map((message, _index) => {
+                    if (message.author === "user") {
+                      return (
+                        <div
+                          className={`${
+                            message.author === "user" && "text-right"
+                          }`}
+                        >
+                          <CustomText className="break-words text-white font-poppins">
+                            {message.message.content}
+                          </CustomText>
+                        </div>
+                      );
+                    }
+                    return <OracleDispatcher OracleResponse={message} />;
+                  })}
+                {waitingResponse && (
+                  <CustomText className="text-[#e1e1e3]">
+                    Oracle está pensando...
+                  </CustomText>
+                )}
+              </div>
+            </div>
           </div>
           <div className="w-[80%] self-center flex items-center justify-between gap-x-2">
             <Textarea
