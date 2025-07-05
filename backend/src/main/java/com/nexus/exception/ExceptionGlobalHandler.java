@@ -80,6 +80,13 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.user.not.found")));
     }
 
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCompanyNotFoundException(CompanyNotFoundException e) {
+        return ResponseEntity
+                .status(404)
+                .body(new ErrorResponse(messageUtils.getMessage("error.company.not.found")));
+    }
+
     @ExceptionHandler(DuplicateException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateException(DuplicateException e) {
         return ResponseEntity

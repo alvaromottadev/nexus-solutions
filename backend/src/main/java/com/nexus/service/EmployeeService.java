@@ -54,6 +54,9 @@ public class EmployeeService {
     }
 
     public EmployeeResponse getMyEmployee(Employee employee){
+        if (employee == null) {
+            throw new EmployeeNotFoundException();
+        }
         return new EmployeeResponse(employee);
     }
 

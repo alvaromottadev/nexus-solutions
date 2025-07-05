@@ -31,6 +31,7 @@ public class CompanyController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('COMPANY')")
     @GetMapping("/me")
     public ResponseEntity<CompanyResponse> getMyCompany(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         CompanyResponse response = companyService.getMyCompany(userDetails.getCompany());

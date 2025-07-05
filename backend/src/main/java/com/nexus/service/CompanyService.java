@@ -5,6 +5,7 @@ import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Company.CompanyUpdateRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.CnpjDuplicateException;
+import com.nexus.exception.CompanyNotFoundException;
 import com.nexus.model.Address;
 import com.nexus.model.Company;
 import com.nexus.model.User;
@@ -34,6 +35,9 @@ public class CompanyService {
     }
 
     public CompanyResponse getMyCompany(Company company) {
+        if (company == null) {
+            throw new CompanyNotFoundException();
+        }
         return new CompanyResponse(company);
     }
 
