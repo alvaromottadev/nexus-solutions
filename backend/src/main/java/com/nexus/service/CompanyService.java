@@ -34,6 +34,11 @@ public class CompanyService {
                 .toList();
     }
 
+    public CompanyResponse getCompanyById(String companyId){
+        Company company = companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
+        return new CompanyResponse(company);
+    }
+
     public CompanyResponse getMyCompany(Company company) {
         if (company == null) {
             throw new CompanyNotFoundException();
