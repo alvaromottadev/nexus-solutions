@@ -3,6 +3,7 @@ package com.nexus.service;
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Company.CompanyUpdateRequest;
+import com.nexus.dto.ImageResponse;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.CnpjDuplicateException;
 import com.nexus.exception.CompanyNotFoundException;
@@ -13,6 +14,7 @@ import com.nexus.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,10 +23,12 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
     private final UserService userService;
+    private final StorageService storageService;
 
-    public CompanyService(CompanyRepository companyRepository, UserService userService) {
+    public CompanyService(CompanyRepository companyRepository, UserService userService, StorageService storageService) {
         this.companyRepository = companyRepository;
         this.userService = userService;
+        this.storageService = storageService;
     }
 
     public List<CompanyResponse> getCompany(Integer size, Integer page){
@@ -62,6 +66,14 @@ public class CompanyService {
         companyRepository.save(company);
 
         return new CompanyResponse(company);
+    }
+
+    @Transactional
+    public ImageResponse updateCompanyLogo(MultipartFile file, Company company) {
+        String logoUrl = storageService.uploadImage(file, "logo_" + company.getId());
+        company.setLogo(logoUrl);
+        companyRepository.save(company);
+        return new ImageResponse(logoUrl);
     }
 
     @Transactional

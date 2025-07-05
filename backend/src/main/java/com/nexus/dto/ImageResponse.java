@@ -1,6 +1,6 @@
 package com.nexus.dto;
 
-public record AvatarResponse(
+public record ImageResponse(
 
         String avatar
 

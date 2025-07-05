@@ -1,5 +1,6 @@
 package com.nexus.controller;
 
+import com.nexus.dto.ImageResponse;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Company.CompanyUpdateRequest;
 import com.nexus.dto.SuccessResponse;
@@ -10,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -52,6 +54,15 @@ public class CompanyController {
         CompanyResponse response = companyService.updateCompany(companyUpdateRequest, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @PutMapping("/logo")
+    public ResponseEntity<ImageResponse> updateCompanyLogo(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                           @RequestPart("file")MultipartFile file){
+        ImageResponse response = companyService.updateCompanyLogo(file, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
 
     @PreAuthorize("hasRole('COMPANY')")
     @DeleteMapping

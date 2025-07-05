@@ -8,7 +8,7 @@ public record CompanyResponse(
 
         String id,
         String name,
-        String avatar,
+        String logo,
         String cnpj,
         AddressResponse address,
         UserResponse user
@@ -19,7 +19,7 @@ public record CompanyResponse(
         this(
                 company.getId(),
                 company.getName(),
-                company.getAvatar(),
+                company.getLogo(),
                 null,
                 new AddressResponse(company.getAddress()),
                 new UserResponse(company.getUser())
@@ -30,7 +30,7 @@ public record CompanyResponse(
         this(
                 company.getId(),
                 company.getName(),
-                company.getAvatar(),
+                company.getLogo(),
                 cnpj,
                 new AddressResponse(company.getAddress()),
                 new UserResponse(company.getUser())

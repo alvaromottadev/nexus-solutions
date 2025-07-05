@@ -24,8 +24,8 @@ public class Company {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "avatar")
-    private String avatar;
+    @Column(name = "logo")
+    private String logo;
 
     @Column(name = "cnpj", unique = true, nullable = false)
     private String cnpj;

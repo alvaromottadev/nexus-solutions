@@ -1,6 +1,6 @@
 package com.nexus.service;
 
-import com.nexus.dto.AvatarResponse;
+import com.nexus.dto.ImageResponse;
 import com.nexus.dto.Employee.EmployeeResponse;
 import com.nexus.dto.Employee.EmployeeUpdateByIdRequest;
 import com.nexus.dto.Employee.EmployeeUpdateRequest;
@@ -88,16 +88,16 @@ public class EmployeeService {
     }
 
     @Transactional
-    public AvatarResponse updateEmployeeAvatarById(String employeeId, MultipartFile avatar, Company company) {
+    public ImageResponse updateEmployeeAvatarById(String employeeId, MultipartFile avatar, Company company) {
         Employee employee = findByIdAndCompany(employeeId, company);
         String avatarUrl = uploadAvatar(employee, avatar);
-        return new AvatarResponse(avatarUrl);
+        return new ImageResponse(avatarUrl);
     }
 
     @Transactional
-    public AvatarResponse updateEmployeeAvatar(Employee employee, MultipartFile avatar){
+    public ImageResponse updateEmployeeAvatar(Employee employee, MultipartFile avatar){
         String avatarUrl = uploadAvatar(employee, avatar);
-        return new AvatarResponse(avatarUrl);
+        return new ImageResponse(avatarUrl);
     }
 
     @Transactional
