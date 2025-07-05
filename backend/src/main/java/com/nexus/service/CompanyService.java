@@ -30,20 +30,20 @@ public class CompanyService {
     public List<CompanyResponse> getCompany(Integer size, Integer page){
         PageRequest pageRequest = PageRequest.of(page, size);
         return companyRepository.findAll(pageRequest).stream()
-                .map(CompanyResponse::new)
+                .map(company -> new CompanyResponse(company, company.getCnpj()))
                 .toList();
     }
 
     public CompanyResponse getCompanyById(String companyId){
         Company company = companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
-        return new CompanyResponse(company);
+        return new CompanyResponse(company, company.getCnpj());
     }
 
     public CompanyResponse getMyCompany(Company company) {
         if (company == null) {
             throw new CompanyNotFoundException();
         }
-        return new CompanyResponse(company);
+        return new CompanyResponse(company, company.getCnpj());
     }
 
     public Company createCompany(User user, Address address, CompanyRequest companyRequest){

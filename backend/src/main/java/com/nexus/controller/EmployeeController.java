@@ -36,6 +36,7 @@ public class EmployeeController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @GetMapping("/{employeeId}")
     public ResponseEntity<EmployeeResponse> getEmployeeById(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                         @PathVariable String employeeId){
@@ -50,6 +51,7 @@ public class EmployeeController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @GetMapping
     public ResponseEntity<Page<EmployeeResponse>> getAllEmployees(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                   @RequestParam(required = false) String name,
