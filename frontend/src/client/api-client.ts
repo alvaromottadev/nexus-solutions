@@ -20,7 +20,10 @@ api.interceptors.response.use(
           duration: 5000,
         });
       }
-      if (status === 401 && data.error === "Token expired") {
+      if (
+        (status === 401 && data.error === "Token expired") ||
+        data.error.includes("Error in JWT authentication:")
+      ) {
         toast.error("Sessão expirada.", {
           description: "Por favor, faça login novamente.",
           duration: 5000,

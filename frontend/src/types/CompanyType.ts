@@ -1,6 +1,7 @@
 export interface CompanyType {
   id: string;
   name: string;
+  avatar: string;
   address: {
     id: string;
     street: string;
@@ -11,5 +12,10 @@ export interface CompanyType {
     state: string;
     postalCode: string;
     country: string;
+  };
+  user: {
+    id: string;
+    email: string;
+    type: "COMPANY";
   };
 }

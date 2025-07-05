@@ -5,9 +5,10 @@ import CreateLocationDialog from "@/components/Dialog/Location/CreateLocation";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
+import { useAuth } from "@/hooks/useAuth";
 import type { LocationResponseType } from "@/types/LocationResponseType";
 import type { LocationType } from "@/types/LocationType";
-import { ArchiveX } from "lucide-react";
+import { ArchiveX, Lock } from "lucide-react";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
 
@@ -17,6 +18,10 @@ export default function LocationsPage() {
   const [numberPage, setNumberPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [name, setName] = useState<string>("");
+
+  const auth = useAuth();
+  const hasPermission =
+    auth?.user && auth.user.type === "COMPANY" && auth.user.role === "MANAGER";
 
   useEffect(() => {
     async function getLocations() {
@@ -99,54 +104,65 @@ export default function LocationsPage() {
     <>
       <div className="flex flex-col min-h-screen bg-white">
         <TopBar />
-        <CreateLocationDialog
-          locations={locations}
-          setLocations={setLocations}
-        />
-        <div className="flex flex-col items-center justify-center mt-[2rem] ">
-          <SearchComponent
-            label="Almoxarifados"
-            placeholder="Ex.: Almoxarifado Central"
-            handleSearch={handleSearch}
-            setName={setName}
-          />
-        </div>
-        {!isLoading ? (
-          locations.length > 0 ? (
-            <div className="flex flex-col items-center">
-              <div className="flex items-center w-[90%] flex-col">
-                {locations.map(
-                  (location, index) =>
-                    index < 5 && (
-                      <LocationCard
-                        locations={locations}
-                        setLocations={setLocations}
-                        key={location.id}
-                        location={location}
-                      />
-                    )
-                )}
+        {hasPermission ? (
+          <>
+            <CreateLocationDialog
+              locations={locations}
+              setLocations={setLocations}
+            />
+            <div className="flex flex-col items-center justify-center mt-[2rem] ">
+              <SearchComponent
+                label="Almoxarifados"
+                placeholder="Ex.: Almoxarifado Central"
+                handleSearch={handleSearch}
+                setName={setName}
+              />
+            </div>
+            {!isLoading ? (
+              locations.length > 0 ? (
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center w-[90%] flex-col">
+                    {locations.map(
+                      (location, index) =>
+                        index < 5 && (
+                          <LocationCard
+                            locations={locations}
+                            setLocations={setLocations}
+                            key={location.id}
+                            location={location}
+                          />
+                        )
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-1 flex-col justify-center items-center">
+                  <ArchiveX color="purple" size={64} />
+                  <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
+                    Nenhum almoxarifado cadastrado
+                  </CustomText>
+                </div>
+              )
+            ) : (
+              <div className="h-full flex flex-1 justify-center items-center">
+                <DotLoader color="purple" size={96} />
               </div>
-            </div>
-          ) : (
-            <div className="flex flex-1 flex-col justify-center items-center">
-              <ArchiveX color="purple" size={64} />
-              <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
-                Nenhum almoxarifado cadastrado
-              </CustomText>
-            </div>
-          )
+            )}
+            <Pagination
+              handleNextPage={handleNextPage}
+              handlePreviousPage={handlePreviousPage}
+              numberPage={numberPage}
+              totalPage={totalPage}
+            />
+          </>
         ) : (
-          <div className="h-full flex flex-1 justify-center items-center">
-            <DotLoader color="purple" size={96} />
+          <div className="h-full flex flex-col flex-1 gap-y-5 justify-center items-center">
+            <Lock color="purple" size={96} />
+            <CustomText className="text-[1.5rem]">
+              Você não tem permissão para acessar essa página
+            </CustomText>
           </div>
         )}
-        <Pagination
-          handleNextPage={handleNextPage}
-          handlePreviousPage={handlePreviousPage}
-          numberPage={numberPage}
-          totalPage={totalPage}
-        />
       </div>
     </>
   );
