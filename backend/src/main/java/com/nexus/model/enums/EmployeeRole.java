@@ -4,6 +4,6 @@ public enum EmployeeRole {
 
     MANAGER,
     OPERATOR,
-    VIEWER
+    ADMIN
 
 }

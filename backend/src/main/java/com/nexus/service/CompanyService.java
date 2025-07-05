@@ -10,7 +10,10 @@ import com.nexus.model.Company;
 import com.nexus.model.User;
 import com.nexus.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CompanyService {
@@ -23,7 +26,14 @@ public class CompanyService {
         this.userService = userService;
     }
 
-    public CompanyResponse getCompany(Company company) {
+    public List<CompanyResponse> getCompany(Integer size, Integer page){
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return companyRepository.findAll(pageRequest).stream()
+                .map(CompanyResponse::new)
+                .toList();
+    }
+
+    public CompanyResponse getMyCompany(Company company) {
         return new CompanyResponse(company);
     }
 

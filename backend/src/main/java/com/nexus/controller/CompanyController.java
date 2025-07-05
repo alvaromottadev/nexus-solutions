@@ -1,6 +1,5 @@
 package com.nexus.controller;
 
-import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Company.CompanyUpdateRequest;
 import com.nexus.dto.SuccessResponse;
@@ -12,6 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/companies")
 public class CompanyController {
@@ -22,9 +23,17 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<CompanyResponse> getCompany(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        CompanyResponse response = companyService.getCompany(userDetails.getCompany());
+    public ResponseEntity<List<CompanyResponse>> getCompany(@RequestParam(required = false, defaultValue = "10") Integer size,
+                                                        @RequestParam(required = false, defaultValue = "0") Integer page) {
+        List<CompanyResponse> response = companyService.getCompany(size, page);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<CompanyResponse> getMyCompany(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CompanyResponse response = companyService.getMyCompany(userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 
