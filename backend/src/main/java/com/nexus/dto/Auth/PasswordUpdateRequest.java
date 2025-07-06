@@ -11,7 +11,11 @@ public record PasswordUpdateRequest (
 
         @NotBlank(message = "New password is required")
         @Size(min = 6, message = "New password must be at least 6 characters long")
-        String newPassword
+        String newPassword,
+
+        @NotBlank(message = "Confirm password is required")
+        @Size(min = 6, message = "Confirm password must be at least 6 characters long")
+        String confirmPassword
 
 ){
 }

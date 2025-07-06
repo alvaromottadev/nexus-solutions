@@ -1,15 +1,13 @@
 package com.nexus.service;
 
 import com.nexus.dto.Address.AddressRequest;
-import com.nexus.dto.Auth.AuthMeResponse;
-import com.nexus.dto.Auth.UserCompanyLoginRequest;
-import com.nexus.dto.Auth.UserCompanyLoginResponse;
-import com.nexus.dto.Auth.UserCompanyRegisterRequest;
+import com.nexus.dto.Auth.*;
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Email.EmailRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.dto.User.UserResponse;
+import com.nexus.exception.PasswordConfirmationMismatchException;
 import com.nexus.infra.security.JwtTokenUtil;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Address;
@@ -17,6 +15,7 @@ import com.nexus.model.Company;
 import com.nexus.model.User;
 import com.nexus.model.enums.EmployeeRole;
 import com.nexus.model.enums.UserType;
+import com.nexus.utils.MessageUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,13 +29,15 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AddressService addressService;
     private final JwtTokenUtil jwtTokenUtil;
+    private final MessageUtils messageUtils;
 
-    public AuthService(UserService userService, CompanyService companyService, PasswordEncoder passwordEncoder, AddressService addressService, JwtTokenUtil jwtTokenUtil) {
+    public AuthService(UserService userService, CompanyService companyService, PasswordEncoder passwordEncoder, AddressService addressService, JwtTokenUtil jwtTokenUtil, MessageUtils messageUtils) {
         this.userService = userService;
         this.companyService = companyService;
         this.passwordEncoder = passwordEncoder;
         this.addressService = addressService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.messageUtils = messageUtils;
     }
 
     public AuthMeResponse getMe(UserDetailsImpl userDetails){
@@ -65,9 +66,19 @@ public class AuthService {
         return new UserCompanyLoginResponse(token, new UserResponse(user), new CompanyResponse(company));
     }
 
+    @Transactional
+    public SuccessResponse updatePassword(User user, PasswordUpdateRequest passwordUpdateRequest){
+        userService.validatePassword(user, passwordUpdateRequest.oldPassword());
+        validatePasswordIsEqual(passwordUpdateRequest.newPassword(), passwordUpdateRequest.confirmPassword());
+
+        userService.updatePassword(user, passwordUpdateRequest.newPassword());
+        userService.save(user);
+        return new SuccessResponse(messageUtils.getMessage("password.update.success"));
+    }
+
     private void validatePassword(String rawPassword, String encodedPassword){
         if (!passwordEncoder.matches(rawPassword, encodedPassword)){
-            throw new BadCredentialsException("Invalid email or password");
+            throw new BadCredentialsException(messageUtils.getMessage("email.or.password.invalid"));
         }
     }
 
@@ -78,5 +89,12 @@ public class AuthService {
             return user.getEmployee().getRole();
         }
     }
+
+    private void validatePasswordIsEqual(String newPassword, String confirmPassword){
+        if (!newPassword.equals(confirmPassword)){
+            throw  new PasswordConfirmationMismatchException();
+        }
+    }
+
 
 }

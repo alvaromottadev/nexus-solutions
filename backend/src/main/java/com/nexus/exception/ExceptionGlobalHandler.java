@@ -172,6 +172,13 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.invalid.password")));
     }
 
+    @ExceptionHandler(PasswordConfirmationMismatchException.class)
+    public ResponseEntity<ErrorResponse> handlePasswordConfirmationMismatchException(PasswordConfirmationMismatchException e) {
+        return ResponseEntity
+                .status(409)
+                .body(new ErrorResponse(messageUtils.getMessage("error.password.confirmation.mismatch")));
+    }
+
     @ExceptionHandler(InventoryAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleInventoryAlreadyExistsException(InventoryAlreadyExistsException e) {
         return ResponseEntity
