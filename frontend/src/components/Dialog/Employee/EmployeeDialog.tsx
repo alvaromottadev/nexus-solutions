@@ -66,10 +66,6 @@ export default function EmployeeDialog({
       value: "OPERATOR",
       label: "Operador",
     },
-    {
-      value: "VIEWER",
-      label: "Visualizador",
-    },
   ];
 
   const auth = useAuth();
@@ -95,7 +91,7 @@ export default function EmployeeDialog({
     }
   }
 
-  function handleCreate(data: z.infer<typeof typeForm>) {
+  async function handleCreate(data: z.infer<typeof typeForm>) {
     const body = {
       user: {
         email: data.email,
@@ -115,23 +111,34 @@ export default function EmployeeDialog({
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
-        toast.success("Funcionário cadastrado com sucesso!");
-        if (image) handleUploadAvatar(res.data.id);
-        setEmployees([res.data, ...employees]);
+      .then(async (res) => {
+        toast.success("Funcionário cadastrado com sucesso!", {
+          duration: 2000,
+        });
+        let avatar = null;
+        if (image) {
+          avatar = await handleUploadAvatar(res.data.id);
+        }
+        setEmployees([{ ...res.data, avatar }, ...employees]);
         setOpen(false);
       });
   }
 
-  function handleUploadAvatar(id: string) {
+  async function handleUploadAvatar(id: string) {
     const formData = new FormData();
     formData.append("avatar", image as File);
-    api.put(`/employees/${id}/avatar`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    try {
+      const res = await api.put(`/employees/${id}/avatar`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      return res.data.avatar;
+    } catch (error) {
+      toast.error("Erro ao atualizar avatar!");
+      return null;
+    }
   }
 
   function handleDelete() {
@@ -149,7 +156,7 @@ export default function EmployeeDialog({
       });
   }
 
-  function handleUpdate(data: z.infer<typeof typeForm>) {
+  async function handleUpdate(data: z.infer<typeof typeForm>) {
     if (!employee) return;
 
     const body = {
@@ -168,11 +175,18 @@ export default function EmployeeDialog({
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
-        toast.success("Funcionário atualizado com sucesso!");
-        if (image) handleUploadAvatar(employee.id);
+      .then(async (res) => {
+        toast.success("Funcionário atualizado com sucesso!", {
+          duration: 2000,
+        });
+        let avatar = null;
+        if (image) {
+          avatar = await handleUploadAvatar(employee.id);
+        }
         setEmployees(
-          employees.map((emp) => (emp.id === employee.id ? res.data : emp))
+          employees.map((emp) =>
+            emp.id === employee.id ? { ...res.data, avatar } : emp
+          )
         );
         setOpen(false);
       });

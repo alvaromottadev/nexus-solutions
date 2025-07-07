@@ -6,6 +6,7 @@ import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 import type EmployeeType from "@/types/EmployeeType";
 import { ArchiveX, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -17,6 +18,11 @@ export default function EmployeePage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [numberPage, setNumberPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
+
+  const auth = useAuth();
+
+  const hasPermission =
+    auth?.user && auth.user.type === "COMPANY" && auth.user.role === "MANAGER";
 
   async function handleSearch() {
     api

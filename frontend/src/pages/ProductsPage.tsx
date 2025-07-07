@@ -111,14 +111,17 @@ export default function ProductsPage() {
         {!isLoading ? (
           products.length > 0 ? (
             <div className="w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
-              {products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  products={products}
-                  setProducts={setProducts}
-                />
-              ))}
+              {products.map(
+                (product, index) =>
+                  index < 12 && (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      products={products}
+                      setProducts={setProducts}
+                    />
+                  )
+              )}
             </div>
           ) : (
             <div className="flex flex-1 flex-col justify-center items-center">

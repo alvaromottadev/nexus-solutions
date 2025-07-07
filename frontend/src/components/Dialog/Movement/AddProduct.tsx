@@ -29,11 +29,13 @@ import { toast } from "sonner";
 interface AddProductDialogProps {
   setProductsSelected: (products: ProductWithQuantityType[]) => void;
   productsSelected: ProductWithQuantityType[];
+  locationId: string;
 }
 
 export default function AddProductDialog({
   setProductsSelected,
   productsSelected,
+  locationId,
 }: AddProductDialogProps) {
   const form = useForm();
 
@@ -45,16 +47,18 @@ export default function AddProductDialog({
   const [quantity, setQuantity] = useState<number>(0);
 
   useEffect(() => {
-    api
-      .get(`/products`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        setProducts(res.data.content);
-      });
-  }, []);
+    if (locationId !== "") {
+      api
+        .get(`/products?locationId=${locationId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          setProducts(res.data.content);
+        });
+    }
+  }, [locationId]);
 
   function handleQuantityChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = Number(e.target.value);

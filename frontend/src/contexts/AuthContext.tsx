@@ -54,7 +54,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem("token", token);
     setToken(token);
     getUser(token);
-    navigate("/home");
+    // navigate("/home");
   }
 
   function logout() {

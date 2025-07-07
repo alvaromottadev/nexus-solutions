@@ -2,6 +2,7 @@ import api from "@/client/api-client";
 import LocationCard from "@/components/Card/LocationCard";
 import CustomText from "@/components/CustomText";
 import CreateLocationDialog from "@/components/Dialog/Location/CreateLocation";
+import NoHasPermission from "@/components/NoHasPermission";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
@@ -156,12 +157,7 @@ export default function LocationsPage() {
             />
           </>
         ) : (
-          <div className="h-full flex flex-col flex-1 gap-y-5 justify-center items-center">
-            <Lock color="purple" size={96} />
-            <CustomText className="text-[1.5rem]">
-              Você não tem permissão para acessar essa página
-            </CustomText>
-          </div>
+          <NoHasPermission />
         )}
       </div>
     </>

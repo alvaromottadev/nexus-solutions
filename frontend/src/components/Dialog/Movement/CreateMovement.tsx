@@ -172,9 +172,18 @@ export default function CreateMovementDialog({
           duration: 2000,
         });
         const movement = res.data;
+        resetForm();
         setMovements([movement, ...movements]);
       });
     setOpen(false);
+  }
+
+  function resetForm() {
+    setType("");
+    setDate(undefined);
+    setDescription(null);
+    setLocationId("");
+    setProductsSelected([]);
   }
 
   function validateForm() {
@@ -310,6 +319,7 @@ export default function CreateMovementDialog({
                   )}
                 />
                 <AddProductDialog
+                  locationId={locationId}
                   productsSelected={productsSelected}
                   setProductsSelected={setProductsSelected}
                 />

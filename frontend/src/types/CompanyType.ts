@@ -2,6 +2,7 @@ export interface CompanyType {
   id: string;
   name: string;
   avatar: string;
+  cnpj: string | null;
   address: {
     id: string;
     street: string;

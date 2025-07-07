@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { updateCompanySchema } from "@/schemas/updateCompanySchema";
-import type { AuthMeType } from "@/types/AuthMeType";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { Button } from "../ui/button";
@@ -19,6 +18,9 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import defaultAvatar from "@/assets/default-avatar.jpg";
 import type { CompanyType } from "@/types/CompanyType";
+import EditAddressDialog from "../Dialog/Address/EditAddress";
+import type AddressType from "@/types/AddressType";
+import type addressFormSchema from "@/schemas/addressFormSchema";
 
 interface FormFieldComponentProps {
   company: CompanyType;
@@ -34,8 +36,23 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
     },
   });
 
+  const [address, setAddress] = useState<AddressType>(company.address);
   const [isDisabled, setIsDisabled] = useState(true);
   const navigation = useNavigate();
+
+  function handleAddressUpdate(data: z.infer<typeof addressFormSchema>) {
+    setAddress({
+      id: company.address.id,
+      street: data.street,
+      number: data.number,
+      complement: data.complement || "",
+      district: data.district,
+      city: data.city,
+      state: data.state,
+      postalCode: data.postalCode,
+      country: data.country,
+    });
+  }
 
   function handleUpdate(data: z.infer<typeof updateCompanySchema>) {
     api
@@ -45,7 +62,7 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
           name: data.name,
           email: data.email,
           password: data.password,
-          address: company.address,
+          address: address,
         }),
         {
           headers: {
@@ -88,6 +105,17 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
                 </FormControl>
               )}
             />
+            <FormItem>
+              <FormLabel>CNPJ</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  disabled
+                  value={company.cnpj || "CNPJ não disponível"}
+                  className="font-poppins placeholder:font-poppins"
+                />
+              </FormControl>
+            </FormItem>
             <FormField
               control={form.control}
               name="email"
@@ -134,6 +162,13 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
               )}
             />
           </div>
+          <EditAddressDialog
+            onSave={handleAddressUpdate}
+            address={company.address}
+            isDisabled={isDisabled}
+          >
+            <Button className="mt-4 w-full">Ver dados do endereço</Button>
+          </EditAddressDialog>
           {isDisabled ? (
             <Button
               type="button"

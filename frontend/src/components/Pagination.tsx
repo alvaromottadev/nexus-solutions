@@ -39,7 +39,7 @@ export default function Pagination({
           )}
 
           <CustomText>
-            Página {numberPage + 1} de {totalPage}
+            Página {numberPage + 1} de {totalPage === 0 ? 1 : totalPage}
           </CustomText>
           {!isLastPage ? (
             <Button

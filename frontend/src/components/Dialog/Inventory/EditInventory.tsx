@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import formInventorySchema from "@/schemas/formInventorySchema";
 import type InventoryType from "@/types/InventoryType";
 import type { LocationType } from "@/types/LocationType";
@@ -48,48 +49,11 @@ export default function EditInventoryDialog({
 
   const [open, setOpen] = useState<boolean>(false);
 
-  const [products, setProducts] = useState<ProductType[]>([]);
-  const [locations, setLocations] = useState<LocationType[]>([]);
-  const [productId, setProductId] = useState<string>("");
-  const [locationId, setLocationId] = useState<string>("");
-
   const [locationError, setLocationError] = useState<boolean>(false);
   const [productError, setProductError] = useState<boolean>(false);
 
-  useEffect(() => {
-    api
-      .get(`/products`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        setProducts(res.data.content);
-      });
-
-    api
-      .get(`/locations`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        setLocations(res.data.content);
-      });
-  }, []);
-
   async function handleUpdate(data: z.infer<typeof formInventorySchema>) {
-    if (!productId) {
-      setProductError(true);
-      return;
-    }
-    if (!locationId) {
-      setLocationError(true);
-      return;
-    }
     const json = {
-      productId: productId,
-      locationId: locationId,
       quantity: data.quantity,
       minStock: data.minStock,
     };
@@ -123,7 +87,7 @@ export default function EditInventoryDialog({
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then(() => {
         setInventories(
           inventories.filter((inventory) => inventory.id !== inventoryId)
         );
@@ -132,8 +96,6 @@ export default function EditInventoryDialog({
   }
 
   function resetForm() {
-    setProductId("");
-    setLocationId("");
     setProductError(false);
     setLocationError(false);
     form.reset();
@@ -163,29 +125,15 @@ export default function EditInventoryDialog({
             <CustomText className={productError ? "text-red-500" : ""}>
               Produto
             </CustomText>
-            <SelectComponent
-              defaultValue={inventory.product.id}
-              data={products}
-              placeholder="Selecione um produto..."
-              label="Produto"
-              onChange={setProductId}
-              isError={productError}
-              setError={setProductError}
-            />
+
+            <Input value={inventory.product.name} disabled />
           </div>
           <div>
             <CustomText className={locationError ? "text-red-500" : ""}>
               Almoxarifado
             </CustomText>
-            <SelectComponent
-              defaultValue={inventory.location.id}
-              data={locations}
-              placeholder="Selecione um produto..."
-              label="Produto"
-              onChange={setLocationId}
-              isError={locationError}
-              setError={setLocationError}
-            />
+
+            <Input value={inventory.location.name} disabled />
           </div>
         </div>
         <Form {...form}>

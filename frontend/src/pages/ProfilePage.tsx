@@ -28,9 +28,6 @@ export default function ProfilePage() {
               </CustomText>
               <div className="flex flex-col gap-y-2 mt-10">
                 <ProfileForm user={auth?.user!} />
-                {isCompany && (
-                  <Button className="mt-4">Ver dados do endereço</Button>
-                )}
 
                 <Button
                   onClick={handleLogout}
