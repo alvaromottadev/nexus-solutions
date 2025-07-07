@@ -58,7 +58,7 @@ public class CompanyController {
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @PutMapping("/logo")
     public ResponseEntity<ImageResponse> updateCompanyLogo(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                           @RequestPart("file")MultipartFile file){
+                                                           @RequestPart("logo") MultipartFile file){
         ImageResponse response = companyService.updateCompanyLogo(file, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }

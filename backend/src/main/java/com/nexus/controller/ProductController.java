@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping()
     public ResponseEntity<ProductResponse> createProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                            @RequestPart(value = "file", required = false) MultipartFile file,
                                            @RequestPart(value = "name") String name,
@@ -70,7 +70,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
-    @PutMapping(path = "/{productId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping("/{productId}")
     public ResponseEntity<ProductResponse> updateProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                          @PathVariable String productId,
                                                          @RequestPart(value = "file", required = false) MultipartFile file,

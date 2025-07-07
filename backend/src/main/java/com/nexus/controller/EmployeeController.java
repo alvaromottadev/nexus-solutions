@@ -80,7 +80,6 @@ public class EmployeeController {
 
     @PreAuthorize("#userDetails.type.name() == 'EMPLOYEE'")
     @PutMapping("/avatar")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageResponse> updateEmployeeAvatar(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                               @RequestPart(value = "avatar") MultipartFile avatar) {
         ImageResponse response = employeeService.updateEmployeeAvatar(userDetails.getEmployee(), avatar);
@@ -89,7 +88,6 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @PutMapping("/{employeeId}/avatar")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageResponse> updateEmployeeAvatarById(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                   @PathVariable String employeeId,
                                                                   @RequestPart(value = "avatar") MultipartFile avatar) {
