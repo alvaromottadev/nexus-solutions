@@ -1,6 +1,7 @@
 package com.nexus.model;
 
-import com.nexus.dto.Inventory.InventoryRequest;
+import com.nexus.dto.Inventory.InventoryCreateRequest;
+import com.nexus.dto.Inventory.InventoryUpdateRequest;
 import com.nexus.exception.InsufficientStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -56,17 +57,15 @@ public class Inventory {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void update(InventoryRequest inventoryRequest, Location location, Product product) {
-        this.quantity = inventoryRequest.quantity();
-        this.minStock = inventoryRequest.minStock();
+    public void update(InventoryUpdateRequest inventoryUpdateRequest) {
+        this.quantity = inventoryUpdateRequest.quantity();
+        this.minStock = inventoryUpdateRequest.minStock();
         this.updatedAt = LocalDateTime.now();
-        this.location = location;
-        this.product = product;
     }
 
-    public Inventory(InventoryRequest inventoryRequest, Location location, Product product) {
-        this.quantity = inventoryRequest.quantity();
-        this.minStock = inventoryRequest.minStock();
+    public Inventory(InventoryCreateRequest inventoryCreateRequest, Location location, Product product) {
+        this.quantity = inventoryCreateRequest.quantity();
+        this.minStock = inventoryCreateRequest.minStock();
         this.createdAt = LocalDateTime.now();
         this.location = location;
         this.product = product;

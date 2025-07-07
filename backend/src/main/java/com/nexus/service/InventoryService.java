@@ -1,7 +1,8 @@
 package com.nexus.service;
 
-import com.nexus.dto.Inventory.InventoryRequest;
+import com.nexus.dto.Inventory.InventoryCreateRequest;
 import com.nexus.dto.Inventory.InventoryResponse;
+import com.nexus.dto.Inventory.InventoryUpdateRequest;
 import com.nexus.dto.Inventory.StockStatus;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.InventoryAlreadyExistsException;
@@ -30,13 +31,13 @@ public class InventoryService {
     }
 
     @Transactional
-    public InventoryResponse createInventory(InventoryRequest inventoryRequest, Company company){
-        Location location = locationService.findByIdAndCompany(inventoryRequest.locationId(), company);
-        Product product = productService.findByIdAndCompany(inventoryRequest.productId(), company);
+    public InventoryResponse createInventory(InventoryCreateRequest inventoryCreateRequest, Company company){
+        Location location = locationService.findByIdAndCompany(inventoryCreateRequest.locationId(), company);
+        Product product = productService.findByIdAndCompany(inventoryCreateRequest.productId(), company);
 
         validateInventoryDoesNotExist(product, location);
 
-        Inventory inventory = new Inventory(inventoryRequest, location, product);
+        Inventory inventory = new Inventory(inventoryCreateRequest, location, product);
         StockStatus status = getStockStatus(inventory);
         inventoryRepository.save(inventory);
         return new InventoryResponse(inventory, status, company);
@@ -57,14 +58,12 @@ public class InventoryService {
     }
 
     @Transactional
-    public InventoryResponse updateInventory(String inventoryId, InventoryRequest inventoryRequest, Company company) {
+    public InventoryResponse updateInventory(String inventoryId, InventoryUpdateRequest inventoryUpdateRequest, Company company) {
         Inventory inventory = findByIdAndCompany(inventoryId, company);
-        Location location = locationService.findByIdAndCompany(inventoryRequest.locationId(), company);
-        Product product = productService.findByIdAndCompany(inventoryRequest.productId(), company);
 
+        inventory.update(inventoryUpdateRequest);
         StockStatus status = getStockStatus(inventory);
 
-        inventory.update(inventoryRequest, location, product);
         inventoryRepository.save(inventory);
         return new InventoryResponse(inventory, status, company);
     }

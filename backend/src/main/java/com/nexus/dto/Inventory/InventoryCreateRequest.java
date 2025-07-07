@@ -2,7 +2,7 @@ package com.nexus.dto.Inventory;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record InventoryRequest(
+public record InventoryCreateRequest(
 
         Integer quantity,
 

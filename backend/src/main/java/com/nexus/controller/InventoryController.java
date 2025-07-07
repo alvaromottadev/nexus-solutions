@@ -1,7 +1,8 @@
 package com.nexus.controller;
 
-import com.nexus.dto.Inventory.InventoryRequest;
+import com.nexus.dto.Inventory.InventoryCreateRequest;
 import com.nexus.dto.Inventory.InventoryResponse;
+import com.nexus.dto.Inventory.InventoryUpdateRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.service.InventoryService;
@@ -25,8 +26,8 @@ public class InventoryController {
 
     @PostMapping
     public ResponseEntity<InventoryResponse> createInventory(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                             @Validated @RequestBody InventoryRequest inventoryRequest) {
-        InventoryResponse response = inventoryService.createInventory(inventoryRequest, userDetails.getCompany());
+                                                             @Validated @RequestBody InventoryCreateRequest inventoryCreateRequest) {
+        InventoryResponse response = inventoryService.createInventory(inventoryCreateRequest, userDetails.getCompany());
         return ResponseEntity.status(201).body(response);
     }
 
@@ -46,8 +47,8 @@ public class InventoryController {
     @PutMapping("/{inventoryId}")
     public ResponseEntity<InventoryResponse> updateInventory(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                              @PathVariable String inventoryId,
-                                                             @Validated @RequestBody InventoryRequest inventoryRequest) {
-        InventoryResponse response = inventoryService.updateInventory(inventoryId, inventoryRequest, userDetails.getCompany());
+                                                             @Validated @RequestBody InventoryUpdateRequest inventoryUpdateRequest) {
+        InventoryResponse response = inventoryService.updateInventory(inventoryId, inventoryUpdateRequest, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 
