@@ -97,7 +97,7 @@ export default function OraclePage() {
                   })}
                 {waitingResponse && (
                   <CustomText className="text-[#e1e1e3]">
-                    Oracle está pensando...
+                    Oráculo está pensando...
                   </CustomText>
                 )}
               </div>

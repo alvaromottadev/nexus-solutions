@@ -2,7 +2,6 @@ import api from "@/client/api-client";
 import DeleteProductAlert from "@/components/AlertDialog/DeleteProduct";
 import CustomText from "@/components/CustomText";
 import FormFieldComponent from "@/components/Form/FormFieldComponent";
-import SelectComponent from "@/components/SelectComponent";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,14 +14,13 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import usePermission from "@/hooks/usePermission";
 import formInventorySchema from "@/schemas/formInventorySchema";
 import type InventoryType from "@/types/InventoryType";
-import type { LocationType } from "@/types/LocationType";
-import type { ProductType } from "@/types/ProductType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Edit } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -51,6 +49,8 @@ export default function EditInventoryDialog({
 
   const [locationError, setLocationError] = useState<boolean>(false);
   const [productError, setProductError] = useState<boolean>(false);
+
+  const hasPermission = usePermission();
 
   async function handleUpdate(data: z.infer<typeof formInventorySchema>) {
     const json = {
@@ -159,7 +159,11 @@ export default function EditInventoryDialog({
               />
             </div>
             <DialogFooter className="mt-5">
-              <DeleteProductAlert onDelete={() => handleDelete(inventory.id)} />
+              {hasPermission && (
+                <DeleteProductAlert
+                  onDelete={() => handleDelete(inventory.id)}
+                />
+              )}
               <DialogClose asChild>
                 <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
                   Cancelar

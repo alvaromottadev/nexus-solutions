@@ -2,11 +2,12 @@ import api from "@/client/api-client";
 import EmployeeCard from "@/components/Card/EmployeeCard";
 import CustomText from "@/components/CustomText";
 import EmployeeDialog from "@/components/Dialog/Employee/EmployeeDialog";
+import NoHasPermission from "@/components/NoHasPermission";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
+import usePermission from "@/hooks/usePermission";
 import type EmployeeType from "@/types/EmployeeType";
 import { ArchiveX, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -19,10 +20,7 @@ export default function EmployeePage() {
   const [numberPage, setNumberPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
 
-  const auth = useAuth();
-
-  const hasPermission =
-    auth?.user && auth.user.type === "COMPANY" && auth.user.role === "MANAGER";
+  const hasPermission = usePermission();
 
   async function handleSearch() {
     api
@@ -97,55 +95,61 @@ export default function EmployeePage() {
     <>
       <div className="min-h-screen flex flex-col">
         <TopBar />
-        <EmployeeDialog employees={employees} setEmployees={setEmployees}>
-          <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
-            <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">
-              <Plus color="white" />
-            </Button>
-          </div>
-        </EmployeeDialog>
-        <div className="flex flex-col h-full items-center justify-center mt-[2rem]">
-          <SearchComponent
-            label="Funcionários"
-            placeholder="Ex.: Mariana"
-            handleSearch={handleSearch}
-            setName={setName}
-          />
-        </div>
-        {!isLoading ? (
-          employees.length > 0 ? (
-            <div className="w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
-              {employees.map(
-                (employee, index) =>
-                  index < 12 && (
-                    <EmployeeCard
-                      employee={employee}
-                      employees={employees}
-                      setEmployees={setEmployees}
-                      key={employee.id}
-                    />
-                  )
-              )}
+        {hasPermission ? (
+          <>
+            <EmployeeDialog employees={employees} setEmployees={setEmployees}>
+              <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
+                <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">
+                  <Plus color="white" />
+                </Button>
+              </div>
+            </EmployeeDialog>
+            <div className="flex flex-col h-full items-center justify-center mt-[2rem]">
+              <SearchComponent
+                label="Funcionários"
+                placeholder="Ex.: Mariana"
+                handleSearch={handleSearch}
+                setName={setName}
+              />
             </div>
-          ) : (
-            <div className="flex flex-1 flex-col justify-center items-center">
-              <ArchiveX color="purple" size={64} />
-              <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
-                Nenhum funcionário cadastrado
-              </CustomText>
-            </div>
-          )
+            {!isLoading ? (
+              employees.length > 0 ? (
+                <div className="w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
+                  {employees.map(
+                    (employee, index) =>
+                      index < 12 && (
+                        <EmployeeCard
+                          employee={employee}
+                          employees={employees}
+                          setEmployees={setEmployees}
+                          key={employee.id}
+                        />
+                      )
+                  )}
+                </div>
+              ) : (
+                <div className="flex flex-1 flex-col justify-center items-center">
+                  <ArchiveX color="purple" size={64} />
+                  <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
+                    Nenhum funcionário cadastrado
+                  </CustomText>
+                </div>
+              )
+            ) : (
+              <div className="h-full flex flex-1 justify-center items-center">
+                <DotLoader color="purple" size={96} />
+              </div>
+            )}
+            <Pagination
+              handleNextPage={handleNextPage}
+              handlePreviousPage={handlePreviousPage}
+              numberPage={numberPage}
+              totalPage={totalPage}
+            />
+          </>
         ) : (
-          <div className="h-full flex flex-1 justify-center items-center">
-            <DotLoader color="purple" size={96} />
-          </div>
+          <NoHasPermission />
         )}
-        <Pagination
-          handleNextPage={handleNextPage}
-          handlePreviousPage={handlePreviousPage}
-          numberPage={numberPage}
-          totalPage={totalPage}
-        />
       </div>
     </>
   );

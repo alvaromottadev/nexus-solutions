@@ -66,12 +66,6 @@ export default function TopBar({ isOracle = false }: TopBarProps) {
           />
           <TopBarButton
             onClick={handleClick}
-            label="Relatórios"
-            url="reports"
-            isOracle={isOracle}
-          />
-          <TopBarButton
-            onClick={handleClick}
             label="Oraculo"
             url="oracle"
             isOracle={isOracle}

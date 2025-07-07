@@ -2,6 +2,7 @@ import type { ProductType } from "@/types/ProductType";
 import CustomText from "../CustomText";
 import EditProductDialog from "../Dialog/EditProduct";
 import { useState } from "react";
+import usePermission from "@/hooks/usePermission";
 
 interface ProductCardProps {
   product: ProductType;
@@ -16,6 +17,8 @@ export default function ProductCard({
 }: ProductCardProps) {
   const [open, setOpen] = useState<boolean>(false);
 
+  const hasPermission = usePermission();
+
   return (
     <>
       <div className="flex items-center justify-around mt-[1rem] w-[90%] min-h-[7rem] bg-[#f9f9f9] border-black border-[1px] rounded-[0.5rem] hover:translate-y-[-5px] duration-300 shadow-md">
@@ -26,13 +29,15 @@ export default function ProductCard({
           </CustomText>
           <CustomText>{product.description}</CustomText>
         </div>
-        <EditProductDialog
-          isOpen={open}
-          setOpen={setOpen}
-          product={product}
-          products={products}
-          setProducts={setProducts}
-        />
+        {hasPermission && (
+          <EditProductDialog
+            isOpen={open}
+            setOpen={setOpen}
+            product={product}
+            products={products}
+            setProducts={setProducts}
+          />
+        )}
       </div>
     </>
   );

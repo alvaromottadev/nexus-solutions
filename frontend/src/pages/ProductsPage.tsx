@@ -10,6 +10,7 @@ import ProductCard from "@/components/Card/ProductCard";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import DotLoader from "react-spinners/DotLoader";
+import usePermission from "@/hooks/usePermission";
 export default function ProductsPage() {
   const token = localStorage.getItem("token");
 
@@ -19,6 +20,8 @@ export default function ProductsPage() {
   const [totalPage, setTotalPage] = useState<number>(0);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const hasPermission = usePermission();
 
   useEffect(() => {
     async function getProducts() {
@@ -98,7 +101,9 @@ export default function ProductsPage() {
     <>
       <div className="min-h-screen flex flex-col">
         <TopBar />
-        <CreateProductDialog products={products} setProducts={setProducts} />
+        {hasPermission && (
+          <CreateProductDialog products={products} setProducts={setProducts} />
+        )}
         <div className="flex flex-col h-full items-center justify-center mt-[2rem]">
           <SearchComponent
             label="Produtos"

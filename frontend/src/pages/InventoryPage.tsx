@@ -18,9 +18,12 @@ import CreateInventoryDialog from "@/components/Dialog/Inventory/CreateInventory
 import { toast } from "sonner";
 import DeleteInventoryAlert from "@/components/AlertDialog/DeleteInventory";
 import EditInventoryDialog from "@/components/Dialog/Inventory/EditInventory";
+import usePermission from "@/hooks/usePermission";
 
 export default function InventoryPage() {
   const [inventories, setInventories] = useState<InventoryType[]>([]);
+
+  const hasPermission = usePermission();
 
   const columns = [
     {
@@ -70,10 +73,12 @@ export default function InventoryPage() {
                 inventory={inventory}
                 setInventories={setInventories}
               />
-              <DeleteInventoryAlert
-                inventoryId={inventory.id}
-                onDelete={handleDelete}
-              />
+              {hasPermission && (
+                <DeleteInventoryAlert
+                  inventoryId={inventory.id}
+                  onDelete={handleDelete}
+                />
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );

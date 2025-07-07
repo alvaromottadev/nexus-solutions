@@ -47,6 +47,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUser(res.data);
         setLoading(false);
         setIsAuthenticated(true);
+        console.log(res.data);
       });
   }
 
@@ -54,7 +55,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem("token", token);
     setToken(token);
     getUser(token);
-    // navigate("/home");
   }
 
   function logout() {

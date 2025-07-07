@@ -9,7 +9,6 @@ export default function PrivateRoute({ allowedTypes }: PrivateRouteProps) {
   const auth = useAuth();
 
   if (auth && !auth.loading) {
-    console.log("aqui chegou");
     if (!auth.user || !auth.token) {
       return <Navigate to="/login" />;
     }

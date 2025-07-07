@@ -6,10 +6,10 @@ import NoHasPermission from "@/components/NoHasPermission";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
-import { useAuth } from "@/hooks/useAuth";
+import usePermission from "@/hooks/usePermission";
 import type { LocationResponseType } from "@/types/LocationResponseType";
 import type { LocationType } from "@/types/LocationType";
-import { ArchiveX, Lock } from "lucide-react";
+import { ArchiveX } from "lucide-react";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
 
@@ -20,9 +20,7 @@ export default function LocationsPage() {
   const [totalPage, setTotalPage] = useState<number>(0);
   const [name, setName] = useState<string>("");
 
-  const auth = useAuth();
-  const hasPermission =
-    auth?.user && auth.user.type === "COMPANY" && auth.user.role === "MANAGER";
+  const hasPermission = usePermission();
 
   useEffect(() => {
     async function getLocations() {

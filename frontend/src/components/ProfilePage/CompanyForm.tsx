@@ -11,7 +11,7 @@ import { updateCompanySchema } from "@/schemas/updateCompanySchema";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "@/client/api-client";
 import { toast } from "sonner";
@@ -21,6 +21,7 @@ import type { CompanyType } from "@/types/CompanyType";
 import EditAddressDialog from "../Dialog/Address/EditAddress";
 import type AddressType from "@/types/AddressType";
 import type addressFormSchema from "@/schemas/addressFormSchema";
+import CustomText from "../CustomText";
 
 interface FormFieldComponentProps {
   company: CompanyType;
@@ -37,24 +38,15 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
   });
 
   const [address, setAddress] = useState<AddressType>(company.address);
+  const [logoPreview, setLogoPreview] = useState<string | null>(
+    company.logo || null
+  );
+  const [image, setImage] = useState<File | null | undefined>(null);
   const [isDisabled, setIsDisabled] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigation = useNavigate();
 
-  function handleAddressUpdate(data: z.infer<typeof addressFormSchema>) {
-    setAddress({
-      id: company.address.id,
-      street: data.street,
-      number: data.number,
-      complement: data.complement || "",
-      district: data.district,
-      city: data.city,
-      state: data.state,
-      postalCode: data.postalCode,
-      country: data.country,
-    });
-  }
-
-  function handleUpdate(data: z.infer<typeof updateCompanySchema>) {
+  async function handleUpdate(data: z.infer<typeof updateCompanySchema>) {
     api
       .put(
         `/companies`,
@@ -71,23 +63,80 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
           },
         }
       )
-      .then(() => {
+      .then(async () => {
         toast.success("Dados do perfil atualizados com sucesso!");
+        if (logoPreview && image) handleLogoUpdate();
         if (data.email !== company.user.email) {
           toast.info("Você precisará fazer login novamente com o novo email.");
           localStorage.removeItem("token");
           navigation("/login");
         }
+        form.setValue("password", "");
         setIsDisabled(true);
       });
   }
 
+  function handleAddressUpdate(data: z.infer<typeof addressFormSchema>) {
+    setAddress({
+      id: company.address.id,
+      street: data.street,
+      number: data.number,
+      complement: data.complement || "",
+      district: data.district,
+      city: data.city,
+      state: data.state,
+      postalCode: data.postalCode,
+      country: data.country,
+    });
+  }
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    setImage(file);
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setLogoPreview(imageUrl);
+    } else {
+      setLogoPreview(null);
+    }
+  }
+
+  function handleImageClick() {
+    if (isDisabled) return;
+    fileInputRef.current?.click();
+  }
+
+  async function handleLogoUpdate() {
+    const formData = new FormData();
+    formData.append("logo", image as File);
+    api.put(`/companies/logo`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  }
+
   return (
     <>
-      <img
-        src={company.avatar || defaultAvatar}
-        className="w-[10rem] h-[10rem] self-center rounded-full mb-10"
-      />
+      <div className="flex flex-col items-center">
+        <img
+          src={logoPreview || defaultAvatar}
+          className="w-[10rem] h-[10rem] self-center rounded-full mb-2"
+          alt="Logo"
+          onClick={handleImageClick}
+        />
+        <CustomText className="text-[0.8rem] mb-8">
+          Para editar a foto, clique em "Editar Perfil" e depois na image acima
+        </CustomText>
+        <Input
+          type="file"
+          ref={fileInputRef}
+          className="hidden"
+          onChange={handleFileChange}
+        />
+      </div>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleUpdate)}>
           <div className="flex flex-col gap-y-2">

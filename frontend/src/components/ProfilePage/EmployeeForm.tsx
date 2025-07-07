@@ -1,7 +1,7 @@
 import { uploadEmployeeSchema } from "@/schemas/uploadEmployeeSchema";
 import type EmployeeType from "@/types/EmployeeType";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import {
@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import type { AuthMeType } from "@/types/AuthMeType";
 import { useNavigate } from "react-router";
 import defaultAvatar from "@/assets/default-avatar.jpg";
+import CustomText from "../CustomText";
 
 interface EmployeeFormProps {
   employee: EmployeeType;
@@ -36,9 +37,12 @@ export default function EmployeeForm({ employee, auth }: EmployeeFormProps) {
   });
 
   const [isDisabled, setIsDisabled] = useState(true);
+  const [image, setImage] = useState<File | null | undefined>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(
+    employee.avatar || null
+  );
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigation = useNavigate();
-
-  console.log("employee: " + employee);
 
   function handleUpdate(data: z.infer<typeof uploadEmployeeSchema>) {
     api
@@ -56,8 +60,9 @@ export default function EmployeeForm({ employee, auth }: EmployeeFormProps) {
           },
         }
       )
-      .then(() => {
+      .then(async () => {
         toast.success("Dados do perfil atualizados com sucesso!");
+        if (avatarPreview && image) handleAvatarUpdate();
         if (data.email !== employee.user.email) {
           toast.info("Você precisará fazer login novamente com o novo email.");
           localStorage.removeItem("token");
@@ -68,12 +73,56 @@ export default function EmployeeForm({ employee, auth }: EmployeeFormProps) {
       });
   }
 
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file?.type !== "image/jpeg" && file?.type !== "image/png") {
+      toast.error("Apenas arquivos JPEG ou PNG são permitidos.");
+      return;
+    }
+    setImage(file);
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setAvatarPreview(imageUrl);
+    } else {
+      setAvatarPreview(null);
+    }
+  }
+
+  function handleImageClick() {
+    if (isDisabled) return;
+    fileInputRef.current?.click();
+  }
+
+  async function handleAvatarUpdate() {
+    const formData = new FormData();
+    formData.append("avatar", image as File);
+    api.put(`/employees/avatar`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  }
+
   return (
     <>
-      <img
-        src={employee.avatar || defaultAvatar}
-        className="w-[10rem] h-[10rem] self-center rounded-full mb-10"
-      />
+      <div className="flex flex-col items-center">
+        <img
+          src={avatarPreview || defaultAvatar}
+          className="w-[10rem] h-[10rem] self-center rounded-full mb-2"
+          onClick={handleImageClick}
+        />
+        <CustomText className="text-[0.8rem] mb-8">
+          Para editar a foto, clique em "Editar Perfil" e depois na image acima
+        </CustomText>
+        <Input
+          type="file"
+          ref={fileInputRef}
+          className="hidden"
+          onChange={handleFileChange}
+        />
+      </div>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleUpdate)}>
           <div className="flex flex-col gap-y-2">

@@ -79,15 +79,6 @@ export default function SideBar() {
             </div>
             <div>
               <Button
-                onClick={() => handleClick("reports")}
-                className="min-w-[10rem] max-w-[10rem] "
-              >
-                <ChartBar />
-                <CustomText>Relatórios</CustomText>
-              </Button>
-            </div>
-            <div>
-              <Button
                 onClick={() => handleClick("oracle")}
                 className="min-w-[10rem] max-w-[10rem] "
               >
