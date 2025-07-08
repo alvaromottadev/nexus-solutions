@@ -186,6 +186,13 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.inventory.already.exists")));
     }
 
+    @ExceptionHandler(FormatInvalidException.class)
+    public ResponseEntity<ErrorResponse> handleFormatInvalidException(FormatInvalidException e) {
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorResponse(messageUtils.getMessage("error.format.invalid", e.getMessage())));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         return ResponseEntity
