@@ -76,7 +76,11 @@ export default function EmployeeForm({ employee, auth }: EmployeeFormProps) {
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
-    if (file?.type !== "image/jpeg" && file?.type !== "image/png") {
+    if (
+      file?.type !== "image/jpeg" &&
+      file?.type !== "image/png" &&
+      file?.type !== "image/jpg"
+    ) {
       toast.error("Apenas arquivos JPEG ou PNG são permitidos.");
       return;
     }

@@ -13,7 +13,7 @@ export default function HomeBody() {
       <div className="flex flex-col flex-1 items-center justify-center">
         <div className="flex justify-center lg:justify-between p-25 w-full">
           <div className="flex flex-col items-center lg:items-start w-[80%] gap-y-2">
-            <CustomText className="text-[2.5rem] text-[var(--primary-color)] font-bold lg:text-left">
+            <CustomText className="text-[1.8rem] lg:text-[2.5rem] text-[var(--primary-color)] font-bold lg:text-left">
               Olá, {companyName}!
             </CustomText>
 

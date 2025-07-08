@@ -63,6 +63,14 @@ export default function EditProductDialog({
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
+    if (
+      file?.type !== "image/jpeg" &&
+      file?.type !== "image/png" &&
+      file?.type !== "image/jpg"
+    ) {
+      toast.error("Apenas arquivos JPEG ou PNG são permitidos.");
+      return;
+    }
     setImage(file);
     if (file) {
       const imageUrl = URL.createObjectURL(file);
