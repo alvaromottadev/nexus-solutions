@@ -3,6 +3,7 @@ package com.nexus.controller;
 import com.nexus.dto.Auth.*;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
+import com.nexus.openapi.AuthControllerOpenApi;
 import com.nexus.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController {
-
+public class AuthController implements AuthControllerOpenApi {
 
     private final AuthService authService;
 
