@@ -119,7 +119,7 @@ export default function LocationsPage() {
             </div>
             {!isLoading ? (
               locations.length > 0 ? (
-                <div className="flex flex-col items-center">
+                <div className="px-4 gap-4 flex flex-col items-center">
                   <div className="flex items-center w-[90%] flex-col">
                     {locations.map(
                       (location, index) =>

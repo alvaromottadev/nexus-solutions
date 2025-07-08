@@ -114,7 +114,7 @@ export default function EmployeePage() {
             </div>
             {!isLoading ? (
               employees.length > 0 ? (
-                <div className="w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
+                <div className="px-4 gap-4 w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
                   {employees.map(
                     (employee, index) =>
                       index < 12 && (

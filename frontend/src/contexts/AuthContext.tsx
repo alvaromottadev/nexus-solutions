@@ -47,7 +47,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUser(res.data);
         setLoading(false);
         setIsAuthenticated(true);
-        console.log(res.data);
       });
   }
 
