@@ -7,6 +7,7 @@ import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Email.EmailRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.dto.User.UserResponse;
+import com.nexus.exception.InvalidCompanyRegistrationException;
 import com.nexus.exception.PasswordConfirmationMismatchException;
 import com.nexus.infra.security.JwtTokenUtil;
 import com.nexus.infra.security.UserDetailsImpl;
@@ -49,6 +50,7 @@ public class AuthService {
 
     @Transactional
     public SuccessResponse register(UserCompanyRegisterRequest registerRequest) {
+        validateCompanyRegistrationAsEmployee(registerRequest.user().type());
         User user = userService.createUser(registerRequest.user());
         Address address = addressService.createAddress(registerRequest.company().address());
         companyService.createCompany(user, address, registerRequest.company());
@@ -92,9 +94,14 @@ public class AuthService {
 
     private void validatePasswordIsEqual(String newPassword, String confirmPassword){
         if (!newPassword.equals(confirmPassword)){
-            throw  new PasswordConfirmationMismatchException();
+            throw new PasswordConfirmationMismatchException();
         }
     }
 
+    private void validateCompanyRegistrationAsEmployee(UserType userType){
+        if (userType == UserType.EMPLOYEE){
+            throw new InvalidCompanyRegistrationException();
+        }
+    }
 
 }

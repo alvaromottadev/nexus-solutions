@@ -168,7 +168,7 @@ public class ExceptionGlobalHandler {
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<ErrorResponse> handleInvalidPasswordException(InvalidPasswordException e) {
         return ResponseEntity
-                .status(400)
+                .status(401)
                 .body(new ErrorResponse(messageUtils.getMessage("error.invalid.password")));
     }
 
@@ -177,6 +177,27 @@ public class ExceptionGlobalHandler {
         return ResponseEntity
                 .status(409)
                 .body(new ErrorResponse(messageUtils.getMessage("error.password.confirmation.mismatch")));
+    }
+
+    @ExceptionHandler(InvalidRegistrationException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidRegistrationException(InvalidRegistrationException e) {
+        return ResponseEntity
+                .status(400)
+                .body(new ErrorResponse(messageUtils.getMessage("error.invalid.registration")));
+    }
+
+    @ExceptionHandler(InvalidCompanyRegistrationException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCompanyRegistrationException(InvalidCompanyRegistrationException e) {
+        return ResponseEntity
+                .status(400)
+                .body(new ErrorResponse(messageUtils.getMessage("error.invalid.company.registration")));
+    }
+
+    @ExceptionHandler(InvalidEmployeeRegistrationException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidEmployeeRegistrationException(InvalidEmployeeRegistrationException e) {
+        return ResponseEntity
+                .status(400)
+                .body(new ErrorResponse(messageUtils.getMessage("error.invalid.employee.registration")));
     }
 
     @ExceptionHandler(InventoryAlreadyExistsException.class)
