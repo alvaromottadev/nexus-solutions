@@ -25,6 +25,7 @@ import java.util.Map;
 public class OracleAIService {
 
     private final AiCommandDispatcher aiCommandDispatcher;
+
     @Value("${oracle.prompt}")
     private String prompt;
 
