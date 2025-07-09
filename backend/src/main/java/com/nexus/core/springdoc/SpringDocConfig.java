@@ -26,7 +26,17 @@ public class SpringDocConfig {
                                 new Tag().name("Company")
                                         .description("Endpoints for company management"),
                                 new Tag().name("Employee")
-                                        .description("Endpoints for employee management")
+                                        .description("Endpoints for employee management"),
+                                new Tag().name("Inventory")
+                                        .description("Endpoints for inventory management"),
+                                new Tag().name("Location")
+                                        .description("Endpoints for location management"),
+                                new Tag().name("Movement")
+                                        .description("Endpoints for movement management"),
+                                new Tag().name("Oracle")
+                                        .description("Endpoints for Oracle IA integration"),
+                                new Tag().name("Product")
+                                        .description("Endpoints for product management")
                         )
                 );
     }

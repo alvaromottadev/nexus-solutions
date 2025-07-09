@@ -5,6 +5,7 @@ import com.nexus.dto.Inventory.InventoryResponse;
 import com.nexus.dto.Inventory.InventoryUpdateRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
+import com.nexus.openapi.InventoryControllerOpenApi;
 import com.nexus.service.InventoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/inventories")
-public class InventoryController {
+public class InventoryController implements InventoryControllerOpenApi {
 
     private final InventoryService inventoryService;
 

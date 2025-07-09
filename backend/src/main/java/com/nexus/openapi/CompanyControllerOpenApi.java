@@ -32,7 +32,7 @@ public interface CompanyControllerOpenApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of companies retrieved successfully"),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"You do not have permission to access this resource.\" }"))),
+                    content = @Content()),
     })
     @Operation(summary = "Get a list of companies", description = "Retrieves a paginated list of companies. Default size is 10 and default page is 0. Sort is by creation date in descending order.")
     ResponseEntity<List<CompanyResponse>> getCompany(@RequestParam(required = false, defaultValue = "10") Integer size,
@@ -45,7 +45,7 @@ public interface CompanyControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Company not found",
                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Company not found.\" }"))),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"You do not have permission to access this resource.\" }")))
+                    content = @Content()),
     })
     @Operation(summary = "Get company by ID", description = "Retrieves a company by its ID.")
     ResponseEntity<CompanyResponse> getCompanyById(@PathVariable String companyId);
@@ -57,7 +57,7 @@ public interface CompanyControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Company not found",
                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Company not found.\" }"))),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"You do not have permission to access this resource.\" }")))
+                    content = @Content()),
     })
     @Operation(summary = "Get my company", description = "Retrieves the company associated with the authenticated user.")
     ResponseEntity<CompanyResponse> getMyCompany(@AuthenticationPrincipal UserDetailsImpl userDetails);
@@ -71,7 +71,7 @@ public interface CompanyControllerOpenApi {
             @ApiResponse(responseCode = "401", description = "Unauthorized (e.g., password incorrect)",
                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Password incorrect.\" }"))),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"You do not have permission to access this resource.\" }"))),
+                    content = @Content()),
             @ApiResponse(responseCode = "409", description = "Conflict - Email already exists",
                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Email already exists.\" }")))
     })
@@ -86,7 +86,7 @@ public interface CompanyControllerOpenApi {
             @ApiResponse(responseCode = "400", description = "Bad Request - Invalid file format or size",
                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Invalid file format or size.\" }"))),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"You do not have permission to access this resource.\" }")))
+                    content = @Content()),
     })
     @Operation(summary = "Update company logo",
             description = "Updates the logo of the company associated with the authenticated user.")

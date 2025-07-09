@@ -65,8 +65,8 @@ public interface AuthControllerOpenApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Invalid input data\" }"))),
             @ApiResponse(responseCode = "401", description = "Unauthorized (e.g., invalid current password, token expired)",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Invalid current password\" }"))),
-            @ApiResponse(responseCode = "403", description = "Forbidden (e.g., user not authenticated)",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"User not authenticated\" }"))),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
+                    content = @Content()),
             @ApiResponse(responseCode = "409", description = "Conflict (e.g., new password and confirmation do not match)",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"New password and confirmation do not match\" }")))
     })
