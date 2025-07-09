@@ -1,6 +1,7 @@
 package com.nexus.model;
 
 import com.nexus.dto.Product.ProductRequest;
+import com.nexus.dto.Product.ProductUpdateRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,6 +58,15 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<MovementItem> movementItems;
+
+    public void update(ProductUpdateRequest productUpdateRequest){
+        this.name = productUpdateRequest.name();
+        this.description = productUpdateRequest.description();
+        if (productUpdateRequest.code() != null && !productUpdateRequest.code().isEmpty()){
+            this.code = productUpdateRequest.code();
+        }
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Product(ProductRequest productRequest, Company company) {
         this.name = productRequest.name();

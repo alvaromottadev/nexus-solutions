@@ -165,6 +165,13 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.mail.send")));
     }
 
+    @ExceptionHandler(FileEmptyOrNullException.class)
+    public ResponseEntity<ErrorResponse> handleFileEmptyOrNullException(FileEmptyOrNullException e) {
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorResponse(messageUtils.getMessage("error.file.empty.or.null")));
+    }
+
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<ErrorResponse> handleInvalidPasswordException(InvalidPasswordException e) {
         return ResponseEntity

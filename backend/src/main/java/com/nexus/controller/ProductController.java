@@ -1,17 +1,13 @@
 package com.nexus.controller;
 
+import com.nexus.dto.ImageResponse;
 import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
 import com.nexus.dto.Product.ProductUpdateRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
-import com.nexus.model.Product;
-import com.nexus.model.User;
+import com.nexus.openapi.ProductControllerOpenApi;
 import com.nexus.service.ProductService;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +17,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/products")
-public class ProductController {
+public class ProductController implements ProductControllerOpenApi {
 
     private final ProductService productService;
 
@@ -37,12 +30,9 @@ public class ProductController {
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @PostMapping()
     public ResponseEntity<ProductResponse> createProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                           @RequestPart(value = "file", required = false) MultipartFile file,
-                                           @RequestPart(value = "name") String name,
-                                           @RequestPart(value = "description", required = false) String description,
-                                           @RequestPart(value = "code", required = false) String code
+                                           @Validated @RequestBody ProductRequest productRequest
     ) {
-        ProductResponse response = productService.createProduct(file, new ProductRequest(name, description, code), userDetails.getCompany());
+        ProductResponse response = productService.createProduct(productRequest, userDetails.getCompany());
         return ResponseEntity.status(201).body(response);
     }
 
@@ -73,12 +63,18 @@ public class ProductController {
     @PutMapping("/{productId}")
     public ResponseEntity<ProductResponse> updateProduct(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                          @PathVariable String productId,
-                                                         @RequestPart(value = "file", required = false) MultipartFile file,
-                                                         @RequestPart(value = "name") String name,
-                                                         @RequestPart(value = "description", required = false) String description,
-                                                         @RequestPart(value = "code", required = false) String code
+                                                         @Validated @RequestBody ProductUpdateRequest productUpdateRequest
     ) {
-        ProductResponse response = productService.updateProduct(productId, file, new ProductUpdateRequest(name, description, code), userDetails.getCompany());
+        ProductResponse response = productService.updateProduct(productId, productUpdateRequest, userDetails.getCompany());
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
+    @PutMapping(path = "/{productId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ImageResponse> updateProductImage(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                            @PathVariable String productId,
+                                                            @RequestParam("image") MultipartFile image) {
+        ImageResponse response = productService.updateProductImage(productId, image, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }
 

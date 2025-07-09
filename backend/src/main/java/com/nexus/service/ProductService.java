@@ -1,9 +1,11 @@
 package com.nexus.service;
 
+import com.nexus.dto.ImageResponse;
 import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
 import com.nexus.dto.Product.ProductUpdateRequest;
 import com.nexus.dto.SuccessResponse;
+import com.nexus.exception.FileEmptyOrNullException;
 import com.nexus.exception.ProductNotFoundException;
 import com.nexus.model.Company;
 import com.nexus.model.Location;
@@ -40,13 +42,9 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse createProduct(MultipartFile file, ProductRequest productRequest, Company company) {
+    public ProductResponse createProduct(ProductRequest productRequest, Company company) {
 
         Product product = new Product(productRequest, company);
-        if (file != null && !file.isEmpty()){
-            String imageUrl = storageService.uploadImage(file, UUID.randomUUID().toString());
-            product.setImage(imageUrl);
-        }
         String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getPublicId());
         product.setQrCode(qrCodeUrl);
 
@@ -74,17 +72,23 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse updateProduct(String productId, MultipartFile file, ProductUpdateRequest productRequest, Company company) {
+    public ProductResponse updateProduct(String productId, ProductUpdateRequest productUpdateRequest, Company company) {
         Product product = findByIdAndCompany(productId, company);
-        product.setName(productRequest.name());
-        product.setDescription(productRequest.description());
-        product.setUpdatedAt(LocalDateTime.now());
-        if (file != null && !file.isEmpty()){
-            String newImage = storageService.uploadImage(file, product.getImage().split("/")[3]);
-            product.setImage(newImage);
-        }
+        product.update(productUpdateRequest);
         productRepository.save(product);
         return new ProductResponse(product);
+    }
+
+    @Transactional
+    public ImageResponse updateProductImage(String productId, MultipartFile image, Company company) {
+        Product product = findByIdAndCompany(productId, company);
+        if (image != null && !image.isEmpty()){
+            String imageUrl = storageService.uploadImage(image, UUID.randomUUID().toString());
+            product.setImage(imageUrl);
+            productRepository.save(product);
+            return new ImageResponse(imageUrl);
+        }
+        throw new FileEmptyOrNullException();
     }
 
     @Transactional
