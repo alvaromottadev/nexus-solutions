@@ -53,10 +53,10 @@ public interface EmployeeControllerOpenApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Employee not found",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Employee not found.\" }"))),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
                     content = @Content()),
+            @ApiResponse(responseCode = "404", description = "Employee not found",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Employee not found.\" }"))),
     })
     @Operation(summary = "Get employee by ID", description = "Retrieves an employee by their ID.")
     ResponseEntity<EmployeeResponse> getEmployeeById(@AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -66,10 +66,10 @@ public interface EmployeeControllerOpenApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
+                    content = @Content()),
             @ApiResponse(responseCode = "404", description = "Employee not found",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Employee not found.\" }"))),
-            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"You do not have permission to access this resource.\" }")))
     })
     @Operation(summary = "Get current employee", description = "Retrieves the authenticated user's employee information.")
     ResponseEntity<EmployeeResponse> getMyEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails);

@@ -97,6 +97,8 @@ public interface CompanyControllerOpenApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Company deleted successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = SuccessResponse.class, example = "{ \"message\": \"Company deleted successfully\" }"))),
+            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
+                    content = @Content()),
     })
     @Operation(summary = "Delete company", description = "Deletes the company associated with the authenticated user.")
     ResponseEntity<SuccessResponse> deleteCompany(@AuthenticationPrincipal UserDetailsImpl userDetails);
