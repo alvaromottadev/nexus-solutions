@@ -4,6 +4,7 @@ import com.nexus.dto.Location.LocationRequest;
 import com.nexus.dto.Location.LocationResponse;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
+import com.nexus.openapi.LocationControllerOpenApi;
 import com.nexus.service.LocationService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/locations")
-public class LocationController {
+public class LocationController implements LocationControllerOpenApi {
 
     private final LocationService locationService;
 
@@ -36,9 +37,6 @@ public class LocationController {
     public ResponseEntity<LocationResponse> getLocationById(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                @PathVariable String locationId) {
         LocationResponse response = locationService.getLocationById(locationId, userDetails.getCompany());
-
-
-
         return ResponseEntity.ok(response);
     }
 

@@ -33,7 +33,7 @@ public class LocationService {
 
     @Transactional
     public LocationResponse createLocation(LocationRequest locationRequest, Company company) {
-        Address address = createAddress(locationRequest.address());
+        Address address = addressService.createAddress(locationRequest.address());
         Location location = new Location(locationRequest.name(), address, company);
         locationRepository.save(location);
         return new LocationResponse(location, new AddressResponse(address));
@@ -92,11 +92,6 @@ public class LocationService {
     public Location findByIdAndCompany(String id, Company company){
         return locationRepository.findByIdAndCompanyAndDeletedAtIsNull(id, company)
                 .orElseThrow((LocationNotFoundException::new));
-    }
-
-    private Address createAddress(AddressRequest addressRequest) {
-        Address address = new Address(addressRequest);
-        return addressService.save(address);
     }
 
 }

@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+@Tag(name = "Inventory", description = "Operations related to inventory management")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
-@Tag(name = "Inventory")
 public interface InventoryControllerOpenApi {
 
     @ApiResponses(value = {

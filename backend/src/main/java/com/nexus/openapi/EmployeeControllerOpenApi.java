@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-@Tag(name = "Employee")
+@Tag(name = "Employee", description = "Operations related to employee management")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
 public interface EmployeeControllerOpenApi {
 
@@ -77,7 +77,7 @@ public interface EmployeeControllerOpenApi {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of employees retrieved successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class, example = "\"{\\n  \\\"content\\\": [\\n    {\\n      \\\"id\\\": \\\"string\\\",\\n      \\\"name\\\": \\\"string\\\",\\n      \\\"avatar\\\": \\\"string\\\",\\n      \\\"role\\\": \\\"MANAGER\\\",\\n      \\\"createdAt\\\": \\\"2023-10-01T00:00:00Z\\\",\\n      \\\"updatedAt\\\": \\\"2023-10-01T00:00:00Z\\\",\\n      \\\"user\\\": {\\n        \\\"id\\\": \\\"string\\\",\\n        \\\"email\\\": \\\"string\\\",\\n        \\\"type\\\": \\\"EMPLOYEE\\\"\\n      }\\n    }\\n  ],\\n  \\\"totalElements\\\": 1,\\n  \\\"totalPages\\\": 1,\\n  \\\"size\\\": 10,\\n  \\\"number\\\": 0\\n}\"\n"))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class, example = "\"{\\n  \\\"content\\\": [\\n    {\\n      \\\"id\\\": \\\"string\\\",\\n      \\\"name\\\": \\\"string\\\",\\n      \\\"avatar\\\": \\\"string\\\",\\n      \\\"role\\\": \\\"MANAGER\\\",\\n      \\\"createdAt\\\": \\\"2023-10-01T00:00:00Z\\\",\\n      \\\"updatedAt\\\": \\\"2023-10-01T00:00:00Z\\\",\\n      \\\"user\\\": {\\n        \\\"id\\\": \\\"string\\\",\\n        \\\"email\\\": \\\"string\\\",\\n        \\\"type\\\": \\\"EMPLOYEE\\\"\\n      }\\n    }\\n  ],\\n  \\\"pageable\\\": {\\n    \\\"pageNumber\\\": 0,\\n    \\\"pageSize\\\": 10,\\n    \\\"sort\\\": {\\n      \\\"empty\\\": false,\\n      \\\"sorted\\\": true,\\n      \\\"unsorted\\\": false\\n    },\\n    \\\"offset\\\": 0,\\n    \\\"paged\\\": true,\\n    \\\"unpaged\\\": false\\n  },\\n  \\\"last\\\": true,\\n  \\\"totalPages\\\": 1,\\n  \\\"totalElements\\\": 1,\\n  \\\"size\\\": 10,\\n  \\\"number\\\": 0,\\n  \\\"sort\\\": {\\n    \\\"empty\\\": false,\\n    \\\"sorted\\\": true,\\n    \\\"unsorted\\\": false\\n  },\\n  \\\"numberOfElements\\\": 1,\\n  \\\"first\\\": true,\\n  \\\"empty\\\": false\\n}\"\n"))),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
                     content = @Content()),
     })
