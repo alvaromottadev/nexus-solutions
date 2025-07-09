@@ -24,7 +24,9 @@ public class SpringDocConfig {
                                 new Tag().name("Authentication")
                                         .description("Endpoints for user authentication and management"),
                                 new Tag().name("Company")
-                                        .description("Endpoints for company management")
+                                        .description("Endpoints for company management"),
+                                new Tag().name("Employee")
+                                        .description("Endpoints for employee management")
                         )
                 );
     }

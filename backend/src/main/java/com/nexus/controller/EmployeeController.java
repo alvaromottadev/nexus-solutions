@@ -7,7 +7,9 @@ import com.nexus.dto.Employee.EmployeeUpdateRequest;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
+import com.nexus.openapi.EmployeeControllerOpenApi;
 import com.nexus.service.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/employees")
-public class EmployeeController {
+public class EmployeeController implements EmployeeControllerOpenApi {
 
     private final EmployeeService employeeService;
 
@@ -28,6 +30,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @Operation(summary = "Create employee", description = "Creates a new employee for the authenticated user's company.")
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @PostMapping
     public ResponseEntity<EmployeeResponse> createEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -79,7 +82,7 @@ public class EmployeeController {
     }
 
     @PreAuthorize("#userDetails.type.name() == 'EMPLOYEE'")
-    @PutMapping("/avatar")
+    @PutMapping(path = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageResponse> updateEmployeeAvatar(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                               @RequestPart(value = "avatar") MultipartFile avatar) {
         ImageResponse response = employeeService.updateEmployeeAvatar(userDetails.getEmployee(), avatar);
@@ -87,7 +90,7 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
-    @PutMapping("/{employeeId}/avatar")
+    @PutMapping(path = "/{employeeId}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageResponse> updateEmployeeAvatarById(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                   @PathVariable String employeeId,
                                                                   @RequestPart(value = "avatar") MultipartFile avatar) {
@@ -98,9 +101,10 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
     @DeleteMapping("/{employeeId}")
-    public SuccessResponse deleteEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public ResponseEntity<SuccessResponse> deleteEmployee(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                            @PathVariable String employeeId) {
-        return employeeService.deleteEmployee(employeeId, userDetails.getCompany());
+        SuccessResponse response = employeeService.deleteEmployee(employeeId, userDetails.getCompany());
+        return ResponseEntity.ok(response);
     }
 
 }

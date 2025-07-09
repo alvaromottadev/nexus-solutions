@@ -7,11 +7,13 @@ import com.nexus.dto.Employee.EmployeeUpdateRequest;
 import com.nexus.dto.Employee.UserEmployeeRegisterRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.exception.EmployeeNotFoundException;
+import com.nexus.exception.InvalidEmployeeRegistrationException;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Company;
 import com.nexus.model.Employee;
 import com.nexus.model.User;
 import com.nexus.model.enums.EmployeeRole;
+import com.nexus.model.enums.UserType;
 import com.nexus.repository.EmployeeRepository;
 import com.nexus.repository.specification.EmployeeSpecification;
 import com.nexus.utils.MessageUtils;
@@ -42,6 +44,7 @@ public class EmployeeService {
 
     @Transactional
     public EmployeeResponse createEmployee(UserEmployeeRegisterRequest employeeRequest, Company company){
+        validateEmployeeRegistrationAsCompany(employeeRequest.user().type());
         User user = userService.createUser(employeeRequest.user());
         Employee employee = new Employee(employeeRequest.employee(), user, company);
         employeeRepository.save(employee);
@@ -129,6 +132,12 @@ public class EmployeeService {
         employee.setAvatar(avatarUrl);
         employeeRepository.save(employee);
         return avatarUrl;
+    }
+
+    private void validateEmployeeRegistrationAsCompany(UserType userType) {
+        if (userType == UserType.COMPANY) {
+            throw new InvalidEmployeeRegistrationException();
+        }
     }
 
 }

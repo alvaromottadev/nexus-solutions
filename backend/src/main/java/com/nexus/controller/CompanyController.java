@@ -7,6 +7,7 @@ import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.openapi.CompanyControllerOpenApi;
 import com.nexus.service.CompanyService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -57,7 +58,7 @@ public class CompanyController implements CompanyControllerOpenApi {
     }
 
     @PreAuthorize("hasAnyRole('COMPANY', 'MANAGER')")
-    @PutMapping("/logo")
+    @PutMapping(path = "/logo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageResponse> updateCompanyLogo(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                            @RequestPart("logo") MultipartFile file){
         ImageResponse response = companyService.updateCompanyLogo(file, userDetails.getCompany());

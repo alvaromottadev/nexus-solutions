@@ -87,9 +87,8 @@ public interface CompanyControllerOpenApi {
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"You do not have permission to access this resource.\" }")))
     })
-    @Parameter(name = "logo", description = "Logo file to be uploaded", required = true,
-        content = @Content(mediaType = "multipart/form-data", schema = @Schema(type = "string", format = "binary")))
-    @Operation(summary = "Update company logo", description = "Updates the logo of the company associated with the authenticated user.")
+    @Operation(summary = "Update company logo",
+            description = "Updates the logo of the company associated with the authenticated user.")
     ResponseEntity<ImageResponse> updateCompanyLogo(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                     @RequestPart("logo") MultipartFile file);
 
