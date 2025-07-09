@@ -3,6 +3,7 @@ package com.nexus.openapi;
 import com.nexus.dto.Auth.*;
 import com.nexus.dto.ErrorResponse;
 import com.nexus.dto.SuccessResponse;
+import com.nexus.infra.security.SecurityConfig;
 import com.nexus.infra.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -71,6 +73,7 @@ public interface AuthControllerOpenApi {
     @Operation(summary = "Update user password",
     description = "This endpoint allows the authenticated user to update their password.",
     requestBody = @RequestBody(required = true))
+    @SecurityRequirement(name = SecurityConfig.SECURITY)
     ResponseEntity<SuccessResponse> updatePassword(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                    @Validated @org.springframework.web.bind.annotation.RequestBody PasswordUpdateRequest passwordUpdateRequest);
 
