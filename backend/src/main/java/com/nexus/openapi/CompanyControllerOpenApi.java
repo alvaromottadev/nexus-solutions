@@ -5,15 +5,15 @@ import com.nexus.dto.Company.CompanyUpdateRequest;
 import com.nexus.dto.ErrorResponse;
 import com.nexus.dto.ImageResponse;
 import com.nexus.dto.SuccessResponse;
+import com.nexus.infra.security.SecurityConfig;
 import com.nexus.infra.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.boot.autoconfigure.session.RedisSessionProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Tag(name = "Company")
+@SecurityRequirement(name = SecurityConfig.SECURITY)
 public interface CompanyControllerOpenApi {
 
     @ApiResponses(value = {
