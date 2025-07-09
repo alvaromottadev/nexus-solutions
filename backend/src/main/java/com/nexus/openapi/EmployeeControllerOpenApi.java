@@ -32,7 +32,7 @@ public interface EmployeeControllerOpenApi {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Employee created successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class, example = "\"{\\n  \\\"id\\\": \\\"string\\\",\\n  \\\"name\\\": \\\"string\\\",\\n  \\\"avatar\\\": \\\"string\\\",\\n  \\\"role\\\": \\\"MANAGER\\\",\\n  \\\"createdAt\\\": \\\"2025-07-09T22:54:32.846Z\\\",\\n  \\\"updatedAt\\\": \\\"2025-07-09T22:54:32.846Z\\\",\\n  \\\"user\\\": {\\n    \\\"id\\\": \\\"string\\\",\\n    \\\"email\\\": \\\"string\\\",\\n    \\\"type\\\": \\\"EMPLOYEE\\\"\\n  }\\n}\"\n"))),
             @ApiResponse(responseCode = "400", description = "Bad Request - Invalid input data",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Invalid input data.\" }"))),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
@@ -90,7 +90,7 @@ public interface EmployeeControllerOpenApi {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee updated successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class, example = "\"{\\n  \\\"id\\\": \\\"string\\\",\\n  \\\"name\\\": \\\"string\\\",\\n  \\\"avatar\\\": \\\"string\\\",\\n  \\\"role\\\": \\\"MANAGER\\\",\\n  \\\"createdAt\\\": \\\"2025-07-09T22:54:32.846Z\\\",\\n  \\\"updatedAt\\\": \\\"2025-07-09T22:54:32.846Z\\\",\\n  \\\"user\\\": {\\n    \\\"id\\\": \\\"string\\\",\\n    \\\"email\\\": \\\"string\\\",\\n    \\\"type\\\": \\\"EMPLOYEE\\\"\\n  }\\n}\"\n"))),
             @ApiResponse(responseCode = "400", description = "Bad Request - Invalid input data",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Invalid input data.\" }"))),
             @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid password",
@@ -110,7 +110,7 @@ public interface EmployeeControllerOpenApi {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee updated successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class, example = "\"{\\n  \\\"id\\\": \\\"string\\\",\\n  \\\"name\\\": \\\"string\\\",\\n  \\\"avatar\\\": \\\"string\\\",\\n  \\\"role\\\": \\\"MANAGER\\\",\\n  \\\"createdAt\\\": \\\"2025-07-09T22:54:32.846Z\\\",\\n  \\\"updatedAt\\\": \\\"2025-07-09T22:54:32.846Z\\\",\\n  \\\"user\\\": {\\n    \\\"id\\\": \\\"string\\\",\\n    \\\"email\\\": \\\"string\\\",\\n    \\\"type\\\": \\\"EMPLOYEE\\\"\\n  }\\n}\"\n"))),
             @ApiResponse(responseCode = "400", description = "Bad Request - Invalid input data",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Invalid input data.\" }"))),
             @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
