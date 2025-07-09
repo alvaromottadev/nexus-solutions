@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@Tag(name = "Inventory", description = "Operations related to inventory management")
+@Tag(name = "Inventory")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
 public interface InventoryControllerOpenApi {
 

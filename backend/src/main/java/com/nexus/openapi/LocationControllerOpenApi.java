@@ -21,7 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Tag(name = "Location", description = "Operations related to location management")
+@Tag(name = "Location")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
 public interface LocationControllerOpenApi {
 

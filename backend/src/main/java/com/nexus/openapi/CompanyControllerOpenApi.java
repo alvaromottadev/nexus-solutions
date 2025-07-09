@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Tag(name = "Company", description = "Operations related to company management")
+@Tag(name = "Company")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
 public interface CompanyControllerOpenApi {
 

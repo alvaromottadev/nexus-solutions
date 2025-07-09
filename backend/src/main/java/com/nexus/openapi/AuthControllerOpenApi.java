@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 
-@Tag(name = "Authentication", description = "Operations related to user authentication and registration")
+@Tag(name = "Authentication")
 public interface AuthControllerOpenApi {
 
     @ApiResponses(value = {
