@@ -22,7 +22,9 @@ public class SpringDocConfig {
                 .tags(
                         Arrays.asList(
                                 new Tag().name("Authentication")
-                                        .description("Endpoints for user authentication and management")
+                                        .description("Endpoints for user authentication and management"),
+                                new Tag().name("Company")
+                                        .description("Endpoints for company management")
                         )
                 );
     }

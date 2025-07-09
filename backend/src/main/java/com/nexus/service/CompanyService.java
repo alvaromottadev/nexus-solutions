@@ -13,6 +13,7 @@ import com.nexus.model.User;
 import com.nexus.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +33,7 @@ public class CompanyService {
     }
 
     public List<CompanyResponse> getCompany(Integer size, Integer page){
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
         return companyRepository.findAll(pageRequest).stream()
                 .map(company -> new CompanyResponse(company, company.getCnpj()))
                 .toList();

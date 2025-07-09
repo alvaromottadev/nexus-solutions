@@ -5,6 +5,7 @@ import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Company.CompanyUpdateRequest;
 import com.nexus.dto.SuccessResponse;
 import com.nexus.infra.security.UserDetailsImpl;
+import com.nexus.openapi.CompanyControllerOpenApi;
 import com.nexus.service.CompanyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/companies")
-public class CompanyController {
+public class CompanyController implements CompanyControllerOpenApi {
 
     private final CompanyService companyService;
 
