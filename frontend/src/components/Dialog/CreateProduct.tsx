@@ -70,31 +70,53 @@ export default function CreateProductDialog({
   }
 
   async function handleCreate(data: z.infer<typeof createProductSchema>) {
-    const formData = new FormData();
-
-    if (image) {
-      formData.append("file", image);
-    }
-
-    formData.append("name", data.name);
-    formData.append("description", data.description || "");
-    formData.append("code", data.code || "");
+    const json = {
+      name: data.name,
+      description: data.description || "",
+      code: data.code || "",
+    };
 
     api
-      .post(`/products`, formData, {
+      .post(`/products`, JSON.stringify(json), {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then(async (res) => {
+        let imageUrl = null;
+        if (image) {
+          imageUrl = await handleUpdateImage(res.data.id);
+          console.log(imageUrl);
+        }
         toast.success("Produto cadastrado com sucesso!", {
           description: "O produto foi adicionado à lista.",
           duration: 5000,
         });
+        res.data.image = imageUrl;
         setProducts([res.data, ...products]);
         setOpen(false);
       });
+  }
+
+  async function handleUpdateImage(productId: string) {
+    const formData = new FormData();
+    formData.append("image", image as File);
+    try {
+      return await api
+        .put(`/products/${productId}/image`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          return res.data.avatar;
+        });
+    } catch (error) {
+      toast.error("Erro ao atualizar a imagem do produto.");
+      return null;
+    }
   }
 
   return (

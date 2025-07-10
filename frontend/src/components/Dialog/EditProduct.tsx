@@ -81,30 +81,30 @@ export default function EditProductDialog({
   }
 
   async function handleUpdate() {
-    const formData = new FormData();
-
-    if (image) {
-      formData.append("file", image);
-    }
-
-    formData.append("name", form.getValues("name"));
-    formData.append("description", form.getValues("description") || "");
-    formData.append("code", form.getValues("code") || "");
-
+    const json = {
+      name: form.getValues("name"),
+      description: form.getValues("description") || "",
+      code: form.getValues("code") || "",
+    };
     api
-      .put(`/products/${product.id}`, formData, {
+      .put(`/products/${product.id}`, JSON.stringify(json), {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then(async (res) => {
         toast.success("Produto atualizado com sucesso!", {
           description: "As informações do produto foram atualizadas.",
           duration: 5000,
         });
+        let imageUrl = null;
+        if (image) {
+          imageUrl = await handleUpdateImage(product.id);
+          res.data.image = imageUrl;
+        }
         const updatedProducts = products.map((p) =>
-          p.id === product.id ? res.data : p
+          p.id === product.id ? { ...res.data } : p
         );
         setProducts(updatedProducts);
       });
@@ -126,6 +126,27 @@ export default function EditProductDialog({
     const updatedProducts = products.filter((p) => p.id !== product.id);
     setProducts(updatedProducts);
     setOpen(false);
+  }
+
+  async function handleUpdateImage(productId: string) {
+    const formData = new FormData();
+    formData.append("image", image as File);
+    try {
+      return await api
+        .put(`/products/${productId}/image`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data.avatar);
+          return res.data.avatar;
+        });
+    } catch (error) {
+      toast.error("Erro ao atualizar a imagem do produto.");
+      return null;
+    }
   }
 
   return (
