@@ -73,7 +73,7 @@ public class ProductController implements ProductControllerOpenApi {
     @PutMapping(path = "/{productId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageResponse> updateProductImage(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                             @PathVariable String productId,
-                                                            @RequestParam("image") MultipartFile image) {
+                                                            @RequestPart("image") MultipartFile image) {
         ImageResponse response = productService.updateProductImage(productId, image, userDetails.getCompany());
         return ResponseEntity.ok(response);
     }

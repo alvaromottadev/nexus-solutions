@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "Product", description = "Operations related to product management")
@@ -124,7 +125,7 @@ public interface ProductControllerOpenApi {
     @Operation(summary = "Update product image", description = "Updates the image of a product by its ID.")
     ResponseEntity<ImageResponse> updateProductImage(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                      @PathVariable String productId,
-                                                     @RequestParam("image") MultipartFile image);
+                                                     @RequestPart("image") MultipartFile image);
 
 
     @ApiResponses(value = {
