@@ -3,7 +3,6 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { styles } from './styles';
 import { useState } from 'react';
-import Toast from 'react-native-toast-message';
 import { showToast } from '../../utils/showToast';
 
 const logo = require('../../assets/images/logo_nexus.png');
