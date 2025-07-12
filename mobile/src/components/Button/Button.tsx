@@ -3,12 +3,11 @@ import { styles } from './styles';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
-  onPress?: () => void;
 }
 
-export default function Button({ title, onPress }: ButtonProps) {
+export default function Button({ title, ...props }: ButtonProps) {
   return (
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity {...props} style={styles.button}>
       <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>
   );
