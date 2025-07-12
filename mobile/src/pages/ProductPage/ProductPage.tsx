@@ -1,18 +1,21 @@
 import { FlatList, Text } from 'react-native';
 import { styles } from './styles';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { ProductType } from '../../types/ProductType';
 import api from '../../client/api-client';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../../components/Button/Button';
 import { useFocusEffect } from '@react-navigation/native';
+import { AuthContext } from '../../contexts/auth';
 
 export default function ProductPage() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(0);
   const [haveMore, setHaveMore] = useState<boolean>(true);
+
+  const { token } = useContext(AuthContext);
 
   useFocusEffect(
     useCallback(() => {
@@ -47,7 +50,7 @@ export default function ProductPage() {
   async function getProducts(page: number) {
     return api.get(`/products?page=${page}`, {
       headers: {
-        Authorization: `Bearer TOKEN`,
+        Authorization: `Bearer ${token}`,
       },
     });
   }

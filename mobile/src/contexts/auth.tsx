@@ -1,0 +1,100 @@
+import { createContext, useEffect, useState } from 'react';
+import { AuthMeType } from '../types/AuthMeType';
+import api from '../client/api-client';
+import * as Keychain from 'react-native-keychain';
+
+export const AuthContext = createContext<AuthContextType>({
+  login: () => {},
+  logout: () => {},
+  token: null,
+  user: null,
+  isAuthenticated: false,
+});
+
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+interface AuthContextType {
+  login: (email: string, password: string) => void;
+  logout: () => void;
+  token: string | null;
+  user: AuthMeType | null;
+  isAuthenticated: boolean;
+}
+
+const STORAGE_TOKEN_KEY = 'com.mobile.token';
+
+function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<AuthMeType | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  async function storageToken(token: string) {
+    setToken(token);
+    await Keychain.setGenericPassword('token', token, {
+      service: STORAGE_TOKEN_KEY,
+    });
+  }
+
+  async function resetTokenStorage() {
+    await Keychain.resetGenericPassword({ service: STORAGE_TOKEN_KEY });
+    setToken(null);
+    setUser(null);
+    setIsAuthenticated(false);
+  }
+
+  async function getStoredToken() {
+    const tokenStorage = await Keychain.getGenericPassword({
+      service: STORAGE_TOKEN_KEY,
+    });
+    if (tokenStorage) {
+      setToken(tokenStorage.password);
+      await getAuthMe();
+      setIsAuthenticated(true);
+    }
+  }
+
+  async function login(email: string, password: string) {
+    api
+      .post(`/auth/login`, JSON.stringify({ email, password }), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(async response => {
+        storageToken(response.data.token);
+        await getAuthMe();
+      });
+  }
+
+  async function logout() {
+    await resetTokenStorage();
+  }
+
+  async function getAuthMe() {
+    api
+      .get(`/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        setUser(response.data);
+      });
+  }
+
+  useEffect(() => {
+    getStoredToken();
+  }, []);
+
+  return (
+    <AuthContext.Provider
+      value={{ user, login, logout, token, isAuthenticated }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export default AuthProvider;

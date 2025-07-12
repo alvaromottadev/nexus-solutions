@@ -5,10 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from '../pages/HomePage/HomePage';
 import { House } from '@phosphor-icons/react';
 import { BoxArrowUpIcon, HouseIcon, UserIcon } from 'phosphor-react-native';
-import { Profiler } from 'react';
+import { Profiler, useContext } from 'react';
 import { THEME } from '../assets/theme';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import ProductPage from '../pages/ProductPage/ProductPage';
+import { AuthContext } from '../contexts/auth';
 
 type LoginStackParamList = {
   Login: undefined;
@@ -69,9 +70,11 @@ function TabScreen() {
 }
 
 export default function AppRoutes() {
+  const { isAuthenticated } = useContext(AuthContext);
+
   return (
     <NavigationContainer>
-      <TabScreen />
+      <LoginStackScreen />
     </NavigationContainer>
   );
 }

@@ -8,16 +8,12 @@ const logo = require('../../assets/images/logo_nexus.png');
 export default function HomePage() {
   const navigation = useTypedNavigation();
 
-  function handleNavigation() {
-    navigation.navigate('Produtos');
-  }
-
   return (
     <View style={styles.container}>
       <Image source={logo} style={styles.image} />
       <Text style={styles.title}>Gerenciamento de Almoxarifado</Text>
       <View style={styles.buttonContainer}>
-        <Button title="Produtos" onPress={handleNavigation} />
+        <Button title="Produtos" />
         <Button title="Registrar Movimentação" />
         <Button title="Estoque" />
       </View>

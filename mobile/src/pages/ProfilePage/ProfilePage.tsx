@@ -4,18 +4,22 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import RoleType from '../../types/RoleType';
 import { InfoIcon } from 'phosphor-react-native';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import api from '../../client/api-client';
 import { AuthMeType } from '../../types/AuthMeType';
+import { AuthContext } from '../../contexts/auth';
+import formatUrl from '../../utils/formatUrl';
 
 const defaultAvatar = require('../../assets/images/default-avatar.jpg');
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<AuthMeType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { token } = useContext(AuthContext);
+
   useEffect(() => {
     getProfile().then(response => {
-      console.log(response.data);
       setProfile(response.data);
       setIsLoading(false);
     });
@@ -24,7 +28,7 @@ export default function ProfilePage() {
   async function getProfile() {
     return api.get(`/auth/me`, {
       headers: {
-        Authorization: `Bearer TOKEN`,
+        Authorization: `Bearer ${token}`,
       },
     });
   }
@@ -36,12 +40,14 @@ export default function ProfilePage() {
     company: 'Empresa',
   };
 
+  const image = formatUrl(profile?.avatar || '');
+
   return (
     !isLoading &&
     profile && (
       <View style={styles.container}>
         <Image
-          source={profile.avatar ? { uri: profile.avatar } : defaultAvatar}
+          source={profile.avatar ? { uri: image } : defaultAvatar}
           style={styles.avatar}
         />
         <Text style={styles.text}>{profile.name}</Text>
