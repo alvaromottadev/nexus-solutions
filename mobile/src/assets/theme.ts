@@ -1,6 +1,7 @@
 export const THEME = {
   colors: {
     primary: '#322866',
+    cardColor: 'white',
     error: 'red',
   },
   fonts: {

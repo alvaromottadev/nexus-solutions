@@ -7,8 +7,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: {
+  image: {
+    width: 128,
+    height: 128,
+  },
+  title: {
     color: THEME.colors.primary,
     fontFamily: THEME.fonts.poppins.bold,
+  },
+  buttonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 20,
   },
 });

@@ -4,18 +4,25 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from '../pages/HomePage/HomePage';
 import { House } from '@phosphor-icons/react';
-import { HouseIcon, UserIcon } from 'phosphor-react-native';
+import { BoxArrowUpIcon, HouseIcon, UserIcon } from 'phosphor-react-native';
 import { Profiler } from 'react';
 import { THEME } from '../assets/theme';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
+import ProductPage from '../pages/ProductPage/ProductPage';
 
 type LoginStackParamList = {
   Login: undefined;
 };
 
+export type TabParamList = {
+  Inicio: undefined;
+  Perfil: undefined;
+  Produtos: undefined;
+};
+
 const LoginStack = createNativeStackNavigator<LoginStackParamList>();
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<TabParamList>();
 
 function LoginStackScreen() {
   return (
@@ -47,6 +54,14 @@ function TabScreen() {
         options={{
           tabBarActiveTintColor: THEME.colors.primary,
           tabBarIcon: ({ color }) => <UserIcon color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Produtos"
+        component={ProductPage}
+        options={{
+          tabBarActiveTintColor: THEME.colors.primary,
+          tabBarIcon: ({ color }) => <BoxArrowUpIcon color={color} />,
         }}
       />
     </Tab.Navigator>

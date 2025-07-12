@@ -24,7 +24,7 @@ export default function ProfilePage() {
   async function getProfile() {
     return api.get(`/auth/me`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpYW5hQGdtYWlsLmNvbSIsImlhdCI6MTc1MjM0ODY1MSwiZXhwIjoxNzUyNDM1MDUxfQ._DvA6NxUj_uVpF9Eys94C3eQnMF7vgThkbU07qebodrTRE_UhgKjPOrki45Ste_4wyBju636YXRkMnCa_vqMYg`,
+        Authorization: `Bearer TOKEN`,
       },
     });
   }
@@ -65,7 +65,6 @@ export default function ProfilePage() {
             Para editar seu perfil, acesse o site da Nexus Solutions.
           </Text>
         </View>
-
         <Button title="Logout" style={styles.logout} />
       </View>
     )
