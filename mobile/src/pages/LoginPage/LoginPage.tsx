@@ -2,8 +2,10 @@ import { Image, Text, View } from 'react-native';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { styles } from './styles';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { showToast } from '../../utils/showToast';
+import { AuthContext } from '../../contexts/auth';
+import { useTypedNavigation } from '../../hooks/useTypedNavigation';
 
 const logo = require('../../assets/images/logo_nexus.png');
 
@@ -13,11 +15,17 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+  const { login } = useContext(AuthContext);
+
   function handleLogin() {
-    validateForm();
+    const isValid = validateForm();
+    if (!isValid) return;
+    login(email, password);
+    showToast('success', 'Login realizado com sucesso', 'Bem-vindo de volta!');
   }
 
   function validateForm() {
+    let isValid = true;
     if (email.length === 0 || !email.includes('@')) {
       showToast(
         'error',
@@ -25,7 +33,7 @@ export default function LoginPage() {
         'Por favor, insira um email válido.',
       );
       setEmailError(true);
-      return;
+      return false;
     }
     if (password.length < 6) {
       setPasswordError(true);
@@ -34,8 +42,9 @@ export default function LoginPage() {
         'Senha inválida',
         'A senha deve ter pelo menos 6 caracteres.',
       );
-      return;
+      return false;
     }
+    return isValid;
   }
 
   return (

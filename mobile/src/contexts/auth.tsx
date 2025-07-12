@@ -2,6 +2,8 @@ import { createContext, useEffect, useState } from 'react';
 import { AuthMeType } from '../types/AuthMeType';
 import api from '../client/api-client';
 import * as Keychain from 'react-native-keychain';
+import { useTypedNavigation } from '../hooks/useTypedNavigation';
+import { showToast } from '../utils/showToast';
 
 export const AuthContext = createContext<AuthContextType>({
   login: () => {},
@@ -9,6 +11,7 @@ export const AuthContext = createContext<AuthContextType>({
   token: null,
   user: null,
   isAuthenticated: false,
+  isLoading: true,
 });
 
 interface AuthProviderProps {
@@ -21,19 +24,29 @@ interface AuthContextType {
   token: string | null;
   user: AuthMeType | null;
   isAuthenticated: boolean;
+  isLoading?: boolean;
 }
 
 const STORAGE_TOKEN_KEY = 'com.mobile.token';
+const STORAGE_USER_KEY = 'com.mobile.user';
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthMeType | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function storageToken(token: string) {
     setToken(token);
     await Keychain.setGenericPassword('token', token, {
       service: STORAGE_TOKEN_KEY,
+    });
+  }
+
+  async function storageUser(user: AuthMeType) {
+    setUser(user);
+    await Keychain.setGenericPassword('user', JSON.stringify(user), {
+      service: STORAGE_USER_KEY,
     });
   }
 
@@ -53,6 +66,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       await getAuthMe();
       setIsAuthenticated(true);
     }
+    setIsLoading(false);
   }
 
   async function login(email: string, password: string) {
@@ -63,13 +77,24 @@ function AuthProvider({ children }: AuthProviderProps) {
         },
       })
       .then(async response => {
-        storageToken(response.data.token);
+        await storageToken(response.data.token);
         await getAuthMe();
+        showToast(
+          'success',
+          'Login realizado com sucesso',
+          'Bem-vindo de volta! 👋',
+        );
+        setIsAuthenticated(true);
       });
   }
 
   async function logout() {
     await resetTokenStorage();
+    showToast(
+      'success',
+      'Logout realizado com sucesso',
+      'Você foi desconectado.',
+    );
   }
 
   async function getAuthMe() {
@@ -90,7 +115,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, token, isAuthenticated }}
+      value={{ user, login, logout, token, isAuthenticated, isLoading }}
     >
       {children}
     </AuthContext.Provider>

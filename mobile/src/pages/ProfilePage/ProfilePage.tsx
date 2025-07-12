@@ -16,7 +16,7 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<AuthMeType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { token } = useContext(AuthContext);
+  const { token, logout } = useContext(AuthContext);
 
   useEffect(() => {
     getProfile().then(response => {
@@ -40,7 +40,7 @@ export default function ProfilePage() {
     company: 'Empresa',
   };
 
-  const image = formatUrl(profile?.avatar || '');
+  const image = formatUrl(profile?.avatar!);
 
   return (
     !isLoading &&
@@ -71,7 +71,7 @@ export default function ProfilePage() {
             Para editar seu perfil, acesse o site da Nexus Solutions.
           </Text>
         </View>
-        <Button title="Logout" style={styles.logout} />
+        <Button title="Logout" style={styles.logout} onPress={logout} />
       </View>
     )
   );

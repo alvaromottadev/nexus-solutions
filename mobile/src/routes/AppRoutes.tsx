@@ -10,6 +10,7 @@ import { THEME } from '../assets/theme';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import ProductPage from '../pages/ProductPage/ProductPage';
 import { AuthContext } from '../contexts/auth';
+import LoadingPage from '../pages/LandingPage/LoadingPage';
 
 type LoginStackParamList = {
   Login: undefined;
@@ -70,11 +71,19 @@ function TabScreen() {
 }
 
 export default function AppRoutes() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, isLoading } = useContext(AuthContext);
 
   return (
     <NavigationContainer>
-      <LoginStackScreen />
+      {!isLoading ? (
+        isAuthenticated ? (
+          <TabScreen />
+        ) : (
+          <LoginStackScreen />
+        )
+      ) : (
+        <LoadingPage />
+      )}
     </NavigationContainer>
   );
 }
