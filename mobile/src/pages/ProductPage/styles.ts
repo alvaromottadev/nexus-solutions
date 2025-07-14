@@ -10,6 +10,11 @@ export const styles = StyleSheet.create({
   button: {
     width: '100%',
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: THEME.fonts.poppins.regular,
+  },
   text: {
     alignSelf: 'center',
     fontFamily: THEME.fonts.poppins.medium,

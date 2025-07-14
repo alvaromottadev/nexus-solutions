@@ -12,6 +12,11 @@ export const styles = StyleSheet.create({
     fontFamily: THEME.fonts.poppins.bold,
     fontSize: 24,
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: THEME.fonts.poppins.regular,
+  },
   welcomeText: {
     fontFamily: THEME.fonts.poppins.regular,
     fontSize: 16,

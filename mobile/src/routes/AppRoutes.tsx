@@ -9,7 +9,7 @@ import { THEME } from '../assets/theme';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import ProductPage from '../pages/ProductPage/ProductPage';
 import { AuthContext } from '../contexts/auth';
-import LoadingPage from '../pages/LandingPage/LoadingPage';
+import LoadingPage from '../pages/LoadingPage/LoadingPage';
 import ProductRegistrationPage from '../pages/ProductRegistrationPage/ProductRegistrationPage';
 
 export type MainStackParamList = {

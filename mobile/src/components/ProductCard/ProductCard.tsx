@@ -9,15 +9,14 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const image = formatUrl(product.image);
   return (
     <View style={styles.card}>
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           {product.image ? (
-            <Image style={styles.image} src={image} />
+            <Image style={styles.image} src={formatUrl(product.image)} />
           ) : (
-            <BoxArrowUpIcon />
+            <BoxArrowUpIcon size={70} />
           )}
         </View>
 

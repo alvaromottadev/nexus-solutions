@@ -75,7 +75,9 @@ export default function LoginPage() {
           isError={passwordError}
         />
       </View>
-      <Button title="LOGIN" onPress={handleLogin} />
+      <Button onPress={handleLogin}>
+        <Text style={styles.buttonText}>Entrar</Text>
+      </Button>
     </View>
   );
 }

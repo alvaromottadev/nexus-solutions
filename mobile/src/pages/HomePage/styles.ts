@@ -15,6 +15,11 @@ export const styles = StyleSheet.create({
     color: THEME.colors.primary,
     fontFamily: THEME.fonts.poppins.bold,
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: THEME.fonts.poppins.regular,
+  },
   buttonContainer: {
     width: '100%',
     alignItems: 'center',
