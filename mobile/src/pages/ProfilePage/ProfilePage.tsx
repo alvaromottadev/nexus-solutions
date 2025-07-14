@@ -40,14 +40,14 @@ export default function ProfilePage() {
     company: 'Empresa',
   };
 
-  const image = formatUrl(profile?.avatar!);
-
   return (
     !isLoading &&
     profile && (
       <View style={styles.container}>
         <Image
-          source={profile.avatar ? { uri: image } : defaultAvatar}
+          source={
+            profile.avatar ? { uri: formatUrl(profile.avatar) } : defaultAvatar
+          }
           style={styles.avatar}
         />
         <Text style={styles.text}>{profile.name}</Text>
@@ -68,7 +68,7 @@ export default function ProfilePage() {
         <View style={styles.editContainer}>
           <InfoIcon size={16} />
           <Text style={styles.textInfo}>
-            Para editar seu perfil, acesse o site da Nexus Solutions.
+            Para editar seu perfil, acesse o site.
           </Text>
         </View>
         <Button title="Logout" style={styles.logout} onPress={logout} />

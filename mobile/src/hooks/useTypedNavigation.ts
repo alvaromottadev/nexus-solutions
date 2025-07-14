@@ -1,7 +1,7 @@
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { TabParamList } from '../routes/AppRoutes';
+import { MainStackParamList } from '../routes/AppRoutes';
 
 export const useTypedNavigation = () => {
-  return useNavigation<BottomTabNavigationProp<TabParamList>>();
+  return useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 };

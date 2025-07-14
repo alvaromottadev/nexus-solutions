@@ -6,6 +6,7 @@ import { useContext, useState } from 'react';
 import { showToast } from '../../utils/showToast';
 import { AuthContext } from '../../contexts/auth';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
+import { useNavigation } from '@react-navigation/native';
 
 const logo = require('../../assets/images/logo_nexus.png');
 
@@ -16,7 +17,6 @@ export default function LoginPage() {
   const [passwordError, setPasswordError] = useState(false);
 
   const { login } = useContext(AuthContext);
-
   function handleLogin() {
     const isValid = validateForm();
     if (!isValid) return;

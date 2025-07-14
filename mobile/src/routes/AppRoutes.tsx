@@ -3,17 +3,19 @@ import LoginPage from '../pages/LoginPage/LoginPage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from '../pages/HomePage/HomePage';
-import { House } from '@phosphor-icons/react';
 import { BoxArrowUpIcon, HouseIcon, UserIcon } from 'phosphor-react-native';
-import { Profiler, useContext } from 'react';
+import { useContext } from 'react';
 import { THEME } from '../assets/theme';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import ProductPage from '../pages/ProductPage/ProductPage';
 import { AuthContext } from '../contexts/auth';
 import LoadingPage from '../pages/LandingPage/LoadingPage';
+import ProductRegistrationPage from '../pages/ProductRegistrationPage/ProductRegistrationPage';
 
-type LoginStackParamList = {
+export type MainStackParamList = {
   Login: undefined;
+  TabScreens: undefined;
+  ProductRegistration: undefined;
 };
 
 export type TabParamList = {
@@ -22,18 +24,26 @@ export type TabParamList = {
   Produtos: undefined;
 };
 
-const LoginStack = createNativeStackNavigator<LoginStackParamList>();
+const LoginStack = createNativeStackNavigator<MainStackParamList>();
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
 function LoginStackScreen() {
+  const { isAuthenticated } = useContext(AuthContext);
   return (
-    <LoginStack.Navigator
-      initialRouteName="Login"
-      screenOptions={{ headerShown: false }}
-    >
+    <LoginStack.Navigator screenOptions={{ headerShown: false }}>
       <LoginStack.Group>
-        <LoginStack.Screen name="Login" component={LoginPage} />
+        {!isAuthenticated ? (
+          <LoginStack.Screen name="Login" component={LoginPage} />
+        ) : (
+          <>
+            <LoginStack.Screen name="TabScreens" component={TabScreen} />
+            <LoginStack.Screen
+              name="ProductRegistration"
+              component={ProductRegistrationPage}
+            />
+          </>
+        )}
       </LoginStack.Group>
     </LoginStack.Navigator>
   );
@@ -77,7 +87,9 @@ export default function AppRoutes() {
     <NavigationContainer>
       {!isLoading ? (
         isAuthenticated ? (
-          <TabScreen />
+          <>
+            <LoginStackScreen />
+          </>
         ) : (
           <LoginStackScreen />
         )

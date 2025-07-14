@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '@env';
 import { showToast } from '../utils/showToast';
-
-console.log('API URL:', API_URL);
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/auth';
+import { logoutEvent } from '../utils/logoutEvent';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -27,8 +28,7 @@ api.interceptors.response.use(
           'Sessão expirada',
           'Por favor, faça login novamente.',
         );
-        // localStorage.removeItem("token");
-        // window.location.href = "/login";
+        logoutEvent.emit('logout');
         return;
       }
       if (status === 401 || status === 403) {

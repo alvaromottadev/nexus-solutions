@@ -26,7 +26,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.description ? (
             <Text style={styles.description}>{product.description}</Text>
           ) : (
-            <Text style={styles.description}>No description available</Text>
+            <Text style={styles.description}>Sem descrição</Text>
           )}
         </View>
       </View>
