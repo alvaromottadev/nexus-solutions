@@ -8,4 +8,11 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: THEME.fonts.poppins.bold,
   },
+  select: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  selectDisabled: {
+    opacity: 0.5,
+  },
 });

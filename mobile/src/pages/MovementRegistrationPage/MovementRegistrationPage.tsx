@@ -13,6 +13,7 @@ import { showToast } from '../../utils/showToast';
 import { ProductType } from '../../types/ProductType';
 import ProductWithQuantityType from '../../types/ProductWithQuantityType';
 import AddProductModal from '../../components/AddProductModal/AddProductModal';
+import { useTypedNavigation } from '../../hooks/useTypedNavigation';
 
 export default function MovementRegistrationPage() {
   const [page, setPage] = useState<number>(0);
@@ -22,6 +23,10 @@ export default function MovementRegistrationPage() {
   );
 
   const [type, setType] = useState<string | null>(null);
+  const [typeError, setTypeError] = useState<boolean>(false);
+
+  const [description, setDescription] = useState<string>('');
+
   const [locationSelected, setLocationSelected] = useState<string>('');
   const [locationsData, setLocationsData] = useState<SelectType[]>([]);
 
@@ -29,7 +34,15 @@ export default function MovementRegistrationPage() {
     ProductWithQuantityType[]
   >([]);
 
+  const [canChangeLocation, setCanChangeLocation] = useState<boolean>(
+    productsSelected.length === 0,
+  );
+
+  const from = page * itemsPerPage;
+  const to = Math.min((page + 1) * itemsPerPage, productsSelected.length);
+
   const { token } = useContext(AuthContext);
+  const navigation = useTypedNavigation();
 
   const data = [
     { key: 'IN', value: 'Entrada' },
@@ -52,12 +65,53 @@ export default function MovementRegistrationPage() {
       });
   }, []);
 
-  const from = page * itemsPerPage;
-  const to = Math.min((page + 1) * itemsPerPage, productsSelected.length);
-
   useEffect(() => {
     setPage(0);
   }, [itemsPerPage]);
+
+  useEffect(() => {
+    setCanChangeLocation(productsSelected.length === 0);
+  }, [productsSelected]);
+
+  function handleRegister() {
+    const isValid = validateForm();
+    if (!isValid) return;
+
+    const json = {
+      type,
+      description,
+      locationId: locationSelected,
+      movementDate: new Date().toISOString(),
+      items: productsSelected.map(item => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+    };
+
+    api
+      .post(`/movements`, json, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        showToast(
+          'success',
+          'Movimentação registrada',
+          'A movimentação foi registrada com sucesso.',
+        );
+        navigation.goBack();
+      });
+  }
+
+  function validateForm() {
+    if (!type) {
+      showToast('error', 'Tipo inválido', 'Por favor, selecione um tipo.');
+      setTypeError(true);
+      return false;
+    }
+    return true;
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -67,13 +121,17 @@ export default function MovementRegistrationPage() {
           data={data}
           setSelected={setType}
           maxHeight={120}
+          isError={typeError}
+          placeholder="Selecione o tipo da movimentação"
         />
         <Input label="Data" />
-        <Input label="Descrição" />
+        <Input label="Descrição" onChangeText={e => setDescription(e)} />
         <SelectListComponent
           label="Almoxarifado"
           setSelected={setLocationSelected}
           data={locationsData}
+          placeholder="Selecione um almoxarifado"
+          disabled={!canChangeLocation}
         />
         <AddProductModal
           locationId={locationSelected}
@@ -105,6 +163,8 @@ export default function MovementRegistrationPage() {
             selectPageDropdownLabel={'Rows per page'}
           />
         </DataTable>
+
+        <Button title="Registrar Movimentação" onPress={handleRegister} />
       </View>
     </ScrollView>
   );
