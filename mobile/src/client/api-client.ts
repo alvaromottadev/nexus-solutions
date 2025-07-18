@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { API_URL } from '@env';
 import { showToast } from '../utils/showToast';
-import { useContext } from 'react';
-import { AuthContext } from '../contexts/auth';
+
 import { logoutEvent } from '../utils/logoutEvent';
 
 const api = axios.create({
   baseURL: API_URL,
 });
+
+console.log('API URL:', API_URL);
 
 api.interceptors.response.use(
   response => {
@@ -21,7 +22,7 @@ api.interceptors.response.use(
       }
       if (
         (status === 401 && data.error === 'Token expired') ||
-        data.error.includes('Error in JWT authentication:')
+        (data.error && data.error.includes('Error in JWT authentication:'))
       ) {
         showToast(
           'error',
@@ -37,6 +38,7 @@ api.interceptors.response.use(
           data.error,
           'Você não tem permissão para acessar este recurso.',
         );
+        console.log('Url do erro:', error.config.url);
       }
       if (status === 404) {
         showToast(
@@ -62,7 +64,7 @@ api.interceptors.response.use(
     } else {
       showToast(
         'error',
-        'Erro de conexão',
+        '',
         'Não foi possível conectar ao servidor. Verifique sua conexão com a internet.',
       );
     }

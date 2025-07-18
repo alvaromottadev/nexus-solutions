@@ -2,12 +2,6 @@ import { StyleSheet } from 'react-native';
 import { THEME } from '../../assets/theme';
 
 export const styles = StyleSheet.create({
-  backButton: {
-    position: 'absolute',
-    top: 35,
-    left: 20,
-    zIndex: 1,
-  },
   container: {
     flex: 1,
     flexDirection: 'column',

@@ -82,6 +82,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function login(email: string, password: string) {
+    console.log('Login method', { email, password });
     api
       .post(`/auth/login`, JSON.stringify({ email, password }), {
         headers: {
@@ -97,6 +98,11 @@ function AuthProvider({ children }: AuthProviderProps) {
           'Bem-vindo de volta! 👋',
         );
         setIsAuthenticated(true);
+        console.log(response.data);
+        console.log(isAuthenticated);
+      })
+      .catch(error => {
+        console.log('Login error:', error);
       });
   }
 

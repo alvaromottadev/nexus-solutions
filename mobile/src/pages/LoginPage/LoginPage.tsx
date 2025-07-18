@@ -21,7 +21,6 @@ export default function LoginPage() {
     const isValid = validateForm();
     if (!isValid) return;
     login(email, password);
-    showToast('success', 'Login realizado com sucesso', 'Bem-vindo de volta!');
   }
 
   function validateForm() {

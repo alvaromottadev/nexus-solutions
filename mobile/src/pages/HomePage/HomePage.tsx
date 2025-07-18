@@ -24,7 +24,12 @@ export default function HomePage() {
           <Text style={styles.buttonText}>Registrar Movimentação</Text>
         </Button>
         <Button>
-          <Text style={styles.buttonText}>Estoque</Text>
+          <Text
+            onPress={() => handleButtonPress('InventoryPage')}
+            style={styles.buttonText}
+          >
+            Estoque
+          </Text>
         </Button>
       </View>
     </View>

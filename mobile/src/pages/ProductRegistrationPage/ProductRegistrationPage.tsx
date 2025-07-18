@@ -1,6 +1,7 @@
 import {
   Image,
   SafeAreaView,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -11,7 +12,7 @@ import Input from '../../components/Input/Input';
 import { CameraIcon, QrCodeIcon } from 'phosphor-react-native';
 import Button from '../../components/Button/Button';
 import BackButton from '../../components/ButtonBack/ButtonBack';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   launchImageLibrary,
   ImageLibraryOptions,
@@ -20,6 +21,11 @@ import {
 import { showToast } from '../../utils/showToast';
 import api from '../../client/api-client';
 import { AuthContext } from '../../contexts/auth';
+import {
+  Camera,
+  useCameraDevice,
+  useCameraPermission,
+} from 'react-native-vision-camera';
 
 export default function ProductRegistrationPage() {
   const [name, setName] = useState<string>('');
@@ -98,8 +104,23 @@ export default function ProductRegistrationPage() {
     setImagePreview(null);
   }
 
+  const { hasPermission, requestPermission } = useCameraPermission();
+
+  const device = useCameraDevice('back');
+
+  useEffect(() => {
+    if (hasPermission === false) {
+      requestPermission();
+    }
+  });
+
   return (
     <SafeAreaView style={styles.container}>
+      {/* <Camera
+        style={StyleSheet.absoluteFill}
+        device={device!}
+        isActive={true}
+      /> */}
       <BackButton />
 
       <CustomText style={styles.title}>Cadastro de Produto</CustomText>

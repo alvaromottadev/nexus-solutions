@@ -11,11 +11,13 @@ import ProductPage from '../pages/ProductPage/ProductPage';
 import { AuthContext } from '../contexts/auth';
 import LoadingPage from '../pages/LoadingPage/LoadingPage';
 import ProductRegistrationPage from '../pages/ProductRegistrationPage/ProductRegistrationPage';
+import InventoryPage from '../pages/InventoryPage/InventoryPage';
 
 export type MainStackParamList = {
   Login: undefined;
   TabScreens: undefined;
   ProductRegistration: undefined;
+  InventoryPage: undefined;
 };
 
 export type TabParamList = {
@@ -41,6 +43,11 @@ function LoginStackScreen() {
             <LoginStack.Screen
               name="ProductRegistration"
               component={ProductRegistrationPage}
+            />
+            <LoginStack.Screen
+              name="InventoryPage"
+              component={InventoryPage}
+              options={{ headerShown: true, title: 'Estoque' }}
             />
           </>
         )}
