@@ -30,4 +30,10 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'transparent',
   },
+  qrCodeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '80%',
+  },
 });

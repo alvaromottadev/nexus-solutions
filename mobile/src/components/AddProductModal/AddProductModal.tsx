@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Modal, PaperProvider, Portal, Text } from 'react-native-paper';
 import { styles } from './styles';
 import Button from '../Button/Button';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import CustomText from '../CustomText/CustomText';
 import { SelectType } from '../../types/SelectType';
 import api from '../../client/api-client';
@@ -10,6 +10,7 @@ import { showToast } from '../../utils/showToast';
 import SelectListComponent from '../SelectList/SelectList';
 import Input from '../Input/Input';
 import ProductWithQuantityType from '../../types/ProductWithQuantityType';
+import { QrCodeIcon } from 'phosphor-react-native';
 
 interface AddProductModalProps {
   locationId: string;
@@ -142,6 +143,13 @@ export default function AddProductModal({
               placeholder="Selecione um produto"
               isError={productError}
             />
+            <View style={styles.qrCodeContainer}>
+              <TouchableOpacity>
+                <QrCodeIcon size={48} color="#322866" />
+              </TouchableOpacity>
+              <CustomText>Use o QRCode para encontrar o produto.</CustomText>
+            </View>
+
             <Input
               label="Quantidade"
               keyboardType="numeric"
