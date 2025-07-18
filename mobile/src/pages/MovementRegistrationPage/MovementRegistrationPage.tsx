@@ -1,5 +1,5 @@
-import { ScrollView, View } from 'react-native';
-import { DataTable } from 'react-native-paper';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { DataTable, Text } from 'react-native-paper';
 import CustomText from '../../components/CustomText/CustomText';
 import { styles } from './styles';
 import SelectListComponent from '../../components/SelectList/SelectList';
@@ -14,6 +14,7 @@ import { ProductType } from '../../types/ProductType';
 import ProductWithQuantityType from '../../types/ProductWithQuantityType';
 import AddProductModal from '../../components/AddProductModal/AddProductModal';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
+import { TrashIcon } from 'phosphor-react-native';
 
 export default function MovementRegistrationPage() {
   const [page, setPage] = useState<number>(0);
@@ -34,9 +35,7 @@ export default function MovementRegistrationPage() {
     ProductWithQuantityType[]
   >([]);
 
-  const [canChangeLocation, setCanChangeLocation] = useState<boolean>(
-    productsSelected.length === 0,
-  );
+  const [canChangeLocation, setCanChangeLocation] = useState<boolean>(true);
 
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, productsSelected.length);
@@ -104,10 +103,29 @@ export default function MovementRegistrationPage() {
       });
   }
 
+  function handleRemoveProduct(id: string, name: string) {
+    if (productsSelected.length === 0) return;
+    const updatedProducts = productsSelected.filter(item => item.id !== id);
+    setProductsSelected(updatedProducts);
+    showToast(
+      'success',
+      'Produto removido',
+      `O produto ${name} foi removido da lista.`,
+    );
+  }
+
   function validateForm() {
     if (!type) {
       showToast('error', 'Tipo inválido', 'Por favor, selecione um tipo.');
       setTypeError(true);
+      return false;
+    }
+    if (productsSelected.length === 0) {
+      showToast(
+        'error',
+        'Nenhum produto selecionado',
+        'Por favor, adicione pelo menos um produto.',
+      );
       return false;
     }
     return true;
@@ -122,6 +140,7 @@ export default function MovementRegistrationPage() {
           setSelected={setType}
           maxHeight={120}
           isError={typeError}
+          onSelect={() => setTypeError(false)}
           placeholder="Selecione o tipo da movimentação"
         />
         <Input label="Data" />
@@ -143,11 +162,19 @@ export default function MovementRegistrationPage() {
           <DataTable.Header>
             <DataTable.Title>Produto</DataTable.Title>
             <DataTable.Title numeric>Quantidade</DataTable.Title>
+            <DataTable.Title numeric>Ações</DataTable.Title>
           </DataTable.Header>
           {productsSelected.slice(from, to).map((item, index) => (
             <DataTable.Row key={index}>
               <DataTable.Cell>{item.name}</DataTable.Cell>
               <DataTable.Cell numeric>{item.quantity}</DataTable.Cell>
+              <DataTable.Cell numeric>
+                <TouchableOpacity
+                  onPress={() => handleRemoveProduct(item.id, item.name)}
+                >
+                  <TrashIcon size={18} />
+                </TouchableOpacity>
+              </DataTable.Cell>
             </DataTable.Row>
           ))}
 

@@ -90,11 +90,11 @@ export default function AddProductModal({
       }
     });
 
-    // if (exists) {
-    //   setProductsSelected([...productsSelected]);
-    //   hideModal();
-    //   return;
-    // }
+    if (exists) {
+      setProductsSelected([...productsSelected]);
+      hideModal();
+      return;
+    }
     setProductsSelected([...productsSelected, newProduct]);
     hideModal();
   }
