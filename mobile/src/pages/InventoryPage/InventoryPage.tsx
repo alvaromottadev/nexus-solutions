@@ -1,13 +1,15 @@
 import { FlatList, View } from 'react-native';
 import InventoryCard from '../../components/InventoryCard/InventoryCard';
 import { styles } from './styles';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import InventoryType from '../../types/InventoryType';
 import api from '../../client/api-client';
 import { AuthContext } from '../../contexts/auth';
 import AddButton from '../../components/AddButton/AddButton';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
 import { ActivityIndicator } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 
 export default function InventoryPage() {
   const [inventories, setInventories] = useState<InventoryType[]>([]);
@@ -16,7 +18,14 @@ export default function InventoryPage() {
 
   const { token } = useContext(AuthContext);
 
-  useEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
+      setIsLoading(true);
+      getInventories();
+    }, []),
+  );
+
+  function getInventories() {
     api
       .get(`/inventories`, {
         headers: {
@@ -27,7 +36,7 @@ export default function InventoryPage() {
         setInventories(response.data);
         setIsLoading(false);
       });
-  }, []);
+  }
 
   function renderInventoryCard(inventory: InventoryType) {
     return <InventoryCard inventory={inventory} />;
@@ -51,12 +60,6 @@ export default function InventoryPage() {
       </View>
     </>
   ) : (
-    <View style={styles.loading}>
-      <ActivityIndicator
-        color=""
-        size={'large'}
-        theme={{ colors: { primary: '#322866' } }}
-      />
-    </View>
+    <LoadingIndicator />
   );
 }

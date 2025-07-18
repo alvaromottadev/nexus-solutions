@@ -1,14 +1,21 @@
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { ProductType } from '../../types/ProductType';
 import { styles } from './styles';
 import { BoxArrowUpIcon, PencilIcon } from 'phosphor-react-native';
 import formatUrl from '../../utils/formatUrl';
+import { useTypedNavigation } from '../../hooks/useTypedNavigation';
 
 interface ProductCardProps {
   product: ProductType;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const navigation = useTypedNavigation();
+
+  function handleEdit() {
+    navigation.navigate('ProductEdit', { product });
+  }
+
   return (
     <View style={styles.card}>
       <View style={styles.container}>
@@ -19,7 +26,6 @@ export default function ProductCard({ product }: ProductCardProps) {
             <BoxArrowUpIcon size={70} />
           )}
         </View>
-
         <View style={styles.infoContainer}>
           <Text style={styles.text}>{product.name}</Text>
           {product.description ? (
@@ -28,6 +34,17 @@ export default function ProductCard({ product }: ProductCardProps) {
             <Text style={styles.description}>Sem descrição</Text>
           )}
         </View>
+        <TouchableOpacity
+          style={{
+            justifyContent: 'center',
+            height: '100%',
+            position: 'absolute',
+            right: 10,
+          }}
+          onPress={handleEdit}
+        >
+          <PencilIcon />
+        </TouchableOpacity>
       </View>
     </View>
   );

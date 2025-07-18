@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../../components/Button/Button';
 import { useFocusEffect } from '@react-navigation/native';
 import { AuthContext } from '../../contexts/auth';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 
 export default function ProductPage() {
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -75,18 +76,17 @@ export default function ProductPage() {
     setPage(prevPage => prevPage + 1);
   }
 
-  return (
-    !isLoading &&
-    products.length > 0 && (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={products}
-          keyExtractor={(__, index) => `product-${index}`}
-          renderItem={({ item }) => renderProductCard(item)}
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={renderFooter}
-        />
-      </SafeAreaView>
-    )
+  return !isLoading && products.length > 0 ? (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={products}
+        keyExtractor={(__, index) => `product-${index}`}
+        renderItem={({ item }) => renderProductCard(item)}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={renderFooter}
+      />
+    </SafeAreaView>
+  ) : (
+    <LoadingIndicator />
   );
 }
