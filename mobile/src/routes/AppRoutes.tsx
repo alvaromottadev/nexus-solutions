@@ -15,14 +15,16 @@ import InventoryPage from '../pages/InventoryPage/InventoryPage';
 import InventoryRegistrationPage from '../pages/InventoryRegistrationPage/InventoryRegistrationPage';
 import { ProductType } from '../types/ProductType';
 import ProductEditPage from '../pages/ProductEditPage/ProductEditPage';
+import MovementRegistrationPage from '../pages/MovementRegistrationPage/MovementRegistrationPage';
 
 export type MainStackParamList = {
   Login: undefined;
   TabScreens: undefined;
   ProductRegistration: undefined;
   InventoryPage: undefined;
-  InventoryRegistrationPage: undefined;
+  InventoryRegistration: undefined;
   ProductEdit: { product?: ProductType };
+  MovementRegistration: undefined;
 };
 
 export type TabParamList = {
@@ -56,7 +58,7 @@ function LoginStackScreen() {
               options={{ headerShown: true, title: 'Estoque' }}
             />
             <LoginStack.Screen
-              name="InventoryRegistrationPage"
+              name="InventoryRegistration"
               component={InventoryRegistrationPage}
               options={{ headerShown: true, title: 'Cadastro de Estoque' }}
             />
@@ -64,6 +66,11 @@ function LoginStackScreen() {
               name="ProductEdit"
               component={ProductEditPage}
               options={{ headerShown: true, title: 'Editar Produto' }}
+            />
+            <LoginStack.Screen
+              name="MovementRegistration"
+              component={MovementRegistrationPage}
+              options={{ headerShown: true, title: 'Registro de Movimentação' }}
             />
           </>
         )}

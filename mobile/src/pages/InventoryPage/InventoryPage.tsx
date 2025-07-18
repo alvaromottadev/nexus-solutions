@@ -43,7 +43,7 @@ export default function InventoryPage() {
   }
 
   function handleAddInventory() {
-    navigation.navigate('InventoryRegistrationPage');
+    navigation.navigate('InventoryRegistration');
   }
 
   return !isLoading ? (

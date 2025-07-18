@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     shadowColor: '#000',
   },
   title: {
-    color: '#fff',
     fontSize: 16,
     fontFamily: THEME.fonts.poppins.regular,
   },

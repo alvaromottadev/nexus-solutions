@@ -10,6 +10,8 @@ interface SelectListProps {
   setSelected: (value: string) => void;
   data: { key: string; value: string }[];
   notFoundText?: string;
+  maxHeight?: number;
+  isError?: boolean;
 }
 
 export default function SelectListComponent({
@@ -19,6 +21,8 @@ export default function SelectListComponent({
   setSelected,
   data,
   notFoundText = 'Nenhum item encontrado',
+  maxHeight,
+  isError = false,
 }: SelectListProps) {
   return (
     <>
@@ -29,10 +33,11 @@ export default function SelectListComponent({
         setSelected={setSelected}
         data={data}
         fontFamily="lato"
-        boxStyles={{ borderColor: '#322866', width: '80%' }}
+        boxStyles={{ borderColor: isError ? 'red' : '#322866', width: '80%' }}
         notFoundText={notFoundText}
         searchPlaceholder="Buscar..."
         dropdownStyles={{ maxWidth: '80%' }}
+        maxHeight={maxHeight ? maxHeight : 200}
       />
     </>
   );

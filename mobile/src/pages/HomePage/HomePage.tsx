@@ -8,8 +8,10 @@ const logo = require('../../assets/images/logo_nexus.png');
 
 export default function HomePage() {
   const navigation = useTypedNavigation();
-  function handleButtonPress(pageName: string) {
-    navigation.navigate(pageName as keyof MainStackParamList);
+  function handleButtonPress(
+    pageName: 'ProductRegistration' | 'MovementRegistration' | 'InventoryPage',
+  ) {
+    navigation.navigate({ name: pageName, params: undefined });
   }
 
   return (
