@@ -16,7 +16,10 @@ export default function Input({
       {label && (
         <Text style={[styles.label, isError && styles.error]}>{label}</Text>
       )}
-      <TextInput {...props} style={[styles.input, isError && styles.error]} />
+      <TextInput
+        {...props}
+        style={[styles.input, props.style, isError && styles.error]}
+      />
     </View>
   );
 }

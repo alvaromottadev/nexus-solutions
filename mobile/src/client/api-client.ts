@@ -48,11 +48,7 @@ api.interceptors.response.use(
         );
       }
       if (status === 409) {
-        showToast(
-          'error',
-          'Conflito de dados',
-          'Verifique as informações e tente novamente.',
-        );
+        showToast('error', 'Conflito de dados', data.error);
       }
       if (status === 500) {
         showToast(
