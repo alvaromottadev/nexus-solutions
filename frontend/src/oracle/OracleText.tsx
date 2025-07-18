@@ -1,6 +1,4 @@
-import CustomText from "@/components/CustomText";
 import TypewriterBlock from "@/components/TypewriterBlock";
-import { Typewriter } from "react-simple-typewriter";
 
 interface OracleTextProps {
   header: string;

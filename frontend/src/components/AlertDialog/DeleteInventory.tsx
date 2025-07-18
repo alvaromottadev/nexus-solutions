@@ -9,7 +9,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
 
 interface DeleteInventoryAlertProps {

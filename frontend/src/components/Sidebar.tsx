@@ -2,7 +2,6 @@ import {
   AlignJustify,
   Archive,
   Bot,
-  ChartBar,
   Hammer,
   Package,
   PackageSearch,

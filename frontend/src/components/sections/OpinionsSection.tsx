@@ -1,4 +1,3 @@
-import CustomText from "../CustomText";
 import OpinionCard from "../OpinionCard";
 
 export default function OpinionsSection() {

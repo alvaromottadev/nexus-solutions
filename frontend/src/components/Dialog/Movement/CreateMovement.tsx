@@ -62,7 +62,6 @@ export default function CreateMovementDialog({
   const [typeError, setTypeError] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<boolean>(false);
   const [dateError, setDateError] = useState<boolean>(false);
-  const [productError, setProductError] = useState<boolean>(false);
 
   const [locationId, setLocationId] = useState<string>("");
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -205,13 +204,7 @@ export default function CreateMovementDialog({
       setLocationError(true);
       return false;
     }
-    if (productsSelected.length === 0) {
-      setProductError(true);
-      toast.error("Selecione pelo menos um produto para a movimentação.", {
-        duration: 2000,
-      });
-      return false;
-    }
+
     return true;
   }
 
