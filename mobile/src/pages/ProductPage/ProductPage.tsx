@@ -61,16 +61,17 @@ export default function ProductPage() {
 
   function renderFooter() {
     return haveMore ? (
-      <Button onPress={renderMore} style={styles.button}>
-        <Text style={styles.buttonText}>Carregar mais produtos</Text>
-      </Button>
+      <Button
+        onPress={renderMore}
+        style={styles.button}
+        title="Carregar mais produtos"
+      />
     ) : (
       <Text style={styles.text}>Não possui mais produtos</Text>
     );
   }
 
   function renderMore() {
-    console.log(page);
     setPage(prevPage => prevPage + 1);
   }
 

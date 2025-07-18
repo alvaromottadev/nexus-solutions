@@ -71,9 +71,7 @@ export default function ProfilePage() {
             Para editar seu perfil, acesse o site.
           </Text>
         </View>
-        <Button style={styles.logout} onPress={logout}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </Button>
+        <Button style={styles.logout} title="Logout" onPress={logout} />
       </View>
     )
   );

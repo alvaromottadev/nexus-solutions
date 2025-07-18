@@ -3,13 +3,13 @@ import { styles } from './styles';
 import React from 'react';
 
 interface ButtonProps extends TouchableOpacityProps {
-  children?: React.ReactNode;
+  title: string;
 }
 
-export default function Button({ children, ...props }: ButtonProps) {
+export default function Button({ title, ...props }: ButtonProps) {
   return (
     <TouchableOpacity {...props} style={[styles.button, props.style]}>
-      {children}
+      <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>
   );
 }

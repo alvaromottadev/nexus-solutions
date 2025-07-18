@@ -17,20 +17,18 @@ export default function HomePage() {
       <Image source={logo} style={styles.image} />
       <Text style={styles.title}>Gerenciamento de Almoxarifado</Text>
       <View style={styles.buttonContainer}>
-        <Button onPress={() => handleButtonPress('ProductRegistration')}>
-          <Text style={styles.buttonText}>Cadastrar Produto</Text>
-        </Button>
-        <Button>
-          <Text style={styles.buttonText}>Registrar Movimentação</Text>
-        </Button>
-        <Button>
-          <Text
-            onPress={() => handleButtonPress('InventoryPage')}
-            style={styles.buttonText}
-          >
-            Estoque
-          </Text>
-        </Button>
+        <Button
+          title="Cadastrar Produto"
+          onPress={() => handleButtonPress('ProductRegistration')}
+        />
+        <Button
+          title="Registrar Movimentação"
+          onPress={() => handleButtonPress('MovementRegistration')}
+        />
+        <Button
+          title="Consultar Estoque"
+          onPress={() => handleButtonPress('InventoryPage')}
+        />
       </View>
     </View>
   );

@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     gap: 10,
-    marginTop: 20,
   },
   codeContainer: {
     width: '80%',

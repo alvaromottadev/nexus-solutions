@@ -34,6 +34,8 @@ export default function ProductRegistrationPage() {
   const [image, setImage] = useState<Asset[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+  const [nameError, setNameError] = useState<boolean>(false);
+
   const { token } = useContext(AuthContext);
 
   async function handleCreate() {
@@ -92,6 +94,7 @@ export default function ProductRegistrationPage() {
   function validateForm() {
     if (name.length < 1) {
       showToast('error', 'Nome inválido', 'Por favor, insira um nome válido.');
+      setNameError(true);
       return false;
     }
     return true;
@@ -121,12 +124,14 @@ export default function ProductRegistrationPage() {
         device={device!}
         isActive={true}
       /> */}
-      <BackButton />
-
-      <CustomText style={styles.title}>Cadastro de Produto</CustomText>
 
       <View style={styles.form}>
-        <Input value={name} label="Nome" onChangeText={e => setName(e)} />
+        <Input
+          value={name}
+          label="Nome"
+          onChangeText={e => setName(e)}
+          isError={nameError}
+        />
         <Input
           value={description}
           label="Descrição"
@@ -148,10 +153,7 @@ export default function ProductRegistrationPage() {
           <CameraIcon size={48} color="#322866" />
         )}
       </TouchableOpacity>
-
-      <Button onPress={handleCreate}>
-        <Text style={styles.buttonText}>Cadastrar Produto</Text>
-      </Button>
+      <Button onPress={handleCreate} title="Cadastrar Produto" />
     </SafeAreaView>
   );
 }
