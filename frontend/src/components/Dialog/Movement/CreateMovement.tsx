@@ -68,6 +68,8 @@ export default function CreateMovementDialog({
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [description, setDescription] = useState<string | null>(null);
 
+  const [canChangeLocation, setCanChangeLocation] = useState<boolean>(true);
+
   const columns = useMemo<any[]>(
     () => [
       {
@@ -129,6 +131,10 @@ export default function CreateMovementDialog({
         setLocations(res.data.content);
       });
   }, []);
+
+  useEffect(() => {
+    setCanChangeLocation(productsSelected.length === 0);
+  }, [productsSelected]);
 
   function handleRemoveProduct(item: ProductWithQuantityType) {
     setProductsSelected((prev) =>
@@ -313,6 +319,7 @@ export default function CreateMovementDialog({
                           onChange={setLocationId}
                           isError={locationError}
                           setError={setLocationError}
+                          disabled={!canChangeLocation}
                         />
                       </FormControl>
                     </FormItem>

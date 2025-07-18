@@ -25,6 +25,7 @@ interface SelectComponentProps {
   setError: (value: boolean) => void;
   defaultValue?: string;
   valueType?: "id" | "name" | "object";
+  disabled?: boolean;
 }
 
 export default function SelectComponent({
@@ -36,6 +37,7 @@ export default function SelectComponent({
   setError,
   defaultValue = "",
   valueType = "id",
+  disabled = false,
 }: SelectComponentProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>(defaultValue ? defaultValue : "");
@@ -52,6 +54,7 @@ export default function SelectComponent({
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
+              disabled={disabled}
               variant="outline"
               role="combobox"
               aria-expanded={open}
