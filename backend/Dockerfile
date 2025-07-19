@@ -30,4 +30,6 @@ ARG URL_STORAGE
 ENV AWS_REGION=us-east-2
 ENV AWS_BUCKET_NAME=nexus-solutions-storage
 
+EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
