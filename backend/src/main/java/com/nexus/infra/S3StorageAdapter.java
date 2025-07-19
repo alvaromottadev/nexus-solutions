@@ -42,10 +42,4 @@ public class S3StorageAdapter implements StoragePort {
         return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, fileName);
     }
 
-    private void createBucketIfNotExists() {
-        if (!s3Client.listBuckets().buckets().stream().anyMatch(bucket -> bucket.name().equals(bucketName))) {
-            s3Client.createBucket(b -> b.bucket(bucketName));
-        }
-    }
-
 }

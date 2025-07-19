@@ -221,6 +221,13 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.format.invalid", e.getMessage())));
     }
 
+    @ExceptionHandler(QrCodeGenerateException.class)
+    public ResponseEntity<ErrorResponse> handleQrCodeGenerateException(QrCodeGenerateException e) {
+        return ResponseEntity
+                .status(500)
+                .body(new ErrorResponse(messageUtils.getMessage("error.qrcode.generate")));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         return ResponseEntity

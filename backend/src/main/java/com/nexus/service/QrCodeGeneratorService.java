@@ -4,6 +4,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.nexus.exception.QrCodeGenerateException;
 import com.nexus.ports.StoragePort;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,8 @@ public class QrCodeGeneratorService {
             byte[] pngQrCodeData = pngOutputStream.toByteArray();
             return storageService.uploadQrCode(pngQrCodeData, UUID.randomUUID().toString());
         } catch (Exception e){
-            throw new RuntimeException("Failed to generate QR code", e);
+            System.out.println(e);
+            throw new QrCodeGenerateException();
         }
 
     }
