@@ -22,25 +22,13 @@ public class S3StorageAdapter implements StoragePort {
 
     private final String region;
 
-    private final String url;
-
-    public S3StorageAdapter(@Value("${aws.access.key}") String accessKey,
-                            @Value("${aws.secret.access.key}") String secretKey,
-                            @Value("${storage.url}") String url,
-                            @Value("${aws.s3.bucket.name}") String bucketName,
+    public S3StorageAdapter(@Value("${aws.s3.bucket.name}") String bucketName,
                             @Value("${aws.region}") String region) {
-        this.url = url;
         this.bucketName = bucketName;
         this.region = region;
         this.s3Client = S3Client.builder()
-                .endpointOverride(URI.create("http://localhost:4566"))
                 .region(Region.of(region))
-                .credentialsProvider(
-                        StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey))
-                )
-                .serviceConfiguration(S3Configuration.builder().pathStyleAccessEnabled(true).build())
                 .build();
-        createBucketIfNotExists();
     }
 
     @Override
@@ -51,7 +39,7 @@ public class S3StorageAdapter implements StoragePort {
                 .contentType(contentType)
                 .build();
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(fileData));
-        return url + "/" + bucketName + "/" + fileName;
+        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, fileName);
     }
 
     private void createBucketIfNotExists() {
