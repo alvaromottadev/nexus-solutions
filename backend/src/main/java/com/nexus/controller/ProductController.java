@@ -42,12 +42,6 @@ public class ProductController implements ProductControllerOpenApi {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/public/{publicId}")
-    public ResponseEntity<ProductResponse> getProductByPublicId(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String publicId) {
-        ProductResponse response = productService.getProductByPublicId(publicId, userDetails.getCompany());
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> getAllProducts(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                @RequestParam(required = false) String locationId,

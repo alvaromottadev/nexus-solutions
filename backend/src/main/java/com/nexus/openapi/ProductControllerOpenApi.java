@@ -58,21 +58,6 @@ public interface ProductControllerOpenApi {
     @Operation(summary = "Get product by ID", description = "Retrieves a product by its ID.")
     ResponseEntity<ProductResponse> getProductById(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String productId);
 
-
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Product retrieved successfully by public ID",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized - (e.g., token expired)",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Token expired.\" }"))),
-            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                    content = @Content()),
-            @ApiResponse(responseCode = "404", description = "Product not found",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Product not found.\" }")))
-    })
-    @Operation(summary = "Get product by public ID", description = "Retrieves a product by its public ID.")
-    ResponseEntity<ProductResponse> getProductByPublicId(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String publicId);
-
-
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of products retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductResponse.class, example = "\"{\\n  \\\"content\\\": [\\n    {\\n      \\\"id\\\": \\\"string\\\",\\n      \\\"name\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"string\\\",\\n      \\\"image\\\": \\\"string\\\",\\n      \\\"qrCode\\\": \\\"string\\\",\\n      \\\"code\\\": \\\"string\\\",\\n      \\\"createdAt\\\": \\\"2023-10-01T00:00:00Z\\\",\\n      \\\"updatedAt\\\": \\\"2023-10-01T00:00:00Z\\\"\\n    }\\n  ],\\n  \\\"pageable\\\": {\\n    \\\"pageNumber\\\": 0,\\n    \\\"pageSize\\\": 10,\\n    \\\"sort\\\": {\\n      \\\"empty\\\": false,\\n      \\\"sorted\\\": true,\\n      \\\"unsorted\\\": false\\n    },\\n    \\\"offset\\\": 0,\\n    \\\"paged\\\": true,\\n    \\\"unpaged\\\": false\\n  },\\n  \\\"last\\\": true,\\n  \\\"totalPages\\\": 1,\\n  \\\"totalElements\\\": 1,\\n  \\\"size\\\": 10,\\n  \\\"number\\\": 0,\\n  \\\"sort\\\": {\\n    \\\"empty\\\": false,\\n    \\\"sorted\\\": true,\\n    \\\"unsorted\\\": false\\n  },\\n  \\\"numberOfElements\\\": 1,\\n  \\\"first\\\": true,\\n  \\\"empty\\\": false\\n}\"\n"))),

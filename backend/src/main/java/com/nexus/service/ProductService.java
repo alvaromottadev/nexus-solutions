@@ -45,7 +45,7 @@ public class ProductService {
     public ProductResponse createProduct(ProductRequest productRequest, Company company) {
 
         Product product = new Product(productRequest, company);
-        String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getPublicId());
+        String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getId());
         product.setQrCode(qrCodeUrl);
 
         productRepository.save(product);
@@ -54,11 +54,6 @@ public class ProductService {
 
     public ProductResponse getProductById(String productId, Company company){
         Product product = findByIdAndCompany(productId, company);
-        return new ProductResponse(product);
-    }
-
-    public ProductResponse getProductByPublicId(String publicId, Company company) {
-        Product product = findByPublicIdAndCompany(publicId, company);
         return new ProductResponse(product);
     }
 
@@ -123,11 +118,6 @@ public class ProductService {
 
     public Product findByIdAndCompany(String id, Company company){
         return productRepository.findByIdAndCompanyAndDeletedAtIsNull(id, company)
-                .orElseThrow(ProductNotFoundException::new);
-    }
-
-    private Product findByPublicIdAndCompany(String publicId, Company company) {
-        return productRepository.findByPublicIdAndCompanyAndDeletedAtIsNull(publicId, company)
                 .orElseThrow(ProductNotFoundException::new);
     }
 

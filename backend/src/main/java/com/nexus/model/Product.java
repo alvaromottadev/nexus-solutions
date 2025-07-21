@@ -22,9 +22,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "public_id", unique = true, nullable = false)
-    private String publicId = UUID.randomUUID().toString();
-
     @Column(name = "name", nullable = false)
     private String name;
 

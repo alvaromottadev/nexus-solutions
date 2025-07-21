@@ -15,8 +15,6 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
 
     Optional<Product> findByIdAndCompanyAndDeletedAtIsNull(String id, Company company);
 
-    Optional<Product> findByPublicIdAndCompanyAndDeletedAtIsNull(String publicId, Company company);
-
     @Query("""
     SELECT p FROM Product p
     INNER JOIN Inventory i ON p.id = i.product.id
