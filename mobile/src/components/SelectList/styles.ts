@@ -15,4 +15,7 @@ export const styles = StyleSheet.create({
   selectDisabled: {
     opacity: 0.5,
   },
+  error: {
+    color: 'red',
+  },
 });

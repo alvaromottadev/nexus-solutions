@@ -4,6 +4,7 @@ import { styles } from './styles';
 import { BoxArrowUpIcon, PencilIcon } from 'phosphor-react-native';
 import formatUrl from '../../utils/formatUrl';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
+import usePermission from '../../hooks/usePermission';
 
 interface ProductCardProps {
   product: ProductType;
@@ -11,6 +12,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const navigation = useTypedNavigation();
+
+  const hasPermission = usePermission();
 
   function handleEdit() {
     navigation.navigate('ProductEdit', { product });
@@ -34,17 +37,19 @@ export default function ProductCard({ product }: ProductCardProps) {
             <Text style={styles.description}>Sem descrição</Text>
           )}
         </View>
-        <TouchableOpacity
-          style={{
-            justifyContent: 'center',
-            height: '100%',
-            position: 'absolute',
-            right: 10,
-          }}
-          onPress={handleEdit}
-        >
-          <PencilIcon />
-        </TouchableOpacity>
+        {hasPermission && (
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              height: '100%',
+              position: 'absolute',
+              right: 10,
+            }}
+            onPress={handleEdit}
+          >
+            <PencilIcon />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

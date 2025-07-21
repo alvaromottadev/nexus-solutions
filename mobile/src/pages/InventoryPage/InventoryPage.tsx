@@ -7,9 +7,9 @@ import api from '../../client/api-client';
 import { AuthContext } from '../../contexts/auth';
 import AddButton from '../../components/AddButton/AddButton';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
-import { ActivityIndicator } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
+import EmptyIndicator from '../../components/EmptyIndicator/EmptyIndicator';
 
 export default function InventoryPage() {
   const [inventories, setInventories] = useState<InventoryType[]>([]);
@@ -46,20 +46,27 @@ export default function InventoryPage() {
     navigation.navigate('InventoryRegistration');
   }
 
-  return !isLoading ? (
+  return (
     <>
-      <AddButton onPress={handleAddInventory} />
-      <View style={styles.container}>
-        <FlatList
-          data={inventories}
-          keyExtractor={(__, index) => `inventory-${index}`}
-          renderItem={({ item }) => renderInventoryCard(item)}
-          showsVerticalScrollIndicator={false}
-          // ListFooterComponent={renderFooter}
-        />
-      </View>
+      {!isLoading ? (
+        <>
+          <AddButton onPress={handleAddInventory} />
+          {inventories.length > 0 ? (
+            <View style={styles.container}>
+              <FlatList
+                data={inventories}
+                keyExtractor={(__, index) => `inventory-${index}`}
+                renderItem={({ item }) => renderInventoryCard(item)}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
+          ) : (
+            <EmptyIndicator label="estoque" />
+          )}
+        </>
+      ) : (
+        <LoadingIndicator />
+      )}
     </>
-  ) : (
-    <LoadingIndicator />
   );
 }

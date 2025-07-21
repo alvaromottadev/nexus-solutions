@@ -16,8 +16,10 @@ import { useTypedNavigation } from '../../hooks/useTypedNavigation';
 import { TrashIcon } from 'phosphor-react-native';
 import { THEME } from '../../assets/theme';
 import ProductWithQuantityType from '../../types/ProductWithQuantityType';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 
 export default function MovementRegistrationPage() {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(0);
   const [numberOfItemsPerPageList] = useState([3, 4, 5]);
   const [itemsPerPage, onItemsPerPageChange] = useState<number>(
@@ -62,6 +64,7 @@ export default function MovementRegistrationPage() {
           value: location.name,
         }));
         setLocationsData(locations);
+        setIsLoading(false);
       });
   }, []);
 
@@ -132,7 +135,7 @@ export default function MovementRegistrationPage() {
     return true;
   }
 
-  return (
+  return !isLoading ? (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
         <SelectListComponent
@@ -203,5 +206,7 @@ export default function MovementRegistrationPage() {
         <Button title="Registrar Movimentação" onPress={handleRegister} />
       </View>
     </ScrollView>
+  ) : (
+    <LoadingIndicator />
   );
 }

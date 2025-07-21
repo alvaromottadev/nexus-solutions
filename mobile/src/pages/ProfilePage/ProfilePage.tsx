@@ -9,6 +9,7 @@ import api from '../../client/api-client';
 import { AuthMeType } from '../../types/AuthMeType';
 import { AuthContext } from '../../contexts/auth';
 import formatUrl from '../../utils/formatUrl';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 
 const defaultAvatar = require('../../assets/images/default-avatar.jpg');
 
@@ -40,39 +41,38 @@ export default function ProfilePage() {
     company: 'Empresa',
   };
 
-  return (
-    !isLoading &&
-    profile && (
-      <View style={styles.container}>
-        <Image
-          source={
-            profile.avatar ? { uri: formatUrl(profile.avatar) } : defaultAvatar
+  return !isLoading && profile ? (
+    <View style={styles.container}>
+      <Image
+        source={
+          profile.avatar ? { uri: formatUrl(profile.avatar) } : defaultAvatar
+        }
+        style={styles.avatar}
+      />
+      <Text style={styles.text}>{profile.name}</Text>
+      <View style={styles.infoContainer}>
+        <Input label="Email" value={profile.email} editable={false} />
+        <Input
+          label="Cargo"
+          value={
+            roleType[
+              (profile.type.toLowerCase() === 'company'
+                ? 'company'
+                : (profile.role?.toLowerCase() as RoleType)) as RoleType
+            ]
           }
-          style={styles.avatar}
+          editable={false}
         />
-        <Text style={styles.text}>{profile.name}</Text>
-        <View style={styles.infoContainer}>
-          <Input label="Email" value={profile.email} editable={false} />
-          <Input
-            label="Cargo"
-            value={
-              roleType[
-                (profile.type.toLowerCase() === 'company'
-                  ? 'company'
-                  : (profile.role?.toLowerCase() as RoleType)) as RoleType
-              ]
-            }
-            editable={false}
-          />
-        </View>
-        <View style={styles.editContainer}>
-          <InfoIcon size={16} />
-          <Text style={styles.textInfo}>
-            Para editar seu perfil, acesse o site.
-          </Text>
-        </View>
-        <Button style={styles.logout} title="Logout" onPress={logout} />
       </View>
-    )
+      <View style={styles.editContainer}>
+        <InfoIcon size={16} />
+        <Text style={styles.textInfo}>
+          Para editar seu perfil, acesse o site.
+        </Text>
+      </View>
+      <Button style={styles.logout} title="Logout" onPress={logout} />
+    </View>
+  ) : (
+    <LoadingIndicator />
   );
 }

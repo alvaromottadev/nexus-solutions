@@ -14,7 +14,6 @@ import api from '../../client/api-client';
 import { AuthContext } from '../../contexts/auth';
 import { ProductType } from '../../types/ProductType';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
-import QrCodeScanner from '../QrCodeScanner/QrCodeScanner';
 
 interface ProductFormProps {
   mode: 'create' | 'edit';
@@ -42,13 +41,13 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
 
   const { token } = useContext(AuthContext);
 
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [buttonPressed, setButtonPressed] = useState<boolean>(false);
 
   async function onSubmit() {
-    if (isEditing) return;
+    if (buttonPressed) return;
     const isValid = validateForm();
     if (!isValid) return;
-
+    setButtonPressed(true);
     const bodyJson = {
       name: name,
       description: description,
@@ -57,6 +56,7 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
     if (mode === 'create') return handleCreate(bodyJson);
     if (mode === 'edit' && product) return handleEdit(bodyJson);
     showToast('error', 'Erro', 'Modo inválido para o formulário.');
+    setButtonPressed(false);
   }
 
   async function handleCreate(bodyJson: {
@@ -75,6 +75,9 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
         if (imagePreview && image) await updateImage(response.data.id, image);
         showToast('success', 'Produto cadastrado com sucesso');
         navigation.goBack();
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -94,10 +97,13 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
         if (imagePreview !== product?.image)
           await updateImage(response.data.id, image);
         showToast('success', 'Produto editado com sucesso');
-        setIsEditing(true);
+        setButtonPressed(true);
         setTimeout(() => {
           navigation.goBack();
         }, 2000);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -151,7 +157,10 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
         <Input
           value={name}
           label="Nome"
-          onChangeText={e => setName(e)}
+          onChangeText={e => {
+            setNameError(false);
+            setName(e);
+          }}
           isError={nameError}
         />
         <Input
@@ -178,6 +187,7 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
       <Button
         onPress={onSubmit}
         title={mode === 'create' ? 'Cadastrar Produto' : 'Editar Produto'}
+        isPressed={buttonPressed}
       />
     </>
   );

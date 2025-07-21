@@ -61,9 +61,9 @@ function AuthProvider({ children }: AuthProviderProps) {
     });
   }
 
-  async function resetTokenStorage() {
-    console.log('Resetting token storage');
+  async function resetStorage() {
     await Keychain.resetGenericPassword({ service: STORAGE_TOKEN_KEY });
+    await Keychain.resetGenericPassword({ service: STORAGE_USER_KEY });
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);
@@ -79,6 +79,15 @@ function AuthProvider({ children }: AuthProviderProps) {
       setIsAuthenticated(true);
     }
     setIsLoading(false);
+  }
+
+  async function getStorageAuthMe() {
+    const userStorage = await Keychain.getGenericPassword({
+      service: STORAGE_USER_KEY,
+    });
+    if (userStorage) {
+      setUser(JSON.parse(userStorage.password));
+    }
   }
 
   async function login(email: string, password: string) {
@@ -97,8 +106,6 @@ function AuthProvider({ children }: AuthProviderProps) {
           'Bem-vindo de volta! 👋',
         );
         setIsAuthenticated(true);
-        console.log(response.data);
-        console.log(isAuthenticated);
       })
       .catch(error => {
         console.log('Login error:', error);
@@ -106,7 +113,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function logout() {
-    await resetTokenStorage();
+    await resetStorage();
     showToast(
       'success',
       'Logout realizado com sucesso',
@@ -123,11 +130,13 @@ function AuthProvider({ children }: AuthProviderProps) {
       })
       .then(response => {
         setUser(response.data);
+        storageUser(response.data);
       });
   }
 
   useEffect(() => {
     getStoredToken();
+    getStorageAuthMe();
   }, []);
 
   return (

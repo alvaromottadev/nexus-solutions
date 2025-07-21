@@ -28,7 +28,11 @@ export default function SelectListComponent({
 }: SelectListProps) {
   return (
     <>
-      {label && <CustomText style={styles.label}>{label}</CustomText>}
+      {label && (
+        <CustomText style={[styles.label, isError && styles.error]}>
+          {label}
+        </CustomText>
+      )}
       <View
         style={[styles.select, disabled && styles.selectDisabled]}
         pointerEvents={disabled ? 'none' : 'auto'}
