@@ -106,9 +106,6 @@ function AuthProvider({ children }: AuthProviderProps) {
           'Bem-vindo de volta! 👋',
         );
         setIsAuthenticated(true);
-      })
-      .catch(error => {
-        console.log('Login error:', error);
       });
   }
 

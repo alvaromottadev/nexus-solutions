@@ -43,11 +43,7 @@ api.interceptors.response.use(
         console.log('Url do erro:', error.config.url);
       }
       if (status === 404) {
-        showToast(
-          'error',
-          'Recurso não encontrado',
-          'O recurso solicitado não foi encontrado.',
-        );
+        showToast('error', data.error);
       }
       if (status === 409) {
         showToast('error', 'Conflito de dados', data.error);

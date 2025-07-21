@@ -22,6 +22,8 @@ interface ProductFormProps {
 
 export default function ProductForm({ mode, product }: ProductFormProps) {
   const navigation = useTypedNavigation();
+  const { token } = useContext(AuthContext);
+  const [buttonPressed, setButtonPressed] = useState<boolean>(false);
 
   const [name, setName] = useState<string>(product?.name || '');
 
@@ -38,10 +40,6 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
   );
 
   const [nameError, setNameError] = useState<boolean>(false);
-
-  const { token } = useContext(AuthContext);
-
-  const [buttonPressed, setButtonPressed] = useState<boolean>(false);
 
   async function onSubmit() {
     if (buttonPressed) return;

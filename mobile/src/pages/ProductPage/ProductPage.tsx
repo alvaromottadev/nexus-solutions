@@ -17,6 +17,8 @@ export default function ProductPage() {
   const [page, setPage] = useState<number>(0);
   const [haveMore, setHaveMore] = useState<boolean>(true);
 
+  const [buttonPressed, setButtonPressed] = useState<boolean>(false);
+
   const { token } = useContext(AuthContext);
 
   useFocusEffect(
@@ -46,6 +48,7 @@ export default function ProductPage() {
         ]);
       }
       setIsLoading(false);
+      setButtonPressed(false);
     });
   }, [page]);
 
@@ -67,6 +70,7 @@ export default function ProductPage() {
         onPress={renderMore}
         style={styles.button}
         title="Carregar mais produtos"
+        isPressed={buttonPressed}
       />
     ) : (
       <Text style={styles.text}>Não possui mais produtos</Text>
@@ -74,6 +78,8 @@ export default function ProductPage() {
   }
 
   function renderMore() {
+    if (buttonPressed || !haveMore) return;
+    setButtonPressed(true);
     setPage(prevPage => prevPage + 1);
   }
 

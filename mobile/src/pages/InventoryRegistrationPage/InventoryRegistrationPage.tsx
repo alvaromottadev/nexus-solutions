@@ -13,7 +13,6 @@ import { ProductType } from '../../types/ProductType';
 import { showToast } from '../../utils/showToast';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
-import { FunctionIcon } from 'phosphor-react-native';
 
 export default function InventoryRegistrationPage() {
   const { token } = useContext(AuthContext);
@@ -128,7 +127,10 @@ export default function InventoryRegistrationPage() {
 
   return !isLoading ? (
     <PaperProvider>
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContainer}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.container}>
           <SelectListComponent
             onSelect={() => setProductError(false)}

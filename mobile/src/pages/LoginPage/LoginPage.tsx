@@ -9,18 +9,22 @@ import { AuthContext } from '../../contexts/auth';
 const logo = require('../../assets/images/logo_nexus.png');
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
 
-  const [isLogging, setIsLogging] = useState(false);
-
+  const [buttonPressed, setButtonPressed] = useState<boolean>(false);
   const { login } = useContext(AuthContext);
   function handleLogin() {
+    if (buttonPressed) return;
     const isValid = validateForm();
     if (!isValid) return;
+    setButtonPressed(true);
     login(email, password);
+    setTimeout(() => {
+      setButtonPressed(false);
+    }, 3000);
   }
 
   function validateForm() {
@@ -74,7 +78,7 @@ export default function LoginPage() {
           isError={passwordError}
         />
       </View>
-      <Button onPress={handleLogin} title="Entrar" />
+      <Button onPress={handleLogin} title="Entrar" isPressed={buttonPressed} />
     </View>
   );
 }

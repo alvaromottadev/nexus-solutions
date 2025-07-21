@@ -1,6 +1,5 @@
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { DataTable, Text } from 'react-native-paper';
-import CustomText from '../../components/CustomText/CustomText';
 import { styles } from './styles';
 import SelectListComponent from '../../components/SelectList/SelectList';
 import { useContext, useEffect, useState } from 'react';
@@ -10,26 +9,28 @@ import { AuthContext } from '../../contexts/auth';
 import { SelectType } from '../../types/SelectType';
 import Button from '../../components/Button/Button';
 import { showToast } from '../../utils/showToast';
-import { ProductType } from '../../types/ProductType';
 import AddProductModal from '../../components/AddProductModal/AddProductModal';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
 import { TrashIcon } from 'phosphor-react-native';
 import { THEME } from '../../assets/theme';
 import ProductWithQuantityType from '../../types/ProductWithQuantityType';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
+import DatePicker from '../../components/DateTimePicker/DateTimePicker';
 
 export default function MovementRegistrationPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [buttonPressed, setButtonPressed] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
   const [numberOfItemsPerPageList] = useState([3, 4, 5]);
   const [itemsPerPage, onItemsPerPageChange] = useState<number>(
     numberOfItemsPerPageList[0],
   );
+  const [date, setDate] = useState<Date>(new Date());
 
   const [type, setType] = useState<string | null>(null);
   const [typeError, setTypeError] = useState<boolean>(false);
 
-  const [description, setDescription] = useState<string>('');
+  const [description, setDescription] = useState<string | null>(null);
 
   const [locationSelected, setLocationSelected] = useState<string>('');
   const [locationsData, setLocationsData] = useState<SelectType[]>([]);
@@ -80,11 +81,13 @@ export default function MovementRegistrationPage() {
     const isValid = validateForm();
     if (!isValid) return;
 
+    setButtonPressed(true);
+
     const json = {
       type,
       description,
       locationId: locationSelected,
-      movementDate: new Date().toISOString(),
+      movementDate: date.toISOString(),
       items: productsSelected.map(item => ({
         productId: item.id,
         quantity: item.quantity,
@@ -97,13 +100,16 @@ export default function MovementRegistrationPage() {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then(response => {
+      .then(() => {
         showToast(
           'success',
           'Movimentação registrada',
           'A movimentação foi registrada com sucesso.',
         );
         navigation.goBack();
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -136,7 +142,10 @@ export default function MovementRegistrationPage() {
   }
 
   return !isLoading ? (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <ScrollView
+      contentContainerStyle={styles.scrollViewContainer}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.container}>
         <SelectListComponent
           label="Tipo"
@@ -147,7 +156,7 @@ export default function MovementRegistrationPage() {
           onSelect={() => setTypeError(false)}
           placeholder="Selecione o tipo da movimentação"
         />
-        <Input label="Data" />
+        <DatePicker label="Data da Movimentação" onChange={setDate} />
         <Input label="Descrição" onChangeText={e => setDescription(e)} />
         <SelectListComponent
           label="Almoxarifado"
@@ -203,7 +212,11 @@ export default function MovementRegistrationPage() {
           />
         </DataTable>
 
-        <Button title="Registrar Movimentação" onPress={handleRegister} />
+        <Button
+          title="Registrar Movimentação"
+          onPress={handleRegister}
+          isPressed={buttonPressed}
+        />
       </View>
     </ScrollView>
   ) : (
