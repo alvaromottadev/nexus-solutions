@@ -82,7 +82,6 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function login(email: string, password: string) {
-    console.log('Login method', { email, password });
     api
       .post(`/auth/login`, JSON.stringify({ email, password }), {
         headers: {

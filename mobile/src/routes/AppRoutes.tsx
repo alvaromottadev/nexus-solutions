@@ -16,6 +16,7 @@ import InventoryRegistrationPage from '../pages/InventoryRegistrationPage/Invent
 import { ProductType } from '../types/ProductType';
 import ProductEditPage from '../pages/ProductEditPage/ProductEditPage';
 import MovementRegistrationPage from '../pages/MovementRegistrationPage/MovementRegistrationPage';
+import QrCodeScannerPage from '../pages/QrCodeScannerPage/QrCodeScannerPage';
 
 export type MainStackParamList = {
   Login: undefined;
@@ -25,6 +26,7 @@ export type MainStackParamList = {
   InventoryRegistration: undefined;
   ProductEdit: { product?: ProductType };
   MovementRegistration: undefined;
+  QrCodeScanner: { isActive: boolean; onScan: (data: string) => void };
 };
 
 export type TabParamList = {
@@ -71,6 +73,11 @@ function LoginStackScreen() {
               name="MovementRegistration"
               component={MovementRegistrationPage}
               options={{ headerShown: true, title: 'Registro de Movimentação' }}
+            />
+            <LoginStack.Screen
+              name="QrCodeScanner"
+              component={QrCodeScannerPage}
+              options={{ headerShown: false }}
             />
           </>
         )}

@@ -11,10 +11,11 @@ import { SelectType } from '../../types/SelectType';
 import Button from '../../components/Button/Button';
 import { showToast } from '../../utils/showToast';
 import { ProductType } from '../../types/ProductType';
-import ProductWithQuantityType from '../../types/ProductWithQuantityType';
 import AddProductModal from '../../components/AddProductModal/AddProductModal';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
 import { TrashIcon } from 'phosphor-react-native';
+import { THEME } from '../../assets/theme';
+import ProductWithQuantityType from '../../types/ProductWithQuantityType';
 
 export default function MovementRegistrationPage() {
   const [page, setPage] = useState<number>(0);
@@ -160,15 +161,23 @@ export default function MovementRegistrationPage() {
         />
         <DataTable style={{ width: '80%' }}>
           <DataTable.Header>
-            <DataTable.Title>Produto</DataTable.Title>
-            <DataTable.Title numeric>Quantidade</DataTable.Title>
-            <DataTable.Title numeric>Ações</DataTable.Title>
+            <DataTable.Title textStyle={styles.cell}>Produto</DataTable.Title>
+            <DataTable.Title numeric textStyle={styles.cell}>
+              Quantidade
+            </DataTable.Title>
+            <DataTable.Title numeric textStyle={styles.cell}>
+              Ações
+            </DataTable.Title>
           </DataTable.Header>
           {productsSelected.slice(from, to).map((item, index) => (
             <DataTable.Row key={index}>
-              <DataTable.Cell>{item.name}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.quantity}</DataTable.Cell>
-              <DataTable.Cell numeric>
+              <DataTable.Cell textStyle={styles.cell}>
+                {item.name}
+              </DataTable.Cell>
+              <DataTable.Cell numeric textStyle={styles.cell}>
+                {item.quantity}
+              </DataTable.Cell>
+              <DataTable.Cell numeric textStyle={styles.cell}>
                 <TouchableOpacity
                   onPress={() => handleRemoveProduct(item.id, item.name)}
                 >
@@ -177,7 +186,6 @@ export default function MovementRegistrationPage() {
               </DataTable.Cell>
             </DataTable.Row>
           ))}
-
           <DataTable.Pagination
             page={page}
             numberOfPages={Math.ceil(productsSelected.length / itemsPerPage)}
@@ -188,6 +196,7 @@ export default function MovementRegistrationPage() {
             onItemsPerPageChange={onItemsPerPageChange}
             showFastPaginationControls
             selectPageDropdownLabel={'Rows per page'}
+            paginationControlRippleColor={THEME.colors.primary}
           />
         </DataTable>
 

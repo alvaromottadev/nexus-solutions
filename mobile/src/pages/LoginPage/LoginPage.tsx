@@ -5,8 +5,6 @@ import { styles } from './styles';
 import { useContext, useState } from 'react';
 import { showToast } from '../../utils/showToast';
 import { AuthContext } from '../../contexts/auth';
-import { useTypedNavigation } from '../../hooks/useTypedNavigation';
-import { useNavigation } from '@react-navigation/native';
 
 const logo = require('../../assets/images/logo_nexus.png');
 
@@ -15,6 +13,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const [isLogging, setIsLogging] = useState(false);
 
   const { login } = useContext(AuthContext);
   function handleLogin() {
@@ -74,9 +74,7 @@ export default function LoginPage() {
           isError={passwordError}
         />
       </View>
-      <Button onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </Button>
+      <Button onPress={handleLogin} title="Entrar" />
     </View>
   );
 }

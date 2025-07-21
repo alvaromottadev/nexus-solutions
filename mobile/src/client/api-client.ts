@@ -29,6 +29,8 @@ api.interceptors.response.use(
           'Sessão expirada',
           'Por favor, faça login novamente.',
         );
+        console.log(data);
+        console.log('Token expired, logging out');
         logoutEvent.emit('logout');
         return;
       }

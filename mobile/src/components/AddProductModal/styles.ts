@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { THEME } from '../../assets/theme';
 
 export const styles = StyleSheet.create({
   containerStyle: {
@@ -15,6 +16,7 @@ export const styles = StyleSheet.create({
     gap: 5,
   },
   description: {
+    color: THEME.colors.primary,
     textAlign: 'center',
   },
   buttonContainer: {

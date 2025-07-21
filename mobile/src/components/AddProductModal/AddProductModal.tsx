@@ -9,8 +9,10 @@ import api from '../../client/api-client';
 import { showToast } from '../../utils/showToast';
 import SelectListComponent from '../SelectList/SelectList';
 import Input from '../Input/Input';
-import ProductWithQuantityType from '../../types/ProductWithQuantityType';
 import { QrCodeIcon } from 'phosphor-react-native';
+import ProductWithQuantityType from '../../types/ProductWithQuantityType';
+import { useTypedNavigation } from '../../hooks/useTypedNavigation';
+import { ProductType } from '../../types/ProductType';
 
 interface AddProductModalProps {
   locationId: string;
@@ -25,11 +27,21 @@ export default function AddProductModal({
   setProductsSelected,
   productsSelected,
 }: AddProductModalProps) {
+  const navigation = useTypedNavigation();
+
   const [visible, setVisible] = useState<boolean>(false);
   const [productSelected, setProductSelected] = useState<string>('');
   const [productError, setProductError] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
   const [quantityError, setQuantityError] = useState<boolean>(false);
+  const [productsData, setProductsData] = useState<SelectType[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
+
+  const [placeholder, setPlaceholder] = useState<string>(
+    'Selecione um produto',
+  );
+
+  const [cameraOpen, setCameraOpen] = useState<boolean>(false);
 
   const showModal = () => {
     if (!locationId) {
@@ -45,8 +57,6 @@ export default function AddProductModal({
 
   const hideModal = () => setVisible(false);
 
-  const [productsData, setProductsData] = useState<SelectType[]>([]);
-
   useEffect(() => {
     if (token && locationId) {
       api
@@ -61,6 +71,7 @@ export default function AddProductModal({
             value: item.name,
           }));
           setProductsData(data);
+          setProducts(response.data.content);
         });
     }
   }, [locationId]);
@@ -123,6 +134,43 @@ export default function AddProductModal({
     return true;
   }
 
+  function handleQrCode() {
+    setVisible(false);
+    navigation.navigate('QrCodeScanner', {
+      isActive: true,
+      onScan: (data: string) => {
+        navigation.goBack();
+        const product = productsData.find(product => {
+          if (product.key === data) {
+            setProductSelected(product.key);
+            setPlaceholder(product.value);
+            setVisible(true);
+            return true;
+          }
+        });
+        if (!product) {
+          const product = products.find(product => {
+            if (product.code === data) {
+              setProductSelected(product.id);
+              setPlaceholder(product.name);
+              return true;
+            }
+            return false;
+          });
+          if (!product) {
+            showToast(
+              'error',
+              'Produto Não Encontrado',
+              'Nenhum produto encontrado com o código escaneado.',
+            );
+            return;
+          }
+        }
+        setVisible(true);
+      },
+    });
+  }
+
   return (
     <>
       <Portal>
@@ -140,11 +188,11 @@ export default function AddProductModal({
               data={productsData}
               onSelect={() => setProductError(false)}
               setSelected={setProductSelected}
-              placeholder="Selecione um produto"
+              placeholder={placeholder}
               isError={productError}
             />
             <View style={styles.qrCodeContainer}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleQrCode}>
                 <QrCodeIcon size={48} color="#322866" />
               </TouchableOpacity>
               <CustomText>Use o QRCode para encontrar o produto.</CustomText>

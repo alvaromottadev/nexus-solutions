@@ -14,6 +14,7 @@ import api from '../../client/api-client';
 import { AuthContext } from '../../contexts/auth';
 import { ProductType } from '../../types/ProductType';
 import { useTypedNavigation } from '../../hooks/useTypedNavigation';
+import QrCodeScanner from '../QrCodeScanner/QrCodeScanner';
 
 interface ProductFormProps {
   mode: 'create' | 'edit';
@@ -53,7 +54,6 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
       description: description,
       code: code,
     };
-
     if (mode === 'create') return handleCreate(bodyJson);
     if (mode === 'edit' && product) return handleEdit(bodyJson);
     showToast('error', 'Erro', 'Modo inválido para o formulário.');
@@ -74,7 +74,6 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
       .then(async response => {
         if (imagePreview && image) await updateImage(response.data.id, image);
         showToast('success', 'Produto cadastrado com sucesso');
-        console.log('backing');
         navigation.goBack();
       });
   }
@@ -136,7 +135,15 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
     return true;
   }
 
-  console.log(imagePreview);
+  function handleCameraOpen() {
+    navigation.navigate('QrCodeScanner', {
+      isActive: true,
+      onScan: (data: string) => {
+        setCode(data);
+        navigation.goBack();
+      },
+    });
+  }
 
   return (
     <>
@@ -155,7 +162,7 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
         />
         <View style={styles.codeContainer}>
           <Input value={code} label="Código" onChangeText={e => setCode(e)} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleCameraOpen}>
             <QrCodeIcon size={48} style={styles.qrCode} color="#322866" />
           </TouchableOpacity>
         </View>
