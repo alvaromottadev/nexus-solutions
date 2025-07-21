@@ -122,7 +122,7 @@ export default function LocationsPage() {
                   <div className="flex items-center w-[90%] flex-col">
                     {locations.map(
                       (location, index) =>
-                        index < 3 && (
+                        index < 5 && (
                           <LocationCard
                             locations={locations}
                             setLocations={setLocations}
