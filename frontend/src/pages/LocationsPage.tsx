@@ -1,6 +1,5 @@
 import api from "@/client/api-client";
 import LocationCard from "@/components/Card/LocationCard";
-import CustomText from "@/components/CustomText";
 import CreateLocationDialog from "@/components/Dialog/Location/CreateLocation";
 import EmptyIndicator from "@/components/EmptyIndicator";
 import NoHasPermission from "@/components/NoHasPermission";
@@ -10,7 +9,6 @@ import TopBar from "@/components/TopBar";
 import usePermission from "@/hooks/usePermission";
 import type { LocationResponseType } from "@/types/LocationResponseType";
 import type { LocationType } from "@/types/LocationType";
-import { ArchiveX } from "lucide-react";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
 

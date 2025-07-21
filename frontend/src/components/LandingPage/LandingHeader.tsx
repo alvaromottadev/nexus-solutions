@@ -1,4 +1,3 @@
-import { AlignJustify } from "lucide-react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router";
 import CustomText from "../CustomText";

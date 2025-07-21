@@ -1,9 +1,7 @@
 import api from "@/client/api-client";
-import CustomText from "@/components/CustomText";
 import CreateProductDialog from "@/components/Dialog/CreateProduct";
 import TopBar from "@/components/TopBar";
 import type { ProductType } from "@/types/ProductType";
-import { ArchiveX } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ProductResponseType } from "@/types/ProductResponseType";
 import ProductCard from "@/components/Card/ProductCard";
