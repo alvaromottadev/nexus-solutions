@@ -6,12 +6,12 @@ import { forwardRef } from "react";
 const AdvantagesSection = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <>
-      <div ref={ref} className="p-[10rem]">
+      <div ref={ref} className="p-[10rem] ">
         <div className="flex flex-col items-center justify-center h-full">
-          <CustomText className="text-[2.25rem] w-[32rem] text-center text-[var(--primary-color)]">
+          <CustomText className="text-[1.5rem] text-center text-[var(--primary-color)] w-[20rem]">
             Quais as vantagens de usar Nexus Solutions?
           </CustomText>
-          <CustomText className="text-[var(--gray-color)] text-[1rem]">
+          <CustomText className="text-[var(--gray-color)] text-[1rem] text-center w-[15rem]">
             Veja como podemos transformar sua gestão
           </CustomText>
           <div className="mt-[1rem] flex flex-col lg:flex-row gap-y-2 ">
