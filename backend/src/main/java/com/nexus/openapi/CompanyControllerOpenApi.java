@@ -30,28 +30,6 @@ import java.util.List;
 public interface CompanyControllerOpenApi {
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of companies retrieved successfully"),
-            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                    content = @Content()),
-    })
-    @Operation(summary = "Get a list of companies", description = "Retrieves a paginated list of companies. Default size is 10 and default page is 0. Sort is by creation date in descending order.")
-    ResponseEntity<List<CompanyResponse>> getCompany(@RequestParam(required = false, defaultValue = "10") Integer size,
-                                                     @RequestParam(required = false, defaultValue = "0") Integer page);
-
-
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Company retrieved successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CompanyResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Company not found",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Company not found.\" }"))),
-            @ApiResponse(responseCode = "403", description = "Forbidden - User does not have permission to access this resource",
-                    content = @Content()),
-    })
-    @Operation(summary = "Get company by ID", description = "Retrieves a company by its ID.")
-    ResponseEntity<CompanyResponse> getCompanyById(@PathVariable String companyId);
-
-
-    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Company retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CompanyResponse.class))),
             @ApiResponse(responseCode = "404", description = "Company not found",

@@ -34,7 +34,7 @@ public class Product {
     @Column(name = "qr_code", unique = true)
     private String qrCode;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "created_at", nullable = false)

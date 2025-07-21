@@ -27,21 +27,6 @@ public class CompanyController implements CompanyControllerOpenApi {
         this.companyService = companyService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
-    public ResponseEntity<List<CompanyResponse>> getCompany(@RequestParam(required = false, defaultValue = "10") Integer size,
-                                                        @RequestParam(required = false, defaultValue = "0") Integer page) {
-        List<CompanyResponse> response = companyService.getCompany(size, page);
-        return ResponseEntity.ok(response);
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/{companyId}")
-    public ResponseEntity<CompanyResponse> getCompanyById(@PathVariable String companyId){
-        CompanyResponse response = companyService.getCompanyById(companyId);
-        return ResponseEntity.ok(response);
-    }
-
     @PreAuthorize("hasRole('COMPANY')")
     @GetMapping("/me")
     public ResponseEntity<CompanyResponse> getMyCompany(@AuthenticationPrincipal UserDetailsImpl userDetails) {
