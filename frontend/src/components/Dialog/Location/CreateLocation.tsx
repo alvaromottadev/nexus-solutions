@@ -81,7 +81,7 @@ export default function CreateLocationDialog({
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="fixed right-5 bottom-5 w-[4rem] h-[4rem] rounded-full bg-[var(--primary-color)] font-poppins cursor-pointer">
+          <Button className="fixed right-5 bottom-5 w-[4rem] h-[4rem] rounded-full bg-[var(--primary-color)] cursor-pointer">
             <Plus />
           </Button>
         </DialogTrigger>

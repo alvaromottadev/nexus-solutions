@@ -100,7 +100,7 @@ export default function LocationsPage() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen overflow-y-auto bg-white">
         <TopBar />
         {hasPermission ? (
           <>
@@ -122,7 +122,7 @@ export default function LocationsPage() {
                   <div className="flex items-center w-[90%] flex-col">
                     {locations.map(
                       (location, index) =>
-                        index < 5 && (
+                        index < 3 && (
                           <LocationCard
                             locations={locations}
                             setLocations={setLocations}
