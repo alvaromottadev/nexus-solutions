@@ -45,10 +45,11 @@ public class ProductService {
     public ProductResponse createProduct(ProductRequest productRequest, Company company) {
 
         Product product = new Product(productRequest, company);
+        productRepository.save(product);
+
         String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getId());
         product.setQrCode(qrCodeUrl);
 
-        productRepository.save(product);
         return new ProductResponse(product);
     }
 

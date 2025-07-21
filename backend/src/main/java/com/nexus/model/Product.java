@@ -31,7 +31,7 @@ public class Product {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "qr_code", unique = true, nullable = false)
+    @Column(name = "qr_code", unique = true)
     private String qrCode;
 
     @Column(name = "code")
