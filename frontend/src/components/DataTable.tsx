@@ -63,16 +63,16 @@ export default function DataTable<TData, TValue>({
     },
   });
   return (
-    <div>
-      <div className="rounded-md border p-10 bg-[#f9f9f9] shadow-md">
-        {filters && filter && (
-          <div className="flex gap-x-2">
-            {filter.map((filterItem) => {
-              const type = filterItem.type;
-              const columnName = filterItem.columnName;
+    <div className="rounded-md border p-10  bg-[#f9f9f9] shadow-md">
+      {filters && filter && (
+        <div className="flex gap-x-2">
+          {filter.map((filterItem) => {
+            const type = filterItem.type;
+            const columnName = filterItem.columnName;
 
-              if (type === "input") {
-                return (
+            if (type === "input") {
+              return (
+                <div className="hidden md:block">
                   <Input
                     key={columnName}
                     placeholder={`Filtrar por ${filterItem.label}...`}
@@ -88,105 +88,98 @@ export default function DataTable<TData, TValue>({
                     }
                     className="max-w-sm bg-white"
                   />
-                );
-              } else if (
-                type === "select" &&
-                filterItem.data &&
-                filterItem.label
-              ) {
-                return (
-                  <SelectComponentTwo
-                    label={filterItem.label}
-                    data={filterItem.data}
-                    key={columnName}
-                    onChange={(value: string) =>
-                      table.getColumn(columnName)?.setFilterValue(value)
-                    }
-                  />
-                );
-              }
-              return <></>;
-            })}
-          </div>
-        )}
-
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={
-                        cell.getContext().getValue() === "LOW"
-                          ? "bg-red-100"
-                          : cell.getContext().getValue() === "OUT OF STOCK"
-                          ? "bg-red-500"
-                          : cell.getContext().getValue() === "OK"
-                          ? "bg-green-100"
-                          : ""
-                      }
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  Nenhum resultado.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Anterior
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Próxima
-          </Button>
+                </div>
+              );
+            } else if (
+              type === "select" &&
+              filterItem.data &&
+              filterItem.label
+            ) {
+              return (
+                <SelectComponentTwo
+                  label={filterItem.label}
+                  data={filterItem.data}
+                  key={columnName}
+                  onChange={(value: string) =>
+                    table.getColumn(columnName)?.setFilterValue(value)
+                  }
+                />
+              );
+            }
+            return <></>;
+          })}
         </div>
+      )}
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className={
+                      cell.getContext().getValue() === "LOW"
+                        ? "bg-red-100"
+                        : cell.getContext().getValue() === "OUT OF STOCK"
+                        ? "bg-red-500"
+                        : cell.getContext().getValue() === "OK"
+                        ? "bg-green-100"
+                        : ""
+                    }
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                Nenhum resultado.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Anterior
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Próxima
+        </Button>
       </div>
     </div>
   );

@@ -219,7 +219,7 @@ export default function CreateMovementDialog({
               </Button>
             </div>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-auto">
+          <DialogContent className="sm:max-w-auto h-[45rem] md:h-auto overflow-auto">
             <DialogHeader>
               <DialogTitle>Registrar Movimentação</DialogTitle>
               <DialogDescription>
@@ -229,7 +229,7 @@ export default function CreateMovementDialog({
             </DialogHeader>
             <Form {...form}>
               <div className="flex flex-col gap-y-5">
-                <div className="flex gap-x-5">
+                <div className="flex flex-col md:flex-row gap-y-2 gap-x-5">
                   <FormField
                     control={form.control}
                     name="type"
@@ -262,7 +262,7 @@ export default function CreateMovementDialog({
                         >
                           Data da movimentação <Required />
                         </FormLabel>
-                        <FormControl>
+                        <FormControl className="">
                           <DatePickerComponent
                             date={date}
                             onChange={handleChangeDate}

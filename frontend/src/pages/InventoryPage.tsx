@@ -56,7 +56,6 @@ export default function InventoryPage() {
       id: "actions",
       cell: ({ row }: { row: { original: InventoryType } }) => {
         const inventory = row.original;
-
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -90,15 +89,15 @@ export default function InventoryPage() {
     () => [
       {
         value: "OK",
-        label: "OK",
+        label: "Em Estoque",
       },
       {
         value: "LOW",
-        label: "LOW",
+        label: "Baixo",
       },
       {
         value: "OUT OF STOCK",
-        label: "OUT OF STOCK",
+        label: "Fora de Estoque",
       },
     ],
     []
@@ -140,12 +139,12 @@ export default function InventoryPage() {
           setInventories={setInventories}
         />
         <div className="flex justify-center">
-          <CustomText className="text-[var(--primary-color)] text-[2.5rem] font-bold">
+          <CustomText className="text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
             Gestão de Estoque
           </CustomText>
         </div>
         <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-[80%]">
+          <div className="w-full max-w-[90%] md:max-w-[80%]">
             <DataTable
               data={inventories}
               columns={columns}

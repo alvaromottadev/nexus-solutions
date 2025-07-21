@@ -70,40 +70,38 @@ export default function OraclePage() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col bg-[#202124]">
+      <div className="min-h-screen h-screen flex flex-col bg-[#202124]">
         <TopBar isOracle />
-        <div className="flex flex-col m-10 flex-1 mb-10 justify-center">
-          <div className="flex flex-1">
-            <div className="flex flex-col gap-y-2  h-[42rem] w-full overflow-y-auto">
-              <div className="p-10">
-                {messages.length > 0 &&
-                  messages.map((message, index) => {
-                    if (message.author === "user") {
-                      return (
-                        <div
-                          className={`${
-                            message.author === "user" && "text-right"
-                          }`}
-                        >
-                          <CustomText className="break-words text-white font-poppins">
-                            {message.message.content}
-                          </CustomText>
-                        </div>
-                      );
-                    }
+        <div className="flex flex-col m-10 flex-1 h-full mb-10 justify-center">
+          <div className="flex flex-1 h-full">
+            <div className="flex flex-col gap-y-2 h-[90%] w-full overflow-y-auto">
+              {messages.length > 0 &&
+                messages.map((message, index) => {
+                  if (message.author === "user") {
                     return (
-                      <OracleDispatcher key={index} OracleResponse={message} />
+                      <div
+                        className={`${
+                          message.author === "user" && "text-right"
+                        }`}
+                      >
+                        <CustomText className="break-words text-white font-poppins">
+                          {message.message.content}
+                        </CustomText>
+                      </div>
                     );
-                  })}
-                {waitingResponse && (
-                  <CustomText className="text-[#e1e1e3]">
-                    Oráculo está pensando...
-                  </CustomText>
-                )}
-              </div>
+                  }
+                  return (
+                    <OracleDispatcher key={index} OracleResponse={message} />
+                  );
+                })}
+              {waitingResponse && (
+                <CustomText className="text-[#e1e1e3]">
+                  Oráculo está pensando...
+                </CustomText>
+              )}
             </div>
           </div>
-          <div className="w-[80%] self-center flex items-center justify-between gap-x-2">
+          <div className="w-[100%] self-center flex items-center justify-between gap-x-2">
             <Textarea
               onChange={(e) => setQuestion(e.target.value)}
               value={question}

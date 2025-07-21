@@ -4,6 +4,7 @@ import TopBarButton from "./TopBarButton";
 
 interface TopBarProps {
   isOracle?: boolean;
+  enableSideBar?: boolean;
 }
 
 export default function TopBar({ isOracle = false }: TopBarProps) {
@@ -21,65 +22,55 @@ export default function TopBar({ isOracle = false }: TopBarProps) {
             <SideBar />
           </div>
           <div className="absolute self-center flex justify-center items-center w-full">
-            <label
-              className={`font-poppins ${
-                isOracle ? "text-white" : "text-[var(--color-gray)]"
-              } text-[2.5rem]`}
-            >
-              Nexus Solutions
-            </label>
+            <TopBarButton
+              label="Nexus Solutions"
+              onClick={() => handleClick("home")}
+              className="text-[2rem] md:text-[2.5rem] text-[var(--primary-color)]"
+            />
           </div>
         </div>
         <div className=" h-full hidden lg:flex items-center justify-around">
           <TopBarButton
-            onClick={handleClick}
+            onClick={() => handleClick("home")}
             label="Nexus Solutions"
-            url="home"
             isOracle={isOracle}
             className={`text-[1.5rem] ${
               isOracle ? "text-white" : "text-[var(--primary-color)]"
             }`}
           />
           <TopBarButton
-            onClick={handleClick}
+            onClick={() => handleClick("locations")}
             label="Almoxarifados"
-            url="locations"
             isOracle={isOracle}
           />
           <TopBarButton
-            onClick={handleClick}
+            onClick={() => handleClick("products")}
             label="Produtos"
-            url="products"
             isOracle={isOracle}
           />
           <TopBarButton
-            onClick={handleClick}
+            onClick={() => handleClick("inventories")}
             label="Estoque"
-            url="inventories"
             isOracle={isOracle}
           />
           <TopBarButton
-            onClick={handleClick}
+            onClick={() => handleClick("movements")}
             label="Movimentações"
-            url="movements"
             isOracle={isOracle}
           />
           <TopBarButton
-            onClick={handleClick}
+            onClick={() => handleClick("oracle")}
             label="Oraculo"
-            url="oracle"
             isOracle={isOracle}
           />
           <TopBarButton
-            onClick={handleClick}
+            onClick={() => handleClick("employees")}
             label="Funcionários"
-            url="employees"
             isOracle={isOracle}
           />
           <TopBarButton
-            onClick={handleClick}
+            onClick={() => handleClick("profile")}
             label="Perfil"
-            url="profile"
             isOracle={isOracle}
           />
         </div>

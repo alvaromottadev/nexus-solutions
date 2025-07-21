@@ -18,7 +18,7 @@ export default function SearchComponent({
 }: SearchComponentProps) {
   return (
     <>
-      <CustomText className="text-[var(--primary-color)] text-[2.5rem] font-bold">
+      <CustomText className="text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
         {label}
       </CustomText>
       <div className="w-[90%] flex gap-x-3 items-center justify-center">

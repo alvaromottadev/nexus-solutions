@@ -130,11 +130,11 @@ export default function MovementPage() {
       <TopBar />
       <CreateMovementDialog movements={movements} setMovements={setMovements} />
       <div className="flex flex-1 flex-col items-center w-full">
-        <CustomText className="text-[var(--primary-color)] text-[2.5rem] font-bold">
+        <CustomText className="text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
           Movimentações
         </CustomText>
         <div className="flex flex-1 items-center justify-center w-full">
-          <div className="w-full max-w-[70%]">
+          <div className="w-full max-w-[90%] md:max-w-[80%]">
             <DataTable
               columns={columns}
               data={movements}

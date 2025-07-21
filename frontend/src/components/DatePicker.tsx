@@ -22,13 +22,13 @@ export default function DatePickerComponent({
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 ">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             id="date"
-            className={`w-48 justify-between font-normal ${
+            className={`w-full justify-between font-normal ${
               isError ? "border-red-500 text-red-500" : ""
             }`}
           >
@@ -36,7 +36,7 @@ export default function DatePickerComponent({
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+        <PopoverContent className="overflow-hidden p-0" align="start">
           <Calendar
             mode="single"
             selected={date}

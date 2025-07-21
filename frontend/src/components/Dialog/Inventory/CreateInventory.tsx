@@ -123,7 +123,7 @@ export default function CreateInventoryDialog({
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="w-auto">
+      <DialogContent className="w-[100%]">
         <DialogHeader>
           <DialogTitle>Cadastro de Estoque</DialogTitle>
           <DialogDescription>
@@ -132,7 +132,7 @@ export default function CreateInventoryDialog({
             estoque.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex justify-between">
+        <div className="flex flex-col gap-y-2 md:flex-row justify-between">
           <div>
             <CustomText className={productError ? "text-red-500" : ""}>
               Produto

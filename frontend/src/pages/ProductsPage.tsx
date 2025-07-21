@@ -11,6 +11,7 @@ import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import DotLoader from "react-spinners/DotLoader";
 import usePermission from "@/hooks/usePermission";
+import EmptyIndicator from "@/components/EmptyIndicator";
 export default function ProductsPage() {
   const token = localStorage.getItem("token");
 
@@ -129,12 +130,7 @@ export default function ProductsPage() {
               )}
             </div>
           ) : (
-            <div className="flex flex-1 flex-col justify-center items-center">
-              <ArchiveX color="purple" size={64} />
-              <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
-                Nenhum produto cadastrado
-              </CustomText>
-            </div>
+            <EmptyIndicator label="produto" />
           )
         ) : (
           <div className="h-full flex flex-1 justify-center items-center">

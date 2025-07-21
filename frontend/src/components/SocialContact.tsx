@@ -16,7 +16,7 @@ export default function SocialContact({
       <div className="flex gap-x-3 items-center md:text-[1.5rem]">
         {children}
         <CustomText className="">{socialName}:</CustomText>
-        <CustomText className="text-[var(--primary-color)]">
+        <CustomText className="w-[10rem] md:w-auto text-[var(--primary-color)]">
           {socialHandle}
         </CustomText>
       </div>

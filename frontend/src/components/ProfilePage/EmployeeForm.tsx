@@ -117,7 +117,7 @@ export default function EmployeeForm({ employee, auth }: EmployeeFormProps) {
           className="w-[10rem] h-[10rem] self-center rounded-full mb-2"
           onClick={handleImageClick}
         />
-        <CustomText className="text-[0.8rem] mb-8">
+        <CustomText className="text-center text-[0.8rem] mb-8">
           Para editar a foto, clique em "Editar Perfil" e depois na image acima
         </CustomText>
         <Input

@@ -58,7 +58,7 @@ export default function SelectComponent({
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className={`min-w-[12.5rem] justify-between ${
+              className={`w-[100%] justify-between ${
                 isError ? "border-red-500 text-red-500" : ""
               }`}
             >

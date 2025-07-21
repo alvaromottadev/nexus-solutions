@@ -22,16 +22,13 @@ export default function LandingHeader({ scrollTo }: LoginHeaderProps) {
     <>
       <div className="h-[5rem]">
         <div className="h-full lg:hidden flex items-center">
-          <div className="ml-3">
-            <AlignJustify color="black" size={40} />
-          </div>
           <div className="absolute self-center flex justify-center items-center w-full">
-            <label className="font-poppins text-[var(--color-gray)] text-[2.5rem]">
+            <CustomText className="text-[2rem] md:text-[2.5rem] text-[var(--primary-color)]">
               Nexus Solutions
-            </label>
+            </CustomText>
           </div>
         </div>
-        <div className=" h-full hidden lg:flex items-center justify-around">
+        <div className="h-full hidden lg:flex items-center justify-around">
           <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
             Nexus Solutions
           </CustomText>

@@ -166,7 +166,7 @@ export default function EditProductDialog({
           </DialogDescription>
           <img
             src={product.qrCode}
-            className="w-[10rem] h-[10rem] object-cover"
+            className="w-[7rem] md:w-[10rem] h-[7rem] md:h-[10rem] self-center object-cover"
           />
           <DialogDescription>QR Code do Produto</DialogDescription>
         </DialogHeader>

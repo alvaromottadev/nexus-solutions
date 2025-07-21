@@ -135,7 +135,7 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
           alt="Logo"
           onClick={handleImageClick}
         />
-        <CustomText className="text-[0.8rem] mb-8">
+        <CustomText className="text-[0.8rem] text-center mb-8">
           Para editar a foto, clique em "Editar Perfil" e depois na image acima
         </CustomText>
         <Input
@@ -145,7 +145,6 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
           onChange={handleFileChange}
         />
       </div>
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleUpdate)}>
           <div className="flex flex-col gap-y-2">

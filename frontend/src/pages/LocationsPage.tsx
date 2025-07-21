@@ -2,6 +2,7 @@ import api from "@/client/api-client";
 import LocationCard from "@/components/Card/LocationCard";
 import CustomText from "@/components/CustomText";
 import CreateLocationDialog from "@/components/Dialog/Location/CreateLocation";
+import EmptyIndicator from "@/components/EmptyIndicator";
 import NoHasPermission from "@/components/NoHasPermission";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
@@ -135,12 +136,7 @@ export default function LocationsPage() {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-1 flex-col justify-center items-center">
-                  <ArchiveX color="purple" size={64} />
-                  <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
-                    Nenhum almoxarifado cadastrado
-                  </CustomText>
-                </div>
+                <EmptyIndicator label="almoxarifado" />
               )
             ) : (
               <div className="h-full flex flex-1 justify-center items-center">

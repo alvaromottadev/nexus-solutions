@@ -122,68 +122,70 @@ export default function EditLocationDialog({
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleUpdate)}>
-              <FormFieldComponent
-                control={form.control}
-                name="name"
-                label="Nome"
-                placeholder="Ex.: Almoxarifado Central"
-                isRequired
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="street"
-                label="Rua"
-                placeholder="Ex.: Rua Nexus"
-                isRequired
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="number"
-                label="Número"
-                placeholder="Ex.: 123"
-                isRequired
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="complement"
-                label="Complemento"
-                placeholder="Ex.: Apto 101"
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="district"
-                label="Bairro"
-                placeholder="Ex.: Centro"
-                isRequired
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="city"
-                label="Cidade"
-                placeholder="Ex.: Campinas"
-                isRequired
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="state"
-                label="Estado"
-                placeholder="Ex.: São Paulo"
-                isRequired
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="postalCode"
-                label="CEP"
-                placeholder="Ex.: 12345-678"
-                isRequired
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="country"
-                label="País"
-                placeholder="Ex.: Brasil"
-                isRequired
-              />
+              <div className="h-[25rem] md:h-auto overflow-y-auto">
+                <FormFieldComponent
+                  control={form.control}
+                  name="name"
+                  label="Nome"
+                  placeholder="Ex.: Almoxarifado Central"
+                  isRequired
+                />
+                <FormFieldComponent
+                  control={form.control}
+                  name="street"
+                  label="Rua"
+                  placeholder="Ex.: Rua Nexus"
+                  isRequired
+                />
+                <FormFieldComponent
+                  control={form.control}
+                  name="number"
+                  label="Número"
+                  placeholder="Ex.: 123"
+                  isRequired
+                />
+                <FormFieldComponent
+                  control={form.control}
+                  name="complement"
+                  label="Complemento"
+                  placeholder="Ex.: Apto 101"
+                />
+                <FormFieldComponent
+                  control={form.control}
+                  name="district"
+                  label="Bairro"
+                  placeholder="Ex.: Centro"
+                  isRequired
+                />
+                <FormFieldComponent
+                  control={form.control}
+                  name="city"
+                  label="Cidade"
+                  placeholder="Ex.: Campinas"
+                  isRequired
+                />
+                <FormFieldComponent
+                  control={form.control}
+                  name="state"
+                  label="Estado"
+                  placeholder="Ex.: São Paulo"
+                  isRequired
+                />
+                <FormFieldComponent
+                  control={form.control}
+                  name="postalCode"
+                  label="CEP"
+                  placeholder="Ex.: 12345-678"
+                  isRequired
+                />
+                <FormFieldComponent
+                  control={form.control}
+                  name="country"
+                  label="País"
+                  placeholder="Ex.: Brasil"
+                  isRequired
+                />
+              </div>
               <DialogFooter>
                 <DeleteProductAlert onDelete={handleDelete} />
                 <DialogClose onClick={() => setOpen(false)} asChild>

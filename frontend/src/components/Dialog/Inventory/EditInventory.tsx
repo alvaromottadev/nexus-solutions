@@ -112,7 +112,7 @@ export default function EditInventoryDialog({
           Editar Estoque
         </div>
       </DialogTrigger>
-      <DialogContent className="w-auto">
+      <DialogContent className="w-[100%]">
         <DialogHeader>
           <DialogTitle>Editar Estoque</DialogTitle>
           <DialogDescription>
@@ -120,7 +120,7 @@ export default function EditInventoryDialog({
             Certifique-se de que os dados estão corretos antes de salvar.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row gap-y-2 justify-between">
           <div>
             <CustomText className={productError ? "text-red-500" : ""}>
               Produto
