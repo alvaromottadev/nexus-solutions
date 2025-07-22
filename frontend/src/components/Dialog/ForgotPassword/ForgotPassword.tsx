@@ -42,6 +42,8 @@ export default function ForgotPasswordDialog({
   });
 
   function handleSubmit(data: z.infer<typeof forgotPasswordSchema>) {
+    const isValid = validateForm(data);
+    if (!isValid) return;
     api
       .post(`/auth/forgot-password`, data, {
         headers: {
@@ -52,6 +54,17 @@ export default function ForgotPasswordDialog({
         toast.success(response.data.success);
         setOpen(false);
       });
+  }
+
+  function validateForm(data: z.infer<typeof forgotPasswordSchema>) {
+    if (data.email === "" || !data.email.includes("@")) {
+      form.setError("email", {
+        type: "manual",
+        message: "Por favor, insira um email válido.",
+      });
+      return false;
+    }
+    return true;
   }
 
   return (
@@ -66,40 +79,39 @@ export default function ForgotPasswordDialog({
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-4"
-          >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Ex.: nexus@gmail.com"
-                      type="email"
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
-                  Cancelar
-                </Button>
-              </DialogClose>
-              <Button
-                type="submit"
-                className="cursor-pointer bg-[var(--primary-color)]"
-              >
-                Enviar
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      form.clearErrors("email");
+                    }}
+                    placeholder="Ex.: nexus@gmail.com"
+                    type="email"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
+                Cancelar
               </Button>
-            </DialogFooter>
-          </form>
+            </DialogClose>
+            <Button
+              onClick={() => handleSubmit(form.getValues())}
+              className="cursor-pointer bg-[var(--primary-color)]"
+            >
+              Enviar
+            </Button>
+          </DialogFooter>
         </Form>
       </DialogContent>
     </Dialog>
