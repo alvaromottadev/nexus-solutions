@@ -18,10 +18,6 @@ public class AddressService {
     @Transactional
     public Address createAddress(AddressRequest addressRequest){
         Address address = new Address(addressRequest);
-        return save(address);
-    }
-
-    public Address save(Address address) {
         return addressRepository.save(address);
     }
 

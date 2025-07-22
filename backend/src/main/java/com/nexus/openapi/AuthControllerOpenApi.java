@@ -77,4 +77,33 @@ public interface AuthControllerOpenApi {
     ResponseEntity<SuccessResponse> updatePassword(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                    @Validated @org.springframework.web.bind.annotation.RequestBody PasswordUpdateRequest passwordUpdateRequest);
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Email sent successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SuccessResponse.class, example = "{ \"success\": \"Email sent successfully\" }"))),
+            @ApiResponse(responseCode = "400", description = "Bad request (e.g., validation errors)",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Invalid input data\" }"))),
+            @ApiResponse(responseCode = "404", description = "Resource not found (e.g., user not found)",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"User not found\" }"))),
+    })
+    @Operation(summary = "Forgot password",
+    description = "This endpoint allows a user to request a password reset by sending an email with a reset code.",
+    requestBody = @RequestBody(required = true))
+    ResponseEntity<SuccessResponse> forgotPassword(@Validated @org.springframework.web.bind.annotation.RequestBody ForgotPasswordRequest forgotPasswordRequest);
+
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Password reset successfully",
+                content = @Content(mediaType = "application/json", schema = @Schema(implementation = SuccessResponse.class, example = "{ \"success\": \"Password reset successfully\" }"))),
+            @ApiResponse(responseCode = "400", description = "Bad request (e.g., validation errors)",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Invalid input data\" }"))),
+            @ApiResponse(responseCode = "404", description = "Resource not found (e.g., reset code not found)",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"Reset code not found\" }"))),
+            @ApiResponse(responseCode = "409", description = "Conflict (e.g., new password and confirmation do not match)",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class, example = "{ \"error\": \"New password and confirmation do not match\" }")))
+    })
+    @Operation(summary = "Reset user password",
+    description = "This endpoint allows a user to reset their password using a reset code",
+    requestBody = @RequestBody(required = true))
+    ResponseEntity<SuccessResponse> resetPassword(@Validated @org.springframework.web.bind.annotation.RequestBody ResetPasswordRequest resetPasswordRequest);
+
 }
