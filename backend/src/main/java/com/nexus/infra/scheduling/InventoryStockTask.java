@@ -6,6 +6,7 @@ import com.nexus.model.Company;
 import com.nexus.model.Inventory;
 import com.nexus.service.EmailService;
 import com.nexus.service.InventoryService;
+import com.nexus.utils.MessageUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,13 +20,15 @@ public class InventoryStockTask {
 
     private final InventoryService inventoryService;
     private final EmailService emailService;
+    private final MessageUtils messageUtils;
 
-    public InventoryStockTask(InventoryService inventoryService, EmailService emailService) {
+    public InventoryStockTask(InventoryService inventoryService, EmailService emailService, MessageUtils messageUtils) {
         this.inventoryService = inventoryService;
         this.emailService = emailService;
+        this.messageUtils = messageUtils;
     }
 
-    @Scheduled(cron = "0 0 3 * * *")
+    @Scheduled(cron = "0 25 15 * * *")
     public void checkInventoryStock() {
         List<Inventory> inventories = inventoryService.findAllWithLowStock();
         if (!inventories.isEmpty()){
@@ -39,7 +42,7 @@ public class InventoryStockTask {
                 List<InventoryRestockResponse> restockProducts = new ArrayList<>(products);
                 EmailRequest emailRequest = new EmailRequest(
                         company.getUser().getEmail(),
-                        "Stock Alert");
+                        messageUtils.getMessage("stock.alert.email"));
                 emailService.sendRestockEmail(emailRequest, restockProducts);
             });
         }
