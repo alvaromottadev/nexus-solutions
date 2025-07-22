@@ -16,7 +16,7 @@ public class ResetCodeCleanTask {
         this.passwordResetCodeService = passwordResetCodeService;
     }
 
-    @Scheduled(cron = "50 37 16 * * *")
+    @Scheduled(cron = "0 0 4 * * *")
     public void resetCodeClean() {
         List<PasswordResetCode> expiredOrUsedCodes = passwordResetCodeService.findAllExpiredOrUsedCodes();
         if (!expiredOrUsedCodes.isEmpty()){

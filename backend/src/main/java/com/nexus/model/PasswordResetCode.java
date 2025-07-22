@@ -21,9 +21,11 @@ public class PasswordResetCode {
     @Column(name = "reset_code", unique = true, nullable = false)
     private String resetCode;
 
-    private LocalDateTime expiredAt = LocalDateTime.now().plusHours(1);
+    @Column(nullable = false)
+    private LocalDateTime expiredAt;
 
-    private boolean used = false;
+    @Column(nullable = false)
+    private boolean used;
 
     @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne
@@ -37,6 +39,7 @@ public class PasswordResetCode {
         this.resetCode = resetCode;
         this.user = user;
         this.expiredAt = LocalDateTime.now().plusHours(1);
+        this.used = false;
     }
 
 }
