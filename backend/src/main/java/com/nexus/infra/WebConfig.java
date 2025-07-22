@@ -9,11 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig {
 
+    @Value("${nexus.frontend.url}")
     private String url;
-
-    public WebConfig(@Value("${nexus.frontend.url}") String url) {
-        this.url = url;
-    }
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
