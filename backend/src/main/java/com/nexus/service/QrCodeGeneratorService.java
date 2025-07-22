@@ -29,7 +29,6 @@ public class QrCodeGeneratorService {
             byte[] pngQrCodeData = pngOutputStream.toByteArray();
             return storageService.uploadQrCode(pngQrCodeData, UUID.randomUUID().toString());
         } catch (Exception e){
-            System.out.println(e);
             throw new QrCodeGenerateException();
         }
 

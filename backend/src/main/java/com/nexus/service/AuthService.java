@@ -1,8 +1,6 @@
 package com.nexus.service;
 
-import com.nexus.dto.Address.AddressRequest;
 import com.nexus.dto.Auth.*;
-import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Email.EmailRequest;
 import com.nexus.dto.SuccessResponse;
@@ -13,6 +11,7 @@ import com.nexus.infra.security.JwtTokenUtil;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.Address;
 import com.nexus.model.Company;
+import com.nexus.model.PasswordResetCode;
 import com.nexus.model.User;
 import com.nexus.model.enums.EmployeeRole;
 import com.nexus.model.enums.UserType;
@@ -31,14 +30,18 @@ public class AuthService {
     private final AddressService addressService;
     private final JwtTokenUtil jwtTokenUtil;
     private final MessageUtils messageUtils;
+    private final EmailService emailService;
+    private final PasswordResetCodeService passwordResetTokenService;
 
-    public AuthService(UserService userService, CompanyService companyService, PasswordEncoder passwordEncoder, AddressService addressService, JwtTokenUtil jwtTokenUtil, MessageUtils messageUtils) {
+    public AuthService(UserService userService, CompanyService companyService, PasswordEncoder passwordEncoder, AddressService addressService, JwtTokenUtil jwtTokenUtil, MessageUtils messageUtils, EmailService emailService, PasswordResetCodeService passwordResetTokenService) {
         this.userService = userService;
         this.companyService = companyService;
         this.passwordEncoder = passwordEncoder;
         this.addressService = addressService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.messageUtils = messageUtils;
+        this.emailService = emailService;
+        this.passwordResetTokenService = passwordResetTokenService;
     }
 
     public AuthMeResponse getMe(UserDetailsImpl userDetails){
@@ -78,6 +81,30 @@ public class AuthService {
         return new SuccessResponse(messageUtils.getMessage("password.update.success"));
     }
 
+    @Transactional
+    public SuccessResponse forgotPassword(ForgotPasswordRequest forgotPasswordRequest){
+        User user = userService.findByEmail(forgotPasswordRequest.email());
+        String resetCode = generateCode();
+        passwordResetTokenService.createToken(resetCode, user);
+        emailService.sendResetPasswordEmail(new EmailRequest(forgotPasswordRequest.email(), messageUtils.getMessage("forgot.password.email")), resetCode);
+        return new SuccessResponse(messageUtils.getMessage("forgot.password.email.sent"));
+    }
+
+    @Transactional
+    public SuccessResponse resetPassword(ResetPasswordRequest resetPasswordRequest) {
+
+        validatePasswordIsEqual(resetPasswordRequest.password(), resetPasswordRequest.confirmPassword());
+
+        PasswordResetCode token = passwordResetTokenService.validateCode(resetPasswordRequest.resetCode());
+
+        User user = token.getUser();
+        userService.updatePassword(user, resetPasswordRequest.password());
+
+        token.setUsed(true);
+
+        return new SuccessResponse(messageUtils.getMessage("password.reset.success"));
+    }
+
     private void validatePassword(String rawPassword, String encodedPassword){
         if (!passwordEncoder.matches(rawPassword, encodedPassword)){
             throw new BadCredentialsException(messageUtils.getMessage("email.or.password.invalid"));
@@ -103,5 +130,10 @@ public class AuthService {
             throw new InvalidCompanyRegistrationException();
         }
     }
+
+    private String generateCode() {
+        return String.format("%06d", (int) (Math.random() * 1_000_000));
+    }
+
 
 }

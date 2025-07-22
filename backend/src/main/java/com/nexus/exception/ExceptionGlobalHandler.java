@@ -59,6 +59,13 @@ public class ExceptionGlobalHandler {
                 .body(new ErrorResponse(messageUtils.getMessage("error.location.not.found")));
     }
 
+    @ExceptionHandler(PasswordResetTokenNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePasswordResetTokenNotFoundException(PasswordResetTokenNotFoundException e) {
+        return ResponseEntity
+                .status(404)
+                .body(new ErrorResponse(messageUtils.getMessage("error.password.reset.token.not.found")));
+    }
+
     @ExceptionHandler(MovementNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleMovementNotFoundException(MovementNotFoundException e) {
         return ResponseEntity

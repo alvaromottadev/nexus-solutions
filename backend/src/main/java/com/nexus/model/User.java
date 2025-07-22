@@ -39,6 +39,9 @@ public class User {
     @OneToMany(mappedBy = "performedBy")
     private List<Movement> movement;
 
+    @OneToMany(mappedBy = "user")
+    private List<PasswordResetCode> passwordResetTokens;
+
     public User (UserRequest data, String encodedPassword){
         this.email = data.email();
         this.password = encodedPassword;

@@ -45,4 +45,16 @@ public class AuthController implements AuthControllerOpenApi {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<SuccessResponse> forgotPassword(@Validated @RequestBody ForgotPasswordRequest forgotPasswordRequest){
+        SuccessResponse response = authService.forgotPassword(forgotPasswordRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<SuccessResponse> resetPassword(@Validated @RequestBody ResetPasswordRequest resetPasswordRequest) {
+        SuccessResponse response = authService.resetPassword(resetPasswordRequest);
+        return ResponseEntity.ok(response);
+    }
+
 }
