@@ -156,7 +156,7 @@ export default function EditProductDialog({
         onClick={() => setOpen(true)}
         asChild
       >
-        <Edit color="purple" size={48} />
+        <Edit color="#322866" size={48} />
       </DialogTrigger>
       <DialogContent className="flex">
         <DialogHeader>

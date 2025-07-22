@@ -139,7 +139,7 @@ export default function InventoryPage() {
           setInventories={setInventories}
         />
         <div className="flex justify-center">
-          <CustomText className="text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
+          <CustomText className="mt-[2rem] text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
             Gestão de Estoque
           </CustomText>
         </div>

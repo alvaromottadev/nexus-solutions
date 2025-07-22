@@ -3,13 +3,13 @@ import CreateProductDialog from "@/components/Dialog/CreateProduct";
 import TopBar from "@/components/TopBar";
 import type { ProductType } from "@/types/ProductType";
 import { useEffect, useState } from "react";
-import type { ProductResponseType } from "@/types/ProductResponseType";
 import ProductCard from "@/components/Card/ProductCard";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import DotLoader from "react-spinners/DotLoader";
 import usePermission from "@/hooks/usePermission";
 import EmptyIndicator from "@/components/EmptyIndicator";
+import type { PageableResponseType } from "@/types/PageableResponseType";
 export default function ProductsPage() {
   const token = localStorage.getItem("token");
 
@@ -31,10 +31,10 @@ export default function ProductsPage() {
           },
         })
         .then((res) => {
-          const data: ProductResponseType = res.data;
+          const data: PageableResponseType<ProductType> = res.data;
           setProducts(data.content);
-          setNumberPage(data.pageable.pageNumber);
-          setTotalPage(data.totalPages);
+          setNumberPage(data.page.number);
+          setTotalPage(data.page.totalPages);
           setIsLoading(false);
         });
     }
@@ -49,10 +49,10 @@ export default function ProductsPage() {
         },
       })
       .then((res) => {
-        const data: ProductResponseType = res.data;
+        const data: PageableResponseType<ProductType> = res.data;
         setProducts(data.content);
-        setNumberPage(data.pageable.pageNumber);
-        setTotalPage(data.totalPages);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
         setIsLoading(false);
       });
   }
@@ -70,10 +70,10 @@ export default function ProductsPage() {
         }
       )
       .then((res) => {
-        const data: ProductResponseType = res.data;
+        const data: PageableResponseType<ProductType> = res.data;
         setProducts(data.content);
-        setNumberPage(data.pageable.pageNumber);
-        setTotalPage(data.totalPages);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
       });
   }
 
@@ -90,10 +90,10 @@ export default function ProductsPage() {
         }
       )
       .then((res) => {
-        const data: ProductResponseType = res.data;
+        const data: PageableResponseType<ProductType> = res.data;
         setProducts(data.content);
-        setNumberPage(data.pageable.pageNumber);
-        setTotalPage(data.totalPages);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
       });
   }
   return (

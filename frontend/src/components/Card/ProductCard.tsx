@@ -3,6 +3,7 @@ import CustomText from "../CustomText";
 import EditProductDialog from "../Dialog/EditProduct";
 import { useState } from "react";
 import usePermission from "@/hooks/usePermission";
+import { ImageIcon } from "lucide-react";
 
 interface ProductCardProps {
   product: ProductType;
@@ -22,7 +23,11 @@ export default function ProductCard({
   return (
     <>
       <div className="flex items-center justify-around mt-[1rem] w-[90%] min-h-[7rem] bg-[#f9f9f9] border-black border-[1px] rounded-[0.5rem] hover:translate-y-[-5px] duration-300 shadow-md">
-        <img src={product.image} className="w-[5rem] h-[5rem] object-cover" />
+        {product.image ? (
+          <img src={product.image} className="w-[5rem] h-[5rem] object-cover" />
+        ) : (
+          <ImageIcon size={80} color="#322866" />
+        )}
         <div className="flex flex-col w-[50%]">
           <CustomText className="text-[var(--primary-color)] font-bold">
             {product.name}

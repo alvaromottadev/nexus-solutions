@@ -20,7 +20,7 @@ export default function TopBarButton({
         onClick={onClick}
         className={`bg-transparent  ${
           isOracle ? "text-white" : "text-[var(--color-gray)]"
-        } text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer ${className}`}
+        } text-[0.9rem] xl:text-[1.2rem] hover:bg-transparent border-none shadow-none hover:text-[var(--primary-color)] hover:font-bold transition-all duration-100 cursor-pointer ${className}`}
       >
         <CustomText className="cursor-pointer">{label}</CustomText>
       </Button>

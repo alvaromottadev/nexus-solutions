@@ -16,8 +16,8 @@ export default function TopBar({ isOracle = false }: TopBarProps) {
 
   return (
     <>
-      <div className="h-[5rem] ">
-        <div className="h-full lg:hidden flex items-center">
+      <div className="h-[5rem]">
+        <div className="h-full lg:hidden flex items-center ">
           <div className="ml-3 self-center z-1">
             <SideBar />
           </div>
@@ -29,7 +29,7 @@ export default function TopBar({ isOracle = false }: TopBarProps) {
             />
           </div>
         </div>
-        <div className=" h-full hidden lg:flex items-center justify-around">
+        <div className=" h-full hidden lg:flex items-center justify-around shadow-md">
           <TopBarButton
             onClick={() => handleClick("home")}
             label="Nexus Solutions"

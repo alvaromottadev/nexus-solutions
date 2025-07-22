@@ -7,8 +7,8 @@ import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
 import usePermission from "@/hooks/usePermission";
-import type { LocationResponseType } from "@/types/LocationResponseType";
 import type { LocationType } from "@/types/LocationType";
+import type { PageableResponseType } from "@/types/PageableResponseType";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
 
@@ -30,10 +30,10 @@ export default function LocationsPage() {
           },
         })
         .then((res) => {
-          const data: LocationResponseType = res.data;
+          const data: PageableResponseType<LocationType> = res.data;
           setLocations(data.content);
-          setNumberPage(data.pageable.pageNumber);
-          setTotalPage(data.totalPages);
+          setNumberPage(data.page.number);
+          setTotalPage(data.page.totalPages);
           setIsLoading(false);
         });
     }
@@ -53,10 +53,10 @@ export default function LocationsPage() {
         }
       )
       .then((res) => {
-        const data: LocationResponseType = res.data;
+        const data: PageableResponseType<LocationType> = res.data;
         setLocations(data.content);
-        setNumberPage(data.pageable.pageNumber);
-        setTotalPage(data.totalPages);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
         setIsLoading(false);
       });
   }
@@ -74,10 +74,10 @@ export default function LocationsPage() {
         }
       )
       .then((res) => {
-        const data: LocationResponseType = res.data;
+        const data: PageableResponseType<LocationType> = res.data;
         setLocations(data.content);
-        setNumberPage(data.pageable.pageNumber);
-        setTotalPage(data.totalPages);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
         setIsLoading(false);
       });
   }
@@ -90,10 +90,10 @@ export default function LocationsPage() {
         },
       })
       .then((res) => {
-        const data: LocationResponseType = res.data;
+        const data: PageableResponseType<LocationType> = res.data;
         setLocations(data.content);
-        setNumberPage(data.pageable.pageNumber);
-        setTotalPage(data.totalPages);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
         setIsLoading(false);
       });
   }
@@ -103,12 +103,12 @@ export default function LocationsPage() {
       <div className="flex flex-col min-h-screen bg-white">
         <TopBar />
         {hasPermission ? (
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col relative">
             <CreateLocationDialog
               locations={locations}
               setLocations={setLocations}
             />
-            <div className="flex flex-col items-center justify-center mt-[2rem] ">
+            <div className="flex flex-col items-center justify-center mt-[2rem]">
               <SearchComponent
                 label="Almoxarifados"
                 placeholder="Ex.: Almoxarifado Central"
@@ -118,8 +118,8 @@ export default function LocationsPage() {
             </div>
             {!isLoading ? (
               locations.length > 0 ? (
-                <div className="px-4 gap-4 flex flex-col items-center">
-                  <div className="flex items-center w-[90%] flex-col">
+                <div className="flex-1 flex flex-col items-center overflow-y-auto px-4">
+                  <div className="w-full max-w-[90%] flex flex-col gap-4">
                     {locations.map(
                       (location, index) =>
                         index < 5 && (

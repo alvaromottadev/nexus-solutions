@@ -24,7 +24,7 @@ export default function RegisterPage() {
           </div>
         </div>
         <div className="h-full flex items-center justify-center lg:justify-end">
-          <div className="text-white flex flex-col items-center justify-center rounded-[1rem] lg:rounded-none h-min-[45rem] w-[30rem] bg-[var(--primary-color)] lg:h-full 2xl:w-[40rem]">
+          <div className="text-white flex flex-col items-center justify-center m rounded-[1rem] lg:rounded-none h-min-[45rem] w-[23rem] md:w-[30rem] bg-[var(--primary-color)] mt-[4rem] md:mt-[0rem] lg:h-full 2xl:w-[40rem]">
             <CustomText className="text-[1.5rem]">Nexus Solutions</CustomText>
             <CustomText>Seja bem-vindo a Nexus! 👋</CustomText>
             <CustomText>

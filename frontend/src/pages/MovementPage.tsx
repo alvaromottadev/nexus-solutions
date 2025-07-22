@@ -47,8 +47,11 @@ export default function MovementPage() {
       cell: ({ getValue }: { getValue: () => any }) => {
         const items = getValue();
         return items.map(
-          (item: { product: { name: string }; quantity: number }) => (
-            <div key={item.product.name}>
+          (item: {
+            product: { name: string; id: string };
+            quantity: number;
+          }) => (
+            <div key={item.product.id}>
               {item.product.name} - {item.quantity}
             </div>
           )
@@ -130,7 +133,7 @@ export default function MovementPage() {
       <TopBar />
       <CreateMovementDialog movements={movements} setMovements={setMovements} />
       <div className="flex flex-1 flex-col items-center w-full">
-        <CustomText className="text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
+        <CustomText className="mt-[2rem] text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
           Movimentações
         </CustomText>
         <div className="flex flex-1 items-center justify-center w-full">
