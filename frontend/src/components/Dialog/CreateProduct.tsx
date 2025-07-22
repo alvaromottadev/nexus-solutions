@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { ImageIcon, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -23,7 +23,7 @@ import FormFieldComponent from "../Form/FormFieldComponent";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
-import { useState } from "react";
+import { use, useRef, useState } from "react";
 import api from "@/client/api-client";
 import { toast } from "sonner";
 import type { ProductType } from "@/types/ProductType";
@@ -46,6 +46,7 @@ export default function CreateProductDialog({
       name: "",
     },
   });
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<File | null | undefined>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -119,6 +120,10 @@ export default function CreateProductDialog({
     }
   }
 
+  function handleImageClick() {
+    fileInputRef.current?.click();
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -169,6 +174,7 @@ export default function CreateProductDialog({
                 placeholder="Ex.: 123456789"
                 description="Utilize o código de barras do produto."
               />
+
               <FormField
                 control={form.control}
                 name="image"
@@ -178,6 +184,9 @@ export default function CreateProductDialog({
                     <FormControl>
                       <Input
                         type="file"
+                        ref={fileInputRef}
+                        accept="image/jpeg, image/png, image/jpg"
+                        className="hidden"
                         onChange={(e) => handleFileChange(e)}
                       />
                     </FormControl>
@@ -188,9 +197,21 @@ export default function CreateProductDialog({
                   </FormItem>
                 )}
               />
-              {imagePreview && (
-                <img src={imagePreview} className="h-[20rem] object-contain" />
+              {imagePreview ? (
+                <img
+                  onClick={handleImageClick}
+                  src={imagePreview}
+                  className="h-[20rem] object-contain cursor-pointer"
+                />
+              ) : (
+                <ImageIcon
+                  className="cursor-pointer"
+                  color="#322866"
+                  size={280}
+                  onClick={handleImageClick}
+                />
               )}
+
               <DialogFooter>
                 <DialogClose asChild>
                   <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">

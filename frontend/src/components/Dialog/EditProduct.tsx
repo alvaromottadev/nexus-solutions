@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Edit } from "lucide-react";
+import { Edit, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -23,7 +23,7 @@ import FormFieldComponent from "../Form/FormFieldComponent";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import api from "@/client/api-client";
 import { toast } from "sonner";
 import type { ProductType } from "@/types/ProductType";
@@ -54,6 +54,8 @@ export default function EditProductDialog({
       image: product.image || null,
     },
   });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(null);
@@ -149,6 +151,10 @@ export default function EditProductDialog({
     }
   }
 
+  function handleImageClick() {
+    fileInputRef.current?.click();
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
@@ -212,6 +218,9 @@ export default function EditProductDialog({
                     <FormControl>
                       <Input
                         type="file"
+                        ref={fileInputRef}
+                        accept="image/jpeg, image/png, image/jpg"
+                        className="hidden"
                         onChange={(e) => handleFileChange(e)}
                       />
                     </FormControl>
@@ -222,13 +231,19 @@ export default function EditProductDialog({
                   </FormItem>
                 )}
               />
-              {imagePreview && (
-                <div className="w-full flex items-center justify-center">
-                  <img
-                    src={imagePreview}
-                    className="h-[20rem] w-[20rem] object-cover"
-                  />
-                </div>
+              {imagePreview ? (
+                <img
+                  onClick={handleImageClick}
+                  src={imagePreview}
+                  className="h-[20rem] object-contain cursor-pointer"
+                />
+              ) : (
+                <ImageIcon
+                  className="cursor-pointer"
+                  color="#322866"
+                  size={280}
+                  onClick={handleImageClick}
+                />
               )}
               <DialogFooter className="mt-[1rem]">
                 <DeleteProductAlert onDelete={handleDelete} />

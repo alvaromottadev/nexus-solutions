@@ -43,7 +43,7 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
     company.logo || null
   );
   const [image, setImage] = useState<File | null | undefined>(null);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigation = useNavigate();
 
@@ -142,6 +142,7 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
           type="file"
           ref={fileInputRef}
           className="hidden"
+          accept="image/jpeg, image/png, image/jpg"
           onChange={handleFileChange}
         />
       </div>
