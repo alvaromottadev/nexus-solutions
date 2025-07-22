@@ -28,7 +28,6 @@ public class InventoryStockTask {
     @Scheduled(cron = "0 0 3 * * *")
     public void checkInventoryStock() {
         List<Inventory> inventories = inventoryService.findAllWithLowStock();
-
         if (!inventories.isEmpty()){
             Map<Company, List<InventoryRestockResponse>> companyProducts = inventories.stream()
                     .collect(Collectors.groupingBy(

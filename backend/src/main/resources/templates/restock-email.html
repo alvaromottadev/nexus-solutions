@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Alerta de Reposição</title>
-</head>
-<body
-        style="
+  </head>
+  <body
+    style="
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
       padding: 20px;
     "
->
-<div
-        style="
+  >
+    <div
+      style="
         max-width: 600px;
         background-color: white;
         padding: 20px;
@@ -20,72 +20,92 @@
         margin: auto;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       "
->
-    <h2 style="color: #d32f2f; text-align: center">
+    >
+      <h2 style="color: #d32f2f; text-align: center">
         🚨 Alerta de Reposição de Estoque
-    </h2>
+      </h2>
 
-    <p style="font-size: 16px; color: #333">
+      <p style="font-size: 16px; color: #333">
         Olá, <br /><br />
         Identificamos que alguns produtos estão com estoque abaixo do mínimo
         necessário. Verifique abaixo os itens que precisam de reposição:
-    </p>
+      </p>
 
-    <table style="width: 100%; border-collapse: collapse; margin-top: 20px">
+      <table style="width: 100%; border-collapse: collapse; margin-top: 20px">
         <thead>
-        <tr>
+          <tr>
             <th
-                    style="
+              style="
                 background-color: #d32f2f;
                 color: white;
                 padding: 10px;
                 text-align: left;
               "
             >
-                Produto
+              Produto
             </th>
             <th
-                    style="
+              style="
                 background-color: #d32f2f;
                 color: white;
                 padding: 10px;
                 text-align: right;
               "
             >
-                Quantidade Atual
+              Quantidade Atual
             </th>
-        </tr>
+            <th
+              style="
+                background-color: #d32f2f;
+                color: white;
+                padding: 10px;
+                text-align: right;
+              "
+            >
+              Almoxarifado
+            </th>
+          </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${products}">
+          <tr th:each="product : ${products}">
             <td
-                    style="padding: 10px; border-bottom: 1px solid #ddd"
-                    th:text="${product.name}"
+              style="padding: 10px; border-bottom: 1px solid #ddd"
+              th:text="${product.name}"
             >
-                Produto
+              Produto
             </td>
             <td
-                    style="
+              style="
                 padding: 10px;
                 text-align: right;
                 border-bottom: 1px solid #ddd;
               "
-                    th:text="${product.quantity}"
+              th:text="${product.quantity}"
             >
-                Quantidade
+              Quantidade
             </td>
-        </tr>
+            <td
+              style="
+                padding: 10px;
+                text-align: right;
+                border-bottom: 1px solid #ddd;
+              "
+              th:text="${product.location}"
+            >
+              Almoxarifado X
+            </td>
+          </tr>
         </tbody>
-    </table>
+      </table>
 
-    <p style="margin-top: 20px; font-size: 16px; color: #333">
+      <p style="margin-top: 20px; font-size: 16px; color: #333">
         🔧 Verifique todos os detalhes diretamente no sistema..
-    </p>
+      </p>
 
-    <div style="text-align: center; margin-top: 30px">
+      <div style="text-align: center; margin-top: 30px">
         <a
-                th:href="@{https://www.nexussolutions.com/home}"
-                style="
+          th:href="@{https://www.nexussolutions.com/home}"
+          style="
             background-color: #9668d6;
             color: white;
             text-decoration: none;
@@ -94,20 +114,20 @@
             display: inline-block;
           "
         >
-            Acessar Sistema
+          Acessar Sistema
         </a>
-    </div>
+      </div>
 
-    <p
-            style="
+      <p
+        style="
           font-size: 12px;
           color: #999;
           text-align: center;
           margin-top: 30px;
         "
-    >
+      >
         Este é um e-mail automático. Por favor, não responda.
-    </p>
-</div>
-</body>
+      </p>
+    </div>
+  </body>
 </html>

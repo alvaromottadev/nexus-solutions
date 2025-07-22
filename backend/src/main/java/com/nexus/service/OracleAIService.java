@@ -29,9 +29,6 @@ public class OracleAIService {
     @Value("${oracle.prompt}")
     private String prompt;
 
-    @Value("${oracle.url}")
-    private String OPENAI_URL;
-
     private final OracleAIConfig config;
 
     private final RestTemplate restTemplate;
@@ -63,7 +60,8 @@ public class OracleAIService {
 
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(body.toMap(), headers);
 
-            ResponseEntity<Map> response = restTemplate.postForEntity(OPENAI_URL, request, Map.class);
+            String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+            ResponseEntity<Map> response = restTemplate.postForEntity(GEMINI_URL, request, Map.class);
 
             AIResponse aiResponse = processResponse(response);
 

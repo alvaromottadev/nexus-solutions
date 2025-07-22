@@ -5,7 +5,7 @@ import com.nexus.model.Company;
 
 public interface AiCommandHandler {
 
-    public String getName();
+    String getName();
     AIResponse handle(AIResponse originalResponseFromAI, Company company);
 
 }
