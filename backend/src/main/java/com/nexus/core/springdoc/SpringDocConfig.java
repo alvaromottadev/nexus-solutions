@@ -36,7 +36,9 @@ public class SpringDocConfig {
                                 new Tag().name("Oracle")
                                         .description("Endpoints for Oracle IA integration"),
                                 new Tag().name("Product")
-                                        .description("Endpoints for product management")
+                                        .description("Endpoints for product management"),
+                                new Tag().name("Report")
+                                        .description("Endpoints for report generation and management")
                         )
                 );
     }
