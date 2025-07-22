@@ -100,10 +100,10 @@ export default function LocationsPage() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen overflow-y-auto bg-white">
+      <div className="flex flex-col min-h-screen bg-white">
         <TopBar />
         {hasPermission ? (
-          <>
+          <div className="flex-1 flex flex-col">
             <CreateLocationDialog
               locations={locations}
               setLocations={setLocations}
@@ -147,7 +147,7 @@ export default function LocationsPage() {
               numberPage={numberPage}
               totalPage={totalPage}
             />
-          </>
+          </div>
         ) : (
           <NoHasPermission />
         )}

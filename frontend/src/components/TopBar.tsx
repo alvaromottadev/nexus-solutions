@@ -16,18 +16,18 @@ export default function TopBar({ isOracle = false }: TopBarProps) {
 
   return (
     <>
-      <div className="h-[5rem] absolute md:relative">
+      <div className="h-[5rem] ">
         <div className="h-full lg:hidden flex items-center">
           <div className="ml-3 self-center z-1">
             <SideBar />
           </div>
-          {/* <div className="absolute self-center flex justify-center items-center w-full">
+          <div className="absolute self-center flex justify-center items-center w-full">
             <TopBarButton
               label="Nexus Solutions"
               onClick={() => handleClick("home")}
               className="text-[2rem] md:text-[2.5rem] text-[var(--primary-color)]"
             />
-          </div> */}
+          </div>
         </div>
         <div className=" h-full hidden lg:flex items-center justify-around">
           <TopBarButton
