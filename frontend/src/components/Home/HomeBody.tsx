@@ -10,9 +10,9 @@ export default function HomeBody() {
 
   return (
     <>
-      <div className="flex-col flex-1 items-center justify-center">
-        <div className="flex justify-center lg:justify-between p-24 w-full">
-          <div className="flex flex-col items-center lg:items-start w-[80%] gap-y-2">
+      <div className=" flex-col flex flex-1">
+        <div className="flex-1 flex justify-center items-center lg:justify-between px-28 lg:px-14  2xl:px-28 w-full">
+          <div className="flex flex-col items-center lg:items-start w-[80%] md:w-auto gap-y-2">
             <CustomText className="w-[25rem] md:w-auto text-center text-[1.8rem] lg:text-[2.5rem] text-[var(--primary-color)] font-bold lg:text-left">
               Olá, {companyName}!
             </CustomText>
@@ -22,7 +22,7 @@ export default function HomeBody() {
             </CustomText>
             <Contacts />
           </div>
-          <div className="hidden lg:block flex-col items-center justify-center">
+          <div className=" hidden lg:block flex-col items-center justify-center">
             <CustomText>Produtos mais movimentados</CustomText>
             <GraphicComponent />
           </div>

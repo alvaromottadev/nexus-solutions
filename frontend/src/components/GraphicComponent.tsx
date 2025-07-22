@@ -25,7 +25,7 @@ export default function GraphicComponent() {
     <>
       <ChartContainer
         config={chartConfig}
-        className="min-h-[30rem] w-[35rem] bg-white"
+        className="min-h-[25rem] w-[25rem] xl:min-h-[30rem] xl:w-[35rem] bg-white"
       >
         <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
