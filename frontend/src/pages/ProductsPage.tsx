@@ -1,5 +1,5 @@
 import api from "@/client/api-client";
-import CreateProductDialog from "@/components/Dialog/CreateProduct";
+import CreateProductDialog from "@/components/Dialog/Product/CreateProduct";
 import TopBar from "@/components/TopBar";
 import type { ProductType } from "@/types/ProductType";
 import { useEffect, useState } from "react";

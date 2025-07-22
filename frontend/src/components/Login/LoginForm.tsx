@@ -17,6 +17,8 @@ import type { z } from "zod";
 import { toast } from "sonner";
 import api from "@/client/api-client";
 import { useAuth } from "@/hooks/useAuth";
+import ForgotPasswordDialog from "../Dialog/ForgotPassword/ForgotPassword";
+import CustomText from "../CustomText";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -100,13 +102,15 @@ export default function LoginForm() {
                 </FormItem>
               )}
             />
-            <div className="w-full flex justify-end font-poppins">
-              <label>
+            <div className="w-full flex justify-end">
+              <CustomText>
                 Esqueceu a senha?{" "}
-                <label className="cursor-pointer text-[#f472b6]">
-                  Clique aqui!
-                </label>
-              </label>
+                <ForgotPasswordDialog>
+                  <label className="cursor-pointer text-[#f472b6]">
+                    Clique aqui!
+                  </label>
+                </ForgotPasswordDialog>
+              </CustomText>
             </div>
             <Button
               type="submit"

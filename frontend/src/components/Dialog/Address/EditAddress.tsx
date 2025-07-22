@@ -172,7 +172,7 @@ export default function EditAddressDialog({
                 ) : (
                   <Button
                     onClick={() => onSave(form.getValues())}
-                    className="bg-[var(--primary-color)]"
+                    className="cursor-pointer bg-[var(--primary-color)]"
                   >
                     Salvar
                   </Button>

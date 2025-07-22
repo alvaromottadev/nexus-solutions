@@ -1,6 +1,6 @@
 import type { ProductType } from "@/types/ProductType";
 import CustomText from "../CustomText";
-import EditProductDialog from "../Dialog/EditProduct";
+import EditProductDialog from "../Dialog/Product/EditProduct";
 import { useState } from "react";
 import usePermission from "@/hooks/usePermission";
 import { ImageIcon } from "lucide-react";

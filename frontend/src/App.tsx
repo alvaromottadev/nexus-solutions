@@ -14,6 +14,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import ProfilePage from "./pages/ProfilePage";
 import OraclePage from "./pages/OraclePage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="reset-password/:code" element={<ResetPasswordPage />} />
           <Route element={<PrivateRoute />}>
             <Route path="home" element={<HomePage />} />
             <Route path="products" element={<ProductsPage />} />
