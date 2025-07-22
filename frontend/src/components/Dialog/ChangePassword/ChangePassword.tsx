@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { useAuth } from "@/hooks/useAuth";
+import useButtonPressed from "@/hooks/useButtonPressed";
 import changePasswordSchema from "@/schemas/changePasswordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -32,11 +33,15 @@ export default function ChangePasswordDialog() {
     },
   });
 
+  const { buttonPressed, setButtonPressed } = useButtonPressed();
+
   function handleSubmit(data: z.infer<typeof changePasswordSchema>) {
     if (data.newPassword !== data.confirmPassword) {
       toast.error("A nova senha e a confirmação não coincidem.");
       return;
     }
+
+    setButtonPressed(true);
 
     const json = {
       oldPassword: data.oldPassword,
@@ -58,6 +63,10 @@ export default function ChangePasswordDialog() {
         });
         auth?.logout();
         setOpen(false);
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -107,11 +116,15 @@ export default function ChangePasswordDialog() {
             />
             <DialogFooter>
               <DialogClose>
-                <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
+                <Button
+                  disabled={buttonPressed}
+                  className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer"
+                >
                   Cancelar
                 </Button>
               </DialogClose>
               <Button
+                disabled={buttonPressed}
                 type="submit"
                 className="cursor-pointer bg-[var(--primary-color)]"
               >

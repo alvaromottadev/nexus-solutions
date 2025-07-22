@@ -31,6 +31,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import DeleteProductAlert from "@/components/AlertDialog/DeleteProduct";
 import { useAuth } from "@/hooks/useAuth";
 import { editEmployeeFormSchema } from "@/schemas/editEmployeeSchema";
+import useButtonPressed from "@/hooks/useButtonPressed";
 
 interface EmployeeDialogProps {
   employees: EmployeeType[];
@@ -69,6 +70,7 @@ export default function EmployeeDialog({
   ];
 
   const auth = useAuth();
+  const { buttonPressed, setButtonPressed } = useButtonPressed();
 
   const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<File | null | undefined>(null);
@@ -112,6 +114,8 @@ export default function EmployeeDialog({
       },
     };
 
+    setButtonPressed(true);
+
     api
       .post(`/employees`, body, {
         headers: {
@@ -129,6 +133,10 @@ export default function EmployeeDialog({
         }
         setEmployees([{ ...res.data, avatar }, ...employees]);
         setOpen(false);
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -151,6 +159,7 @@ export default function EmployeeDialog({
 
   function handleDelete() {
     if (!employee) return;
+    setButtonPressed(true);
     api
       .delete(`/employees/${employee.id}`, {
         headers: {
@@ -161,11 +170,17 @@ export default function EmployeeDialog({
         toast.success("Funcionário excluído com sucesso!");
         setEmployees(employees.filter((emp) => emp.id !== employee.id));
         setOpen(false);
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
   async function handleUpdate(data: z.infer<typeof typeForm>) {
     if (!employee) return;
+
+    setButtonPressed(true);
 
     const body = {
       name: data.name,
@@ -197,6 +212,10 @@ export default function EmployeeDialog({
           )
         );
         setOpen(false);
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -295,13 +314,17 @@ export default function EmployeeDialog({
             <DeleteProductAlert onDelete={handleDelete} />
           )}
           <DialogClose asChild>
-            <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
+            <Button
+              disabled={buttonPressed}
+              className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer"
+            >
               Cancelar
             </Button>
           </DialogClose>
           <Button
+            disabled={buttonPressed}
             type="submit"
-            className="bg-[var(--primary-color)]"
+            className="cursor-pointer bg-[var(--primary-color)]"
             onClick={form.handleSubmit(employee ? handleUpdate : handleCreate)}
           >
             {employee ? "Atualizar Funcionário" : "Cadastrar Funcionário"}

@@ -31,6 +31,7 @@ import type { z } from "zod";
 import editProductSchema from "@/schemas/editProductSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DeleteProductAlert from "../../AlertDialog/DeleteProduct";
+import useButtonPressed from "@/hooks/useButtonPressed";
 
 interface CreateProductForm {
   products: ProductType[];
@@ -56,6 +57,8 @@ export default function EditProductDialog({
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { buttonPressed, setButtonPressed } = useButtonPressed();
 
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(null);
@@ -83,6 +86,7 @@ export default function EditProductDialog({
   }
 
   async function handleUpdate() {
+    setButtonPressed(true);
     const json = {
       name: form.getValues("name"),
       description: form.getValues("description") || "",
@@ -109,10 +113,15 @@ export default function EditProductDialog({
           p.id === product.id ? { ...res.data } : p
         );
         setProducts(updatedProducts);
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
   async function handleDelete() {
+    setButtonPressed(true);
     await api
       .delete(`/products/${product.id}`, {
         headers: {
@@ -124,10 +133,14 @@ export default function EditProductDialog({
           description: "O produto foi removido da lista.",
           duration: 5000,
         });
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
     const updatedProducts = products.filter((p) => p.id !== product.id);
     setProducts(updatedProducts);
     setOpen(false);
+    setButtonPressed(false);
   }
 
   async function handleUpdateImage(productId: string) {
@@ -248,11 +261,15 @@ export default function EditProductDialog({
               <DialogFooter className="mt-[1rem]">
                 <DeleteProductAlert onDelete={handleDelete} />
                 <DialogClose asChild onClick={() => setOpen(false)}>
-                  <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
+                  <Button
+                    disabled={buttonPressed}
+                    className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer"
+                  >
                     Cancelar
                   </Button>
                 </DialogClose>
                 <Button
+                  disabled={buttonPressed}
                   onClick={() => setOpen(false)}
                   type="submit"
                   className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer"

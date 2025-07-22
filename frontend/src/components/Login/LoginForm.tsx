@@ -19,6 +19,7 @@ import api from "@/client/api-client";
 import { useAuth } from "@/hooks/useAuth";
 import ForgotPasswordDialog from "../Dialog/ForgotPassword/ForgotPassword";
 import CustomText from "../CustomText";
+import { useState } from "react";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -29,6 +30,8 @@ export default function LoginForm() {
     },
   });
 
+  const [buttonPressed, setButtonPressed] = useState<boolean>(false);
+
   const auth = useAuth();
 
   const navigation = useNavigate();
@@ -38,6 +41,7 @@ export default function LoginForm() {
   }
 
   function handleSubmit(data: z.infer<typeof loginSchema>) {
+    setButtonPressed(true);
     api
       .post(`/auth/login`, data, {
         headers: {
@@ -53,6 +57,9 @@ export default function LoginForm() {
         setTimeout(() => {
           navigation("/home");
         }, 2000);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -113,6 +120,7 @@ export default function LoginForm() {
               </CustomText>
             </div>
             <Button
+              disabled={buttonPressed}
               type="submit"
               className="cursor-pointer w-full h-[4rem] mt-[0.25rem] bg-white text-[var(--primary-color)] font-poppins font-bold hover:bg-[var(--primary-color)] hover:text-white transition-colors duration-300"
             >

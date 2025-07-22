@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import useButtonPressed from "@/hooks/useButtonPressed";
 import formInventorySchema from "@/schemas/formInventorySchema";
 import type InventoryType from "@/types/InventoryType";
 import type { LocationType } from "@/types/LocationType";
@@ -42,6 +43,8 @@ export default function CreateInventoryDialog({
       minStock: 1,
     },
   });
+
+  const { buttonPressed, setButtonPressed } = useButtonPressed();
 
   const [open, setOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -83,6 +86,7 @@ export default function CreateInventoryDialog({
       setLocationError(true);
       return;
     }
+    setButtonPressed(true);
     const json = {
       productId: productId,
       locationId: locationId,
@@ -103,6 +107,10 @@ export default function CreateInventoryDialog({
         setOpen(false);
         resetForm();
         toast.success("Estoque cadastrado com sucesso!");
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -184,11 +192,15 @@ export default function CreateInventoryDialog({
             </div>
             <DialogFooter className="mt-5">
               <DialogClose asChild>
-                <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
+                <Button
+                  disabled={buttonPressed}
+                  className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer"
+                >
                   Cancelar
                 </Button>
               </DialogClose>
               <Button
+                disabled={buttonPressed}
                 type="submit"
                 className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer"
               >

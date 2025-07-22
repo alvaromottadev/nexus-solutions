@@ -30,6 +30,7 @@ import type { ProductType } from "@/types/ProductType";
 import type { z } from "zod";
 import { createProductSchema } from "@/schemas/createProductSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useButtonPressed from "@/hooks/useButtonPressed";
 
 interface CreateProductForm {
   products: ProductType[];
@@ -51,6 +52,8 @@ export default function CreateProductDialog({
   const [image, setImage] = useState<File | null | undefined>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+  const { buttonPressed, setButtonPressed } = useButtonPressed();
+
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (
@@ -71,10 +74,11 @@ export default function CreateProductDialog({
   }
 
   async function handleCreate(data: z.infer<typeof createProductSchema>) {
+    setButtonPressed(true);
     const json = {
       name: data.name,
       description: data.description || "",
-      code: data.code || "",
+      code: data.code || null,
     };
 
     api
@@ -97,6 +101,10 @@ export default function CreateProductDialog({
         res.data.image = imageUrl;
         setProducts([res.data, ...products]);
         setOpen(false);
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -214,11 +222,15 @@ export default function CreateProductDialog({
 
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
+                  <Button
+                    disabled={buttonPressed}
+                    className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer"
+                  >
                     Cancelar
                   </Button>
                 </DialogClose>
                 <Button
+                  disabled={buttonPressed}
                   type="submit"
                   className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer"
                 >

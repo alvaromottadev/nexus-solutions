@@ -9,6 +9,7 @@ import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
 import usePermission from "@/hooks/usePermission";
 import type EmployeeType from "@/types/EmployeeType";
+import type { PageableResponseType } from "@/types/PageableResponseType";
 import { ArchiveX, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
@@ -30,9 +31,10 @@ export default function EmployeePage() {
         },
       })
       .then((res) => {
-        setEmployees(res.data.content);
-        setNumberPage(res.data.pageable.pageNumber);
-        setTotalPage(res.data.totalPages);
+        const data: PageableResponseType<EmployeeType> = res.data;
+        setEmployees(data.content);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
       });
   }
 
@@ -49,9 +51,10 @@ export default function EmployeePage() {
         }
       )
       .then((res) => {
-        setEmployees(res.data.content);
-        setNumberPage(res.data.pageable.pageNumber);
-        setTotalPage(res.data.totalPages);
+        const data: PageableResponseType<EmployeeType> = res.data;
+        setEmployees(data.content);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
         setIsLoading(false);
       });
   }
@@ -69,9 +72,10 @@ export default function EmployeePage() {
         }
       )
       .then((res) => {
-        setEmployees(res.data.content);
-        setNumberPage(res.data.pageable.pageNumber);
-        setTotalPage(res.data.totalPages);
+        const data: PageableResponseType<EmployeeType> = res.data;
+        setEmployees(data.content);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
         setIsLoading(false);
       });
   }
@@ -84,9 +88,10 @@ export default function EmployeePage() {
         },
       })
       .then((res) => {
-        setEmployees(res.data.content);
-        setNumberPage(res.data.pageable.pageNumber);
-        setTotalPage(res.data.totalPages);
+        const data: PageableResponseType<EmployeeType> = res.data;
+        setEmployees(data.content);
+        setNumberPage(data.page.number);
+        setTotalPage(data.page.totalPages);
         setIsLoading(false);
       });
   }, []);

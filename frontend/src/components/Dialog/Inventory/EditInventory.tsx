@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import useButtonPressed from "@/hooks/useButtonPressed";
 import usePermission from "@/hooks/usePermission";
 import formInventorySchema from "@/schemas/formInventorySchema";
 import type InventoryType from "@/types/InventoryType";
@@ -52,12 +53,14 @@ export default function EditInventoryDialog({
 
   const hasPermission = usePermission();
 
+  const { buttonPressed, setButtonPressed } = useButtonPressed();
+
   async function handleUpdate(data: z.infer<typeof formInventorySchema>) {
     const json = {
       quantity: data.quantity,
       minStock: data.minStock,
     };
-
+    setButtonPressed(true);
     api
       .put(`/inventories/${inventory.id}`, JSON.stringify(json), {
         headers: {
@@ -77,10 +80,15 @@ export default function EditInventoryDialog({
         });
         setOpen(false);
         setInventories(inventoriesUpdated);
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
   async function handleDelete(inventoryId: string) {
+    setButtonPressed(true);
     api
       .delete(`/inventories/${inventoryId}`, {
         headers: {
@@ -92,6 +100,10 @@ export default function EditInventoryDialog({
           inventories.filter((inventory) => inventory.id !== inventoryId)
         );
         toast.success("Estoque deletado com sucesso!");
+        setButtonPressed(false);
+      })
+      .catch(() => {
+        setButtonPressed(false);
       });
   }
 
@@ -165,11 +177,15 @@ export default function EditInventoryDialog({
                 />
               )}
               <DialogClose asChild>
-                <Button className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer">
+                <Button
+                  disabled={buttonPressed}
+                  className="bg-transparent text-red-500 border-red-500 border-[1px] shadow-none hover:bg-red-500 hover:text-white cursor-pointer"
+                >
                   Cancelar
                 </Button>
               </DialogClose>
               <Button
+                disabled={buttonPressed}
                 type="submit"
                 className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)] cursor-pointer"
               >
