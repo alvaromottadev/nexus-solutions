@@ -19,9 +19,11 @@ import { toast } from "sonner";
 import DeleteInventoryAlert from "@/components/AlertDialog/DeleteInventory";
 import EditInventoryDialog from "@/components/Dialog/Inventory/EditInventory";
 import usePermission from "@/hooks/usePermission";
+import LoadingIndicator from "@/components/LoadingIndicator";
 
 export default function InventoryPage() {
   const [inventories, setInventories] = useState<InventoryType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const hasPermission = usePermission();
 
@@ -127,6 +129,7 @@ export default function InventoryPage() {
       })
       .then((res) => {
         setInventories(res.data);
+        setIsLoading(false);
       });
   }, []);
 
@@ -134,42 +137,48 @@ export default function InventoryPage() {
     <>
       <div className="min-h-screen flex flex-col ">
         <TopBar />
-        <CreateInventoryDialog
-          inventories={inventories}
-          setInventories={setInventories}
-        />
-        <div className="flex justify-center">
-          <CustomText className="mt-[2rem] text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
-            Gestão de Estoque
-          </CustomText>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-[90%] md:max-w-[80%]">
-            <DataTable
-              data={inventories}
-              columns={columns}
-              filters={true}
-              filter={[
-                {
-                  type: "input",
-                  columnName: "productName",
-                  label: "produto",
-                },
-                {
-                  type: "input",
-                  columnName: "location",
-                  label: "almoxarifado",
-                },
-                {
-                  type: "select",
-                  columnName: "status",
-                  data: status,
-                  label: "status",
-                },
-              ]}
-            />
+        <>
+          <CreateInventoryDialog
+            inventories={inventories}
+            setInventories={setInventories}
+          />
+          <div className="flex justify-center">
+            <CustomText className="mt-[2rem] text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
+              Gestão de Estoque
+            </CustomText>
           </div>
-        </div>
+          {!isLoading ? (
+            <div className="flex flex-1 items-center justify-center">
+              <div className="w-full max-w-[90%] md:max-w-[80%]">
+                <DataTable
+                  data={inventories}
+                  columns={columns}
+                  filters={true}
+                  filter={[
+                    {
+                      type: "input",
+                      columnName: "productName",
+                      label: "produto",
+                    },
+                    {
+                      type: "input",
+                      columnName: "location",
+                      label: "almoxarifado",
+                    },
+                    {
+                      type: "select",
+                      columnName: "status",
+                      data: status,
+                      label: "status",
+                    },
+                  ]}
+                />
+              </div>
+            </div>
+          ) : (
+            <LoadingIndicator />
+          )}
+        </>
       </div>
     </>
   );

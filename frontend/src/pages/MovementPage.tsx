@@ -14,9 +14,11 @@ import {
 import { Eye, MoreHorizontal } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import SeeDetailsDialog from "@/components/Dialog/Movement/SeeDetails";
+import LoadingIndicator from "@/components/LoadingIndicator";
 
 export default function MovementPage() {
   const [movements, setMovements] = useState<MovementType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const columns = [
     {
@@ -125,35 +127,45 @@ export default function MovementPage() {
       })
       .then((res) => {
         setMovements(res.data);
+        setIsLoading(false);
       });
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
       <TopBar />
-      <CreateMovementDialog movements={movements} setMovements={setMovements} />
-      <div className="flex flex-1 flex-col items-center w-full">
-        <CustomText className="mt-[2rem] text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
-          Movimentações
-        </CustomText>
-        <div className="flex flex-1 items-center justify-center w-full">
-          <div className="w-full max-w-[90%] md:max-w-[80%]">
-            <DataTable
-              columns={columns}
-              data={movements}
-              filters={true}
-              filter={[
-                {
-                  type: "select",
-                  label: "tipo",
-                  columnName: "type",
-                  data: types,
-                },
-              ]}
-            />
-          </div>
+      <>
+        <CreateMovementDialog
+          movements={movements}
+          setMovements={setMovements}
+        />
+        <div className="flex flex-1 flex-col items-center w-full">
+          <CustomText className="mt-[2rem] text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
+            Movimentações
+          </CustomText>
+          {!isLoading ? (
+            <div className="flex flex-1 items-center justify-center w-full">
+              <div className="w-full max-w-[90%] md:max-w-[80%]">
+                <DataTable
+                  columns={columns}
+                  data={movements}
+                  filters={true}
+                  filter={[
+                    {
+                      type: "select",
+                      label: "tipo",
+                      columnName: "type",
+                      data: types,
+                    },
+                  ]}
+                />
+              </div>
+            </div>
+          ) : (
+            <LoadingIndicator />
+          )}
         </div>
-      </div>
+      </>
     </div>
   );
 }

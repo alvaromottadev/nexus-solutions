@@ -63,7 +63,7 @@ export default function ChangePasswordDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button className="text-[0.8rem] cursor-pointer border-none bg-transparent text-black shadow-none hover:bg-transparent p-0">
           Clique aqui para alterar a senha
         </Button>
