@@ -1,6 +1,6 @@
 package com.nexus.service;
 
-import com.nexus.dto.Analytics.TopProductsMovimentationsResponse;
+import com.nexus.dto.Reports.MostTradedProductsResponse;
 import com.nexus.model.Company;
 import com.nexus.repository.MovementItemRepository;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ public class MovementItemService {
         this.movementItemRepository = movementItemRepository;
     }
 
-    public List<TopProductsMovimentationsResponse> getTopProductsMovimentations(Company company) {
-        return movementItemRepository.findTopProducts(company);
+    public List<MostTradedProductsResponse> getMostTradedProducts(Company company) {
+        return movementItemRepository.getMostTradedProducts(company);
     }
 
 }

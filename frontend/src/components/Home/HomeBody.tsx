@@ -23,7 +23,6 @@ export default function HomeBody() {
             <Contacts />
           </div>
           <div className=" hidden lg:block flex-col items-center justify-center">
-            <CustomText>Produtos mais movimentados</CustomText>
             <GraphicComponent />
           </div>
         </div>

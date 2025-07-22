@@ -5,6 +5,7 @@ import com.nexus.model.Movement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,6 @@ public interface MovementRepository extends JpaRepository<Movement, String>, Jpa
         WHERE m.location.company = :company
             AND m.movementDate > CURRENT_DATE - 7 day
     """)
-    List<Movement> getLastMovements(Company company);
+    List<Movement> getLastMovements(@Param("company") Company company);
 
 }
