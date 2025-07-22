@@ -47,7 +47,7 @@ public class Product {
     private LocalDateTime deletedAt;
 
     @JoinColumn(name = "company_id", nullable = false)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

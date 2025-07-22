@@ -38,7 +38,7 @@ public class Location {
     private Address address;
 
     @JoinColumn(name = "company_id", nullable = false)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
 
     @OneToMany(mappedBy = "location")

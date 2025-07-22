@@ -28,7 +28,7 @@ public class PasswordResetCode {
     private boolean used;
 
     @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public boolean isExpired() {
