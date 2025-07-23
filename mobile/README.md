@@ -32,7 +32,7 @@ CocoaPods (para iOS)
 
 ## 🍃 Variavéis de Ambiente
 
-As variáveis de ambiente estão descritas na [documentação oficial (seção 5.3)](https://docs.google.com/document/d/1gKFfJxrnLelBjZeokoBdLd6GXIpz2Wc-8LqyNorXZfY/edit?tab=t.0#heading=h.owhi1pm9rhcf).
+As variáveis de ambiente estão descritas na [documentação oficial (seção 5.3)](https://docs.google.com/document/d/1gKFfJxrnLelBjZeokoBdLd6GXIpz2Wc-8LqyNorXZfY/edit?tab=t.0#heading=h.6290p190mk2q).
 
 ## Instalação
 
