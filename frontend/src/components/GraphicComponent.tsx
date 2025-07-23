@@ -5,7 +5,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { ChartColumn, ChartSpline, GitGraphIcon } from "lucide-react";
+import { ChartColumn } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import CustomText from "./CustomText";
