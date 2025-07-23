@@ -44,6 +44,12 @@ npm run dev
 
 5. Acesse a aplicação em http://localhost:5173
 
+## Scripts Disponíveis
+
+npm run dev: Inicia o servidor de desenvolvimento
+npm run build: Gera build de produção  
+npm run preview: Preview da build de produção
+
 ## 🧩 Licença
 
 Este projeto está sob a licença MIT.
