@@ -21,6 +21,10 @@ O sistema foi desenvolvido em três frentes principais:
 - Autenticação com segurança via JWT
 - Oráculo (IA) para auxiliar dúvidas e decisões do usuário
 
+## 📚 Documentação
+
+📘 [Acessar Documentação](https://docs.google.com/document/d/1gKFfJxrnLelBjZeokoBdLd6GXIpz2Wc-8LqyNorXZfY/edit?tab=t.0)
+
 ## 📂 Estrutura do Projeto
 
 ```bash
