@@ -54,7 +54,7 @@ export default function InventoryRegistrationPage() {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then(response => {
+      .then(() => {
         showToast(
           'success',
           'Estoque registrado',

@@ -35,7 +35,10 @@ export default function ProductPage() {
 
   useEffect(() => {
     getProducts(page).then(response => {
-      if (response.data.content.length === 0) {
+      if (
+        response.data.content.length === 0 ||
+        response.data.page.totalPages === 1
+      ) {
         setHaveMore(false);
         return;
       }
@@ -65,7 +68,7 @@ export default function ProductPage() {
   }
 
   function renderFooter() {
-    return haveMore ? (
+    return haveMore && page ? (
       <Button
         onPress={renderMore}
         style={styles.button}
