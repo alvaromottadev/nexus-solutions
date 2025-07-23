@@ -30,6 +30,12 @@ Android Studio (para Android)
 Xcode (para iOS)  
 CocoaPods (para iOS)
 
+## 🍃 Variavéis de Ambiente
+
+```bash
+    API_URL = URL da API
+```
+
 ## Instalação
 
 1. Clone o repositório:
