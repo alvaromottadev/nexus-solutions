@@ -1,6 +1,5 @@
 package com.nexus.model;
 
-import com.nexus.dto.Address.AddressRequest;
 import com.nexus.dto.Location.LocationRequest;
 import jakarta.persistence.*;
 import lombok.Getter;

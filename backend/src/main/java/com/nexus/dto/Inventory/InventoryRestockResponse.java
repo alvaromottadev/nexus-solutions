@@ -1,7 +1,6 @@
 package com.nexus.dto.Inventory;
 
 import com.nexus.model.Inventory;
-import com.nexus.model.Location;
 import com.nexus.model.Product;
 
 public record InventoryRestockResponse (

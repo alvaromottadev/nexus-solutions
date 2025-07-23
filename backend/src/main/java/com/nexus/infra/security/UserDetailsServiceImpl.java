@@ -3,7 +3,6 @@ package com.nexus.infra.security;
 import com.nexus.model.User;
 import com.nexus.service.UserService;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service

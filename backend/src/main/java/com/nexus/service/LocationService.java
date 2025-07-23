@@ -1,6 +1,5 @@
 package com.nexus.service;
 
-import com.nexus.dto.Address.AddressRequest;
 import com.nexus.dto.Address.AddressResponse;
 import com.nexus.dto.Location.LocationRequest;
 import com.nexus.dto.Location.LocationResponse;

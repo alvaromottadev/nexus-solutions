@@ -4,7 +4,6 @@ import com.nexus.dto.Movement.MovementRequest;
 import com.nexus.dto.Movement.MovementResponse;
 import com.nexus.dto.MovementItem.MovementItemRequest;
 import com.nexus.dto.MovementItem.MovementItemResponse;
-import com.nexus.dto.Reports.MostTradedProductsResponse;
 import com.nexus.exception.MovementNotFoundException;
 import com.nexus.infra.security.UserDetailsImpl;
 import com.nexus.model.*;

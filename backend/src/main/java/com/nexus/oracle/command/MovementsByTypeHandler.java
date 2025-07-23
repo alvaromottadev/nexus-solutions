@@ -4,7 +4,6 @@ import com.nexus.dto.Movement.MovementResponse;
 import com.nexus.dto.Oracle.AIResponse;
 import com.nexus.dto.Oracle.Message;
 import com.nexus.model.Company;
-import com.nexus.model.Movement;
 import com.nexus.service.MovementService;
 import com.nexus.utils.MessageUtils;
 import org.springframework.stereotype.Component;

@@ -12,12 +12,8 @@ import com.nexus.model.Company;
 import com.nexus.model.User;
 import com.nexus.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 public class CompanyService {
