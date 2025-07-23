@@ -32,9 +32,8 @@ CocoaPods (para iOS)
 
 ## 🍃 Variavéis de Ambiente
 
-```bash
-    API_URL = URL da API
-```
+Você pode encontrar todas na documentação oficial no tópico 5.3:
+[Documentação](https://docs.google.com/document/d/1gKFfJxrnLelBjZeokoBdLd6GXIpz2Wc-8LqyNorXZfY/edit?tab=t.0#heading=h.owhi1pm9rhcf)
 
 ## Instalação
 
@@ -44,7 +43,7 @@ CocoaPods (para iOS)
 git clone https://github.com/alvaromottadev/nexus-solutions.git
 ```
 
-2. Acesse a pasta do projeto mobile:
+2. Acesse a pasta do mobile:
 
 ```bash
 cd nexus-solutions/mobile
@@ -56,13 +55,15 @@ cd nexus-solutions/mobile
 npm install
 ```
 
-4. Para iOS, instale as dependências do CocoaPods:
+5. Para iOS, instale as dependências do CocoaPods:
 
 ```bash
 cd ios && pod install && cd ..
 ```
 
-5. Execute o projeto:
+5. Configure as váriaveis de ambiente.
+
+6. Execute o projeto:
 
 ```bash
 npm run android
@@ -87,6 +88,6 @@ npm run lint: Executa o linter
 
 ## 🧩 Licença
 
-Este projeto está sob a licença MIT.
+Este projeto está sob a [licença MIT](https://github.com/alvaromottadev/nexus-solutions/blob/main/LICENSE).
 
 Desenvolvido com 💜 por Alvaro Motta
