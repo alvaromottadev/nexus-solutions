@@ -1,5 +1,6 @@
 package com.nexus.dto.Movement;
 
+import com.nexus.dto.Location.LocationResponse;
 import com.nexus.dto.MovementItem.MovementItemResponse;
 import com.nexus.model.Movement;
 import com.nexus.model.enums.MovementType;
@@ -14,6 +15,7 @@ public record MovementResponse(
         String description,
         LocalDateTime movementDate,
         PerformedResponse performedBy,
+        String location,
         List<MovementItemResponse> items
 
 ) {
@@ -25,6 +27,7 @@ public record MovementResponse(
                 movement.getDescription(),
                 movement.getMovementDate(),
                 new PerformedResponse(movement.getPerformedBy()),
+                movement.getLocation().getName(),
                 items
         );
     }

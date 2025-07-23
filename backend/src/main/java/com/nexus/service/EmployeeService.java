@@ -107,6 +107,8 @@ public class EmployeeService {
     public SuccessResponse deleteEmployee(String employeeId, Company company) {
         Employee employee = findByIdAndCompany(employeeId, company);
         employee.setDeletedAt(LocalDateTime.now());
+
+        userService.deleteUser(employee.getUser());
         employeeRepository.save(employee);
         return new SuccessResponse(messageUtils.getMessage("employee.deleted.success"));
     }

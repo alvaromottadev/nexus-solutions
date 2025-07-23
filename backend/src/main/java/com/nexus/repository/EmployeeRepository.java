@@ -15,8 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, String>, Jpa
 
     Optional<Employee> findByIdAndCompanyAndDeletedAtIsNull(String employeeId, Company company);
 
-    List<Employee> findAllByCompanyAndDeletedAtIsNull(Company company);
-
     @Query("""
     SELECT COUNT(e) FROM Employee e
         WHERE e.company = :company

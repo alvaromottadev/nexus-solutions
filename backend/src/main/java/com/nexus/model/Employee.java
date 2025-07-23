@@ -45,7 +45,7 @@ public class Employee {
     private User user;
 
     @JoinColumn(name = "company_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Company company;
 
     public void update(String name){

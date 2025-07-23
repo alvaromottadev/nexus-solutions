@@ -37,11 +37,11 @@ public class Inventory {
     private LocalDateTime updatedAt;
 
     @JoinColumn(name = "location_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Location location;
 
     @JoinColumn(name = "product_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Product product;
 
     public void decrementQuantity(Integer quantity) {

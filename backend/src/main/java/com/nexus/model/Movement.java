@@ -35,11 +35,11 @@ public class Movement {
     private LocalDateTime createdAt;
 
     @JoinColumn(name = "performed_by", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User performedBy;
 
     @JoinColumn(name = "location_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Location location;
 
     @OneToMany(mappedBy = "movement", cascade = CascadeType.ALL)

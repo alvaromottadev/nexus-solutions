@@ -15,7 +15,13 @@ public interface InventoryRepository extends JpaRepository<Inventory, String> {
 
     Optional<Inventory> findByIdAndProductCompany(String inventoryId, Company company);
 
-    List<Inventory> findAllByProductCompany(Company company);
+    @Query("""
+    SELECT i FROM Inventory i
+        WHERE i.product.company = :company
+            AND i.location.deletedAt IS NULL
+                AND i.product.deletedAt IS NULL
+    """)
+    List<Inventory> findAllByCompany(@Param("company") Company company);
 
     Optional<Inventory> findByProductAndLocation(Product product, Location location);
 

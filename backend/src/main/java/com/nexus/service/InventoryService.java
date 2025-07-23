@@ -50,7 +50,7 @@ public class InventoryService {
     }
 
     public List<InventoryResponse> getAllInventories(Company company) {
-        List<Inventory> inventories = inventoryRepository.findAllByProductCompany(company);
+        List<Inventory> inventories = inventoryRepository.findAllByCompany(company);
 
         return inventories.stream()
                 .map(inventory -> new InventoryResponse(inventory, getStockStatus(inventory), company))
@@ -94,10 +94,10 @@ public class InventoryService {
     }
 
     private StockStatus getStockStatus(Inventory inventory) {
-        if (inventory.getQuantity() < inventory.getMinStock()) {
-            return StockStatus.LOW;
-        } else if (inventory.getQuantity() == 0) {
+        if (inventory.getQuantity() == 0) {
             return StockStatus.OUT_OF_STOCK;
+        } else if (inventory.getQuantity() < inventory.getMinStock()) {
+            return StockStatus.LOW;
         } else {
             return StockStatus.OK;
         }

@@ -9,6 +9,8 @@ import com.nexus.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService {
 
@@ -43,6 +45,11 @@ public class UserService {
 
     public void updateUserWithoutPassword(User user, String email){
         updateUserAttributes(user, email, null);
+    }
+
+    public void deleteUser(User user){
+        String email = user.getEmail();
+        user.setEmail(email.concat("@deleted" + UUID.randomUUID().toString()));
     }
 
     private void updateUserAttributes(User user, String email, String newPassword){

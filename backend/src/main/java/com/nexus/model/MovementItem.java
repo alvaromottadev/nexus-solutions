@@ -20,11 +20,11 @@ public class MovementItem {
     private Integer quantity;
 
     @JoinColumn(name = "movement_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Movement movement;
 
     @JoinColumn(name = "product_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Product product;
 
 }
