@@ -31,6 +31,5 @@ O sistema foi desenvolvido em três frentes principais:
 /
 ├── backend/          # Projeto Java com Spring Boot
 ├── frontend/         # Interface Web com React
-├── mobile/           # Aplicativo mobile com React Native
-└── docs/             # Documentação
+└── mobile/             # Aplicativo mobile com React Native
 ```
