@@ -32,6 +32,12 @@ export default function MovementPage() {
         getValue() ?? "Sem descrição",
     },
     {
+      accessorKey: "location",
+      header: "Almoxarifado",
+      cell: ({ getValue }: { getValue: () => any }) =>
+        getValue() ?? "Desconhecido",
+    },
+    {
       accessorKey: "movementDate",
       header: "Data",
       cell: ({ getValue }: { getValue: () => any }) => {

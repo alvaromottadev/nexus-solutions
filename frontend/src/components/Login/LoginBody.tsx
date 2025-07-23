@@ -16,7 +16,7 @@ export default function LoginBody() {
 
   return (
     <>
-      <div className="mt-[4.18rem] min-h-[20rem]">
+      <div className="mt-[7rem] min-h-[20rem]">
         <div className="flex flex-col lg:flex-row items-center lg:justify-around lg:p-5 2xl:p-0">
           <div className="flex flex-col items-center lg:block">
             <div className="flex flex-col">

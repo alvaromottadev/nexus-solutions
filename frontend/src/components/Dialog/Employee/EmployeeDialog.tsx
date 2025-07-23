@@ -21,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { employeeFormSchema } from "@/schemas/employeeFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -77,6 +77,8 @@ export default function EmployeeDialog({
   const [imagePreview, setImagePreview] = useState<string | null>(
     employee?.avatar || defaultAvatar
   );
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const hasPermission =
     (auth?.user && auth.user!.type === "COMPANY") ||
@@ -202,7 +204,7 @@ export default function EmployeeDialog({
         toast.success("Funcionário atualizado com sucesso!", {
           duration: 2000,
         });
-        let avatar = null;
+        let avatar = employee.avatar;
         if (image) {
           avatar = await handleUploadAvatar(employee.id);
         }
@@ -217,6 +219,10 @@ export default function EmployeeDialog({
       .catch(() => {
         setButtonPressed(false);
       });
+  }
+
+  function handleImageClick() {
+    fileInputRef.current?.click();
   }
 
   return (
@@ -240,6 +246,7 @@ export default function EmployeeDialog({
           >
             <div className="flex items-center justify-center">
               <img
+                onClick={handleImageClick}
                 src={imagePreview ? imagePreview : defaultAvatar}
                 className="h-[10rem] w-[10rem] rounded-full"
               />
@@ -249,11 +256,11 @@ export default function EmployeeDialog({
               name="image"
               render={() => (
                 <FormItem>
-                  <FormLabel>Imagem</FormLabel>
                   <FormControl>
                     <Input
-                      className="mb-2"
+                      className="hidden"
                       type="file"
+                      ref={fileInputRef}
                       onChange={(e) => handleFileChange(e)}
                     />
                   </FormControl>

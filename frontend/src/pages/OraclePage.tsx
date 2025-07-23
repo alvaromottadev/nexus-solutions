@@ -74,7 +74,7 @@ export default function OraclePage() {
         <TopBar isOracle />
         <div className="flex flex-col m-10 flex-1 h-full mb-10 justify-center">
           <div className="flex flex-1 h-full">
-            <div className="flex flex-col gap-y-2 h-[90%] w-full overflow-y-auto">
+            <div className="flex flex-col gap-y-2 h-[35rem] xl:h-[45rem]  w-full overflow-y-auto">
               {messages.length > 0 &&
                 messages.map((message, index) => {
                   if (message.author === "user") {

@@ -226,7 +226,9 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
             address={company.address}
             isDisabled={isDisabled}
           >
-            <Button className="mt-4 w-full">Ver dados do endereço</Button>
+            <Button className="mt-4 w-full cursor-pointer">
+              Ver dados do endereço
+            </Button>
           </EditAddressDialog>
           {isDisabled ? (
             <Button

@@ -11,7 +11,7 @@ const AdvantagesSection = forwardRef<HTMLDivElement>((_, ref) => {
           <CustomText className="text-[1.5rem] text-center text-[var(--primary-color)] w-[20rem]">
             Quais as vantagens de usar Nexus Solutions?
           </CustomText>
-          <CustomText className="text-[var(--gray-color)] text-[1rem] text-center w-[15rem]">
+          <CustomText className="text-[var(--gray-color)] text-[1rem] xl:text-[1.2rem] text-center w-[15rem] xl:w-auto">
             Veja como podemos transformar sua gestão
           </CustomText>
           <div className="mt-[1rem] flex flex-col lg:flex-row gap-y-2 ">
@@ -30,7 +30,7 @@ const AdvantagesSection = forwardRef<HTMLDivElement>((_, ref) => {
             </AdvantagesCard>
             <AdvantagesCard
               title="Segurança"
-              description="Gerencie estoque, movimentações e usuários com segurança, evitando erros e tomando decisões mais assertivas."
+              description="Gerencie estoque e usuários com segurança, reduzindo erros e tomando decisões mais precisas."
             >
               <Lock size={64} />
             </AdvantagesCard>

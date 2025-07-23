@@ -98,7 +98,7 @@ export default function InventoryPage() {
         label: "Baixo",
       },
       {
-        value: "OUT OF STOCK",
+        value: "OUT_OF_STOCK",
         label: "Fora de Estoque",
       },
     ],

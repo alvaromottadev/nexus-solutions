@@ -142,7 +142,7 @@ export default function DataTable<TData, TValue>({
                     className={
                       cell.getContext().getValue() === "LOW"
                         ? "bg-red-100"
-                        : cell.getContext().getValue() === "OUT OF STOCK"
+                        : cell.getContext().getValue() === "OUT_OF_STOCK"
                         ? "bg-red-500"
                         : cell.getContext().getValue() === "OK"
                         ? "bg-green-100"

@@ -19,7 +19,7 @@ export default function GraphicComponent() {
 
   const chartConfig = {
     quantity: {
-      label: "Quantity",
+      label: "Quantidade",
       color: "#2563eb",
     },
   } satisfies ChartConfig;

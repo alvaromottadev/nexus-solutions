@@ -49,7 +49,7 @@ export default function AddProductDialog({
   useEffect(() => {
     if (locationId !== "") {
       api
-        .get(`/products?locationId=${locationId}`, {
+        .get(`/products?locationId=${locationId}&size=999`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

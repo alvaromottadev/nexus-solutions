@@ -9,6 +9,7 @@ export interface MovementType {
     id: string;
     name: string;
   };
+  location: string;
   items: [
     {
       id: string;

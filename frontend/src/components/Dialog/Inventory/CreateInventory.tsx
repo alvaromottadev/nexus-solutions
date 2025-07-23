@@ -57,7 +57,7 @@ export default function CreateInventoryDialog({
 
   useEffect(() => {
     api
-      .get(`/products`, {
+      .get(`/products?size=999`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

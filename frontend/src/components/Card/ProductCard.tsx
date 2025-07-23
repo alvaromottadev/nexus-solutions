@@ -22,7 +22,7 @@ export default function ProductCard({
 
   return (
     <>
-      <div className="flex items-center justify-around mt-[1rem] w-[90%] min-h-[7rem] bg-[#f9f9f9] border-black border-[1px] rounded-[0.5rem] hover:translate-y-[-5px] duration-300 shadow-md">
+      <div className="flex items-center justify-around mt-[1rem] w-[90%] min-h-[7rem] overflow-hidden bg-[#f9f9f9] border-black border-[1px] rounded-[0.5rem] hover:translate-y-[-5px] duration-300 shadow-md">
         {product.image ? (
           <img src={product.image} className="w-[5rem] h-[5rem] object-cover" />
         ) : (
@@ -32,7 +32,7 @@ export default function ProductCard({
           <CustomText className="text-[var(--primary-color)] font-bold">
             {product.name}
           </CustomText>
-          <CustomText>{product.description}</CustomText>
+          <CustomText className="">{product.description}</CustomText>
         </div>
         {hasPermission && (
           <EditProductDialog

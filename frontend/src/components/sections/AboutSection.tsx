@@ -23,11 +23,12 @@ const AboutSection = forwardRef<HTMLDivElement>((_, ref) => {
             Por que a nossa empresa?
           </CustomText>
           <CustomText className="text-[1.2rem] text-center md:text-[1.5rem]">
-            A Nexus Solutions oferece um gerenciamento de almoxarifado
-            inteligente, com Assistente Virtual, alertas de reposição e QR Code.
-            Nossa tecnologia otimiza processos, prevê necessidades de reposição
-            e facilita o rastreamento de itens, garantindo eficiência, precisão
-            e controle total do seu estoque.
+            A Nexus Solutions revoluciona o gerenciamento de almoxarifado com
+            tecnologia de ponta: Assistente Virtual com IA, alertas inteligentes
+            de reposição e integração via QR Code. Nossas soluções otimizam
+            processos, antecipam necessidades e simplificam o rastreamento de
+            itens, proporcionando máxima eficiência, precisão e controle total
+            do seu estoque.
           </CustomText>
         </div>
         <div className="hidden lg:block">
