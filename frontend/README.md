@@ -18,9 +18,8 @@ Sistema web desenvolvido para gestão de almoxarifado, oferecendo uma interface 
 
 ## 🍃 Variavéis de Ambiente
 
-```bash
-    VITE_API_URL = URL da API
-```
+Você pode encontrar todas na documentação oficial no tópico 5.3:
+[Documentação](https://docs.google.com/document/d/1gKFfJxrnLelBjZeokoBdLd6GXIpz2Wc-8LqyNorXZfY/edit?tab=t.0#heading=h.owhi1pm9rhcf)
 
 ## Instalação
 
@@ -42,22 +41,32 @@ cd nexus-solutions/frontend
 npm install
 ```
 
-4. Execute o projeto:
+4. Configure as váriaveis de ambiente.
+
+5. Execute o projeto:
 
 ```bash
 npm run dev
 ```
 
-5. Acesse a aplicação em http://localhost:5173
+6. Acesse a aplicação em http://localhost:5173
 
-## Scripts Disponíveis
+## 📄 Scripts Disponíveis
 
 npm run dev: Inicia o servidor de desenvolvimento
 npm run build: Gera build de produção  
 npm run preview: Preview da build de produção
 
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature: git checkout -b feature/nova-feature
+3. Commit suas mudanças: git commit -m 'Adiciona nova feature'
+4. Push para a branch: git push origin feature/nova-feature
+5. Abra um Pull Request
+
 ## 🧩 Licença
 
-Este projeto está sob a licença MIT.
+Este projeto está sob a [licença MIT](https://github.com/alvaromottadev/nexus-solutions/blob/main/LICENSE).
 
 Desenvolvido com 💜 por Alvaro Motta
