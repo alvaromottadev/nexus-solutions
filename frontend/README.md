@@ -16,6 +16,12 @@ Sistema web desenvolvido para gestão de almoxarifado, oferecendo uma interface 
 - Node.js
 - npm
 
+## 🍃 Variavéis de Ambiente
+
+```bash
+    VITE_API_URL = URL da API
+```
+
 ## Instalação
 
 1. Clone o repositório:
