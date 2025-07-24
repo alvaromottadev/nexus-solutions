@@ -28,7 +28,7 @@ public class InventoryStockTask {
         this.messageUtils = messageUtils;
     }
 
-    @Scheduled(cron = "0 25 15 * * *")
+    @Scheduled(cron = "0 0 4 * * *")
     public void checkInventoryStock() {
         List<Inventory> inventories = inventoryService.findAllWithLowStock();
         if (!inventories.isEmpty()){
