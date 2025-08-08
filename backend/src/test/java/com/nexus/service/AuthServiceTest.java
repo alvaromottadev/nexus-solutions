@@ -67,7 +67,7 @@ public class AuthServiceTest {
     private final CompanyRequest companyRequestMock = new CompanyRequest("Example", "12312312312312", addressRequestMock);
 
     @Test
-    @DisplayName("Should return success")
+    @DisplayName("Should return success when register a company")
     void registerCase1(){
         UserRequest userRequestMock = new UserRequest("mock@example.com", "123123", UserType.COMPANY);
 
@@ -88,7 +88,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    @DisplayName("Should return exception InvalidCompanyRegistrationException")
+    @DisplayName("Should return exception InvalidCompanyRegistrationException when UserType is EMPLOYEE")
     void registerCase2() {
         UserRequest userRequestMock = new UserRequest("mock@example.com", "123123", UserType.EMPLOYEE);
         UserCompanyRegisterRequest registerRequestMock = new UserCompanyRegisterRequest(userRequestMock, companyRequestMock);
