@@ -26,6 +26,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -62,6 +64,60 @@ public class AuthServiceTest {
 
     private final AddressRequest addressRequestMock = new AddressRequest("street", "123", null, "district", "city", "state", "postalCode", "country");
     private final CompanyRequest companyRequestMock = new CompanyRequest("Example", "12312312312312", addressRequestMock);
+
+    @DisplayName("Should return user details when getMe is called for company")
+    @Test
+    void getMeCase1() {
+
+        String id = UUID.randomUUID().toString();
+
+        UserRequest userRequestMock = new UserRequest("mock@example.com", "123123", UserType.COMPANY);
+        User userMock = new User(userRequestMock, "encoded-password");
+
+        Address addressMock = new Address(addressRequestMock);
+        Company companyMock = new Company(userMock, addressMock, companyRequestMock);
+        companyMock.setId(id);
+
+        userMock.setCompany(companyMock);
+        userMock.setId(id);
+
+        UserDetailsImpl userDetails = new UserDetailsImpl(userMock);
+
+        AuthMeResponse expected = new AuthMeResponse(id, "Example", "mock@example.com", UserType.COMPANY, EmployeeRole.MANAGER,
+                new CompanyResponse(companyMock));
+        AuthMeResponse actual = authService.getMe(userDetails);
+
+        assertEquals(expected, actual);
+
+    }
+
+    @DisplayName("Should return user details when getMe is called for employee")
+    @Test
+    void getMeCase2() {
+
+        String id = UUID.randomUUID().toString();
+
+        UserRequest userRequestMock = new UserRequest("mock@example.com", "123123", UserType.EMPLOYEE);
+        User userMock = new User(userRequestMock, "encoded-password");
+
+        Address addressMock = new Address(addressRequestMock);
+        Company companyMock = new Company(userMock, addressMock, companyRequestMock);
+        companyMock.setId(id);
+
+        EmployeeRequest employeeRequestMock = new EmployeeRequest("Example", EmployeeRole.MANAGER);
+        Employee employeeMock = new Employee(employeeRequestMock, userMock, companyMock);
+
+        userMock.setEmployee(employeeMock);
+        userMock.setId(id);
+
+        UserDetailsImpl userDetails = new UserDetailsImpl(userMock);
+
+        AuthMeResponse expected = new AuthMeResponse(id, "Example", "mock@example.com", UserType.EMPLOYEE, EmployeeRole.MANAGER,
+                new CompanyResponse(companyMock));
+        AuthMeResponse actual = authService.getMe(userDetails);
+
+        assertEquals(expected, actual);
+    }
 
     @DisplayName("Should return success when register a company")
     @Test
