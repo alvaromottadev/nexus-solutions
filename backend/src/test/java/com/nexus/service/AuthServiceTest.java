@@ -1,9 +1,7 @@
 package com.nexus.service;
 
 import com.nexus.dto.Address.AddressRequest;
-import com.nexus.dto.Auth.UserCompanyLoginRequest;
-import com.nexus.dto.Auth.UserCompanyLoginResponse;
-import com.nexus.dto.Auth.UserCompanyRegisterRequest;
+import com.nexus.dto.Auth.*;
 import com.nexus.dto.Company.CompanyRequest;
 import com.nexus.dto.Company.CompanyResponse;
 import com.nexus.dto.Employee.EmployeeRequest;
@@ -11,23 +9,20 @@ import com.nexus.dto.SuccessResponse;
 import com.nexus.dto.User.UserRequest;
 import com.nexus.dto.User.UserResponse;
 import com.nexus.exception.InvalidCompanyRegistrationException;
+import com.nexus.exception.PasswordConfirmationMismatchException;
 import com.nexus.infra.security.JwtTokenUtil;
 import com.nexus.infra.security.UserDetailsImpl;
-import com.nexus.model.Address;
-import com.nexus.model.Company;
-import com.nexus.model.Employee;
-import com.nexus.model.User;
+import com.nexus.model.*;
 import com.nexus.model.enums.EmployeeRole;
 import com.nexus.model.enums.UserType;
 import com.nexus.utils.MessageUtils;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -35,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
 
     @InjectMocks
@@ -58,16 +54,17 @@ public class AuthServiceTest {
     @Mock
     private MessageUtils messageUtils;
 
-    @BeforeEach
-    void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
+    @Mock
+    private EmailService emailService;
+
+    @Mock
+    private PasswordResetCodeService passwordResetCodeService;
 
     private final AddressRequest addressRequestMock = new AddressRequest("street", "123", null, "district", "city", "state", "postalCode", "country");
     private final CompanyRequest companyRequestMock = new CompanyRequest("Example", "12312312312312", addressRequestMock);
 
-    @Test
     @DisplayName("Should return success when register a company")
+    @Test
     void registerCase1(){
         UserRequest userRequestMock = new UserRequest("mock@example.com", "123123", UserType.COMPANY);
 
@@ -87,8 +84,8 @@ public class AuthServiceTest {
 
     }
 
-    @Test
     @DisplayName("Should return exception InvalidCompanyRegistrationException when UserType is EMPLOYEE")
+    @Test
     void registerCase2() {
         UserRequest userRequestMock = new UserRequest("mock@example.com", "123123", UserType.EMPLOYEE);
         UserCompanyRegisterRequest registerRequestMock = new UserCompanyRegisterRequest(userRequestMock, companyRequestMock);
@@ -122,8 +119,8 @@ public class AuthServiceTest {
 
     }
 
-    @Test
     @DisplayName("Should return success when logged in by the employee")
+    @Test
     void loginCase2() {
         UserCompanyLoginRequest loginRequestMock = new UserCompanyLoginRequest("mock@example.com", "123123");
 
@@ -149,8 +146,8 @@ public class AuthServiceTest {
         assertEquals(expected, actual);
     }
 
-    @Test
     @DisplayName("Should return exception BadCredentialsException when login fails")
+    @Test
     void loginCase3() {
 
         UserCompanyLoginRequest loginRequestMock = new UserCompanyLoginRequest("mock@example.com", "123123");
@@ -162,6 +159,85 @@ public class AuthServiceTest {
         when(passwordEncoder.matches(loginRequestMock.password(), userMock.getPassword())).thenReturn(false);
 
         assertThrows(BadCredentialsException.class, () -> this.authService.login(loginRequestMock));
+
+    }
+
+    @DisplayName("Should return success when update password")
+    @Test
+    void updatePasswordCase1() {
+        PasswordUpdateRequest passwordUpdateRequestMock = new PasswordUpdateRequest("oldPassword", "newPassword", "newPassword");
+        UserRequest userRequestMock = new UserRequest("user@mock.com", "oldPassword", UserType.EMPLOYEE);
+        User userMock = new User(userRequestMock, "encoded-password");
+
+        when(messageUtils.getMessage("password.update.success")).thenReturn("Password updated successfully");
+
+        SuccessResponse expected = new SuccessResponse("Password updated successfully");
+        SuccessResponse actual = this.authService.updatePassword(userMock, passwordUpdateRequestMock);
+
+        assertEquals(expected, actual);
+    }
+
+    @DisplayName("Should return exception PasswordConfirmationMismatchException when new password and confirm password are different")
+    @Test
+    void updatePasswordCase2() {
+
+        PasswordUpdateRequest passwordUpdateRequestMock = new PasswordUpdateRequest("oldPassword", "newPassword", "differentPassword");
+        UserRequest userRequestMock = new UserRequest("user@mock.com", "oldPassword", UserType.EMPLOYEE);
+
+        User userMock = new User(userRequestMock, "encoded-password");
+        assertThrows(PasswordConfirmationMismatchException.class, () -> this.authService.updatePassword(userMock, passwordUpdateRequestMock));
+
+    }
+
+    @DisplayName("Should return success when forgot password is called")
+    @Test
+    void forgotPasswordCase1() {
+
+        ForgotPasswordRequest forgotPasswordRequestMock = new ForgotPasswordRequest("user@mock.com");
+
+        UserRequest userRequestMock = new UserRequest("user@mock.com", "oldPassword", UserType.EMPLOYEE);
+
+        User userMock = new User(userRequestMock, "encoded-password");
+
+        when(userService.findByEmail(forgotPasswordRequestMock.email())).thenReturn(userMock);
+        when(messageUtils.getMessage("forgot.password.email.sent")).thenReturn("Forgot password email sent");
+        when(messageUtils.getMessage("forgot.password.email")).thenReturn("To reset your password, use the following code:");
+
+        SuccessResponse expected = new SuccessResponse("Forgot password email sent");
+        SuccessResponse actual = this.authService.forgotPassword(forgotPasswordRequestMock);
+
+        assertEquals(expected, actual);
+
+    }
+
+    @DisplayName("Should return success when password is reset")
+    @Test
+    void resetPasswordCase1() {
+
+        ResetPasswordRequest resetPasswordRequestMock = new ResetPasswordRequest("oldPassword", "newPassword", "newPassword");
+
+        UserRequest userRequestMock = new UserRequest("user@mock.com", "oldPassword", UserType.EMPLOYEE);
+
+        User userMock = new User(userRequestMock, "encoded-password");
+        PasswordResetCode token = new PasswordResetCode("123456", userMock);
+
+        when(passwordResetCodeService.validateCode(resetPasswordRequestMock.resetCode())).thenReturn(token);
+        when(messageUtils.getMessage("password.reset.success")).thenReturn("Password reset successfully");
+
+        SuccessResponse expected = new SuccessResponse("Password reset successfully");
+        SuccessResponse actual = this.authService.resetPassword(resetPasswordRequestMock);
+
+        assertEquals(expected, actual);
+
+    }
+
+    @DisplayName("Should return exception PasswordConfirmationMismatchException when new password and confirm password are different")
+    @Test
+    void resetPasswordCase2() {
+
+        ResetPasswordRequest resetPasswordRequestMock = new ResetPasswordRequest("oldPassword", "newPassword", "otherPassword");
+
+        assertThrows(PasswordConfirmationMismatchException.class, () -> this.authService.resetPassword(resetPasswordRequestMock));
 
     }
 
