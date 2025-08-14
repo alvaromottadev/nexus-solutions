@@ -97,12 +97,7 @@ public class MovementService {
                     inventory.setUpdatedAt(LocalDateTime.now());
                     inventoryService.save(inventory);
 
-                    MovementItem movementItem = new MovementItem();
-                    movementItem.setProduct(product);
-                    movementItem.setMovement(movement);
-                    movementItem.setQuantity(item.quantity());
-
-                    return movementItem;
+                    return new MovementItem(movement, product, item.quantity());
                 }).toList();
     }
 

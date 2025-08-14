@@ -27,4 +27,10 @@ public class MovementItem {
     @ManyToOne
     private Product product;
 
+    public MovementItem(Movement movement, Product product, Integer quantity) {
+        this.movement = movement;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
 }
