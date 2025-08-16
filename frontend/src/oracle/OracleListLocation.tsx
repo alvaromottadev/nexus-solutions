@@ -1,8 +1,6 @@
-import CustomText from "@/components/CustomText";
 import type { LocationType } from "@/types/LocationType";
-import addressFormatter from "@/utils/AddressFormatter";
 
-interface OracleListProductProps {
+interface OracleListLocationProps {
   header: string;
   content: LocationType[];
 }
@@ -10,22 +8,32 @@ interface OracleListProductProps {
 export default function OracleListLocation({
   header,
   content,
-}: OracleListProductProps) {
+}: OracleListLocationProps) {
   return (
-    <>
-      <div className="flex flex-col gap-y-2 text-white font-poppins">
-        <CustomText>{header}</CustomText>
+    <div className="flex flex-col text-white font-poppins">
+      {header && (
+        <h3 className="text-lg font-semibold text-purple-200 mb-3">
+          {header}
+        </h3>
+      )}
+      <div className="space-y-2">
         {content.map((location, index) => (
-          <div className="flex flex-col">
-            <CustomText key={index}>
-              🏛️ Almoxarifado: {location.name}
-            </CustomText>
-            <CustomText>
-              📍 Endereço: {addressFormatter(location.address)}
-            </CustomText>
+          <div 
+            key={index} 
+            className="bg-white/5 rounded-lg p-3 border border-white/10 hover:bg-white/10 transition-colors duration-200"
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+              <span className="font-medium text-blue-200">📍 {location.name}</span>
+            </div>
+            {location.description && (
+              <p className="text-xs text-gray-300 mt-1 ml-4">
+                {location.description}
+              </p>
+            )}
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
