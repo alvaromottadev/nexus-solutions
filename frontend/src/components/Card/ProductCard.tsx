@@ -2,7 +2,7 @@ import type { ProductType } from "@/types/ProductType";
 import EditProductDialog from "../Dialog/Product/EditProduct";
 import { useState } from "react";
 import usePermission from "@/hooks/usePermission";
-import { ImageIcon, QrCode, Calendar, Edit, Code } from "lucide-react";
+import { ImageIcon, QrCode, Calendar, Code } from "lucide-react";
 
 interface ProductCardProps {
   product: ProductType;

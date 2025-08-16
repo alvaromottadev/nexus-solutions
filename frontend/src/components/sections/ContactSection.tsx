@@ -1,8 +1,7 @@
-import CustomText from "@/components/CustomText";
 import contactDesign from "@/assets/contact-design.svg";
 import { forwardRef } from "react";
 import Contacts from "../Contacts";
-import { Mail, Phone, MapPin, Clock, MessageCircle, Users } from "lucide-react";
+import { MessageCircle, Users } from "lucide-react";
 
 const ContactSection = forwardRef<HTMLDivElement>((_, ref) => {
   return (

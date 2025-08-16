@@ -36,14 +36,6 @@ export default function LoginForm() {
 
   const navigation = useNavigate();
 
-  function handleLogin() {
-    navigation(`/login`);
-  }
-
-  function handleRegister() {
-    navigation(`/register`);
-  }
-
   function handleSubmit(data: z.infer<typeof loginSchema>) {
     setButtonPressed(true);
     api
@@ -91,7 +83,7 @@ export default function LoginForm() {
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
             name="password"
@@ -113,7 +105,7 @@ export default function LoginForm() {
               </FormItem>
             )}
           />
-          
+
           <div className="w-full flex justify-end">
             <CustomText className="text-sm text-gray-600">
               Esqueceu a senha?{" "}
@@ -124,7 +116,7 @@ export default function LoginForm() {
               </ForgotPasswordDialog>
             </CustomText>
           </div>
-          
+
           <Button
             disabled={buttonPressed}
             type="submit"

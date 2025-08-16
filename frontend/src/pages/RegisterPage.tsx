@@ -1,21 +1,11 @@
 import design from "@/assets/design.svg";
-import CustomText from "@/components/CustomText";
 import RegisterFormStepOne from "@/components/Dialog/Register/RegisterFormStep1";
 import RegisterFormStepTwo from "@/components/Dialog/Register/RegisterFormStep2";
 import type addressFormSchema from "@/schemas/addressFormSchema";
 import type registerSchema from "@/schemas/registerSchema";
 import { useState } from "react";
 import type { z } from "zod";
-import {
-  Zap,
-  Shield,
-  TrendingUp,
-  CheckCircle,
-  ArrowRight,
-  Users,
-  Building2,
-  Globe,
-} from "lucide-react";
+import { Zap, ArrowRight, Users, Globe } from "lucide-react";
 
 export default function RegisterPage() {
   const [step, setStep] = useState<number>(1);

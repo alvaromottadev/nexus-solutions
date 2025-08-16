@@ -3,8 +3,6 @@ import {
   Archive,
   Bot,
   Hammer,
-  Package,
-  PackageSearch,
   User,
   Home,
   MapPin,

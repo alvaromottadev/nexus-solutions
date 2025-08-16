@@ -10,7 +10,6 @@ import {
   Bot,
   Users,
   User,
-  Menu,
 } from "lucide-react";
 import logoNexus from "@/assets/logo_nexus.png";
 

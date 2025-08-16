@@ -1,5 +1,4 @@
 import api from "@/client/api-client";
-import CustomText from "@/components/CustomText";
 import TopBar from "@/components/TopBar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";

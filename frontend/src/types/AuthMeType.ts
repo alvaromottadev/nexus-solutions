@@ -4,7 +4,6 @@ export interface AuthMeType {
   email: string;
   type: string;
   role: string | null;
-  createdAt: string;
   company: {
     id: string;
     name: string;

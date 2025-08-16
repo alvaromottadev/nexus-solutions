@@ -1,6 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
 import Contacts from "../Contacts";
-import CustomText from "../CustomText";
 import GraphicComponent from "../GraphicComponent";
 import { BarChart3, Users, Zap, Target, Award, Rocket } from "lucide-react";
 
