@@ -55,128 +55,134 @@ export default function RegisterFormStepOne({
   }
 
   return (
-    <div className="mt-[1rem] p-[0.5rem] lg:mt-[5rem] flex justify-center">
-      <div className="w-[20rem] lg:w-[25rem]">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="flex flex-col gap-y-1">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-[1rem] font-poppins">
-                      Nome
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
-                        placeholder="Ex.: Nexus Enterprise"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="cnpj"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-[1rem] font-poppins">
-                      CNPJ
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
-                        placeholder="Ex.: 12345678901234"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-[1rem] font-poppins">
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
-                        placeholder="Ex.: nexus@gmail.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-[1rem] font-poppins">
-                      Senha
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
-                        placeholder="Ex.: nexus123"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-[1rem] font-poppins">
-                      Confirme a senha
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
-                        placeholder="Ex.: nexus123"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="cursor-pointer w-full h-[4rem] mt-[0.25rem] bg-white text-[var(--primary-color)] font-poppins font-bold hover:bg-[var(--primary-color)] hover:text-white transition-colors duration-300"
-              >
-                Próxima Etapa
-              </Button>
-            </div>
-          </form>
-        </Form>
-        <div className="w-full flex justify-center mt-[0.25rem] font-poppins">
-          <label>
-            Já possui uma conta?{" "}
-            <label
-              onClick={handleLogin}
-              className="text-[#f472b6] cursor-pointer"
-            >
-              Faça login!
-            </label>
-          </label>
-        </div>
+    <div className="w-full">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">
+                    Nome da Empresa
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: Nexus Enterprise"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="cnpj"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">
+                    CNPJ
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: 12345678901234"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">
+                    Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: nexus@gmail.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">
+                    Senha
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: nexus123"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-semibold text-gray-900">
+                  Confirme a senha
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                    placeholder="Ex.: nexus123"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="w-full h-11 bg-[var(--primary-color)] hover:bg-[var(--primary-color)]/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 mt-6"
+          >
+            Próxima Etapa
+          </Button>
+        </form>
+      </Form>
+
+      <div className="mt-4 text-center">
+        <p className="text-sm text-gray-600">
+          Já possui uma conta?{" "}
+          <button
+            onClick={handleLogin}
+            className="text-[var(--primary-color)] hover:text-[var(--primary-color)]/80 font-medium transition-colors duration-200"
+          >
+            Faça login!
+          </button>
+        </p>
       </div>
     </div>
   );

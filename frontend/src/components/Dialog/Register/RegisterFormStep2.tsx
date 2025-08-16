@@ -15,6 +15,7 @@ import addressFormSchema from "@/schemas/addressFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type registerSchema from "@/schemas/registerSchema";
 import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
 
 interface RegisterFormStepTwoProps {
   dataFormOne: z.infer<typeof registerSchema>;
@@ -91,159 +92,180 @@ export default function RegisterFormStepTwo({
     setDataFormTwo(form.getValues());
     setStep(1);
   }
-  return (
-    <div className="mt-[1rem] p-[0.5rem] lg:mt-[5rem] flex justify-center">
-      <div className="w-[20rem] lg:w-[25rem]">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="flex flex-col gap-y-1">
-              <FormField
-                control={form.control}
-                name="street"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Rua</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[3rem]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="number"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Número</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[3rem]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="complement"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Complemento</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[3rem]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="district"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Bairro</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[3rem]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cidade</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[3rem]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Estado</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[3rem]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="postalCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>CEP</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[3rem]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>País</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[3rem]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
 
+  return (
+    <div className="w-full">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="street"
+              render={({ field }) => (
+                <FormItem className="sm:col-span-2">
+                  <FormLabel className="text-base font-semibold text-gray-900">Rua</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: Rua das Flores"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">Número</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: 123"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="complement"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">Complemento</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: Sala 101"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="district"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">Bairro</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: Centro"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">Cidade</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: São Paulo"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">Estado</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: SP"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="postalCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">CEP</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: 01234-567"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="country"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-gray-900">País</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      placeholder="Ex.: Brasil"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="flex gap-4 mt-6">
             <Button
+              type="button"
               onClick={handleBack}
-              className="cursor-pointer w-full h-[2.5rem] mt-[0.5rem] bg-white text-[var(--primary-color)] font-poppins font-bold hover:bg-[var(--primary-color)] hover:text-white transition-colors duration-300"
+              variant="outline"
+              className="flex-1 h-11 border-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold rounded-xl transition-all duration-200"
             >
+              <ArrowLeft className="w-4 h-4 mr-2" />
               Voltar
             </Button>
+            
             <Button
               type="submit"
-              className="cursor-pointer w-full h-[3.5rem] mt-[0.5rem] bg-white text-[var(--primary-color)] font-poppins font-bold hover:bg-[var(--primary-color)] hover:text-white transition-colors duration-300"
+              className="flex-1 h-11 bg-[var(--primary-color)] hover:bg-[var(--primary-color)]/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
             >
-              Registrar
+              Finalizar Cadastro
             </Button>
-          </form>
-        </Form>
-        <div className="w-full flex justify-center mt-[0.25rem] font-poppins">
-          <label>
-            Já possui uma conta?{" "}
-            <label
-              onClick={handleLogin}
-              className="text-[#f472b6] cursor-pointer"
-            >
-              Faça login!
-            </label>
-          </label>
-        </div>
+          </div>
+        </form>
+      </Form>
+      
+      <div className="mt-4 text-center">
+        <p className="text-sm text-gray-600">
+          Já possui uma conta?{" "}
+          <button
+            onClick={handleLogin}
+            className="text-[var(--primary-color)] hover:text-[var(--primary-color)]/80 font-medium transition-colors duration-200"
+          >
+            Faça login!
+          </button>
+        </p>
       </div>
     </div>
   );
