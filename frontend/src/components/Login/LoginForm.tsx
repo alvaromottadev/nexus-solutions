@@ -36,8 +36,12 @@ export default function LoginForm() {
 
   const navigation = useNavigate();
 
+  function handleLogin() {
+    navigation(`/login`);
+  }
+
   function handleRegister() {
-    navigation("/register");
+    navigation(`/register`);
   }
 
   function handleSubmit(data: z.infer<typeof loginSchema>) {
@@ -64,82 +68,72 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="mt-[5rem] lg:mt-[5rem] flex justify-center">
-      <div className="w-[20rem] lg:w-[25rem]">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[1rem] font-poppins">
-                    Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
-                      placeholder="Ex.: nexus@gmail.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[1rem] font-poppins">
-                    Senha
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      className="bg-[#3d3a50] text-white placeholder:text-[1rem] placeholder:text-[rgba(255,255,255,0.5)] font-poppins h-[4rem]"
-                      placeholder="Ex.: nexus123"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="w-full flex justify-end">
-              <CustomText>
-                Esqueceu a senha?{" "}
-                <ForgotPasswordDialog>
-                  <label className="cursor-pointer text-[#f472b6]">
-                    Clique aqui!
-                  </label>
-                </ForgotPasswordDialog>
-              </CustomText>
-            </div>
-            <Button
-              disabled={buttonPressed}
-              type="submit"
-              className="cursor-pointer w-full h-[4rem] mt-[0.25rem] bg-white text-[var(--primary-color)] font-poppins font-bold hover:bg-[var(--primary-color)] hover:text-white transition-colors duration-300"
-            >
-              Login
-            </Button>
-          </form>
-        </Form>
-        <div className="w-full flex justify-center mt-[0.25rem] font-poppins">
-          <label>
-            Não possui uma conta?{" "}
-            <label
-              onClick={handleRegister}
-              className="text-[#f472b6] cursor-pointer"
-            >
-              Cadastre-se!
-            </label>
-          </label>
-        </div>
-      </div>
+    <div className="w-full">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-semibold text-gray-900">
+                  Email
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                    placeholder="Ex.: nexus@gmail.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-semibold text-gray-900">
+                  Senha
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    className="h-11 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-500 font-medium rounded-xl focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                    placeholder="Ex.: nexus123"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <div className="w-full flex justify-end">
+            <CustomText className="text-sm text-gray-600">
+              Esqueceu a senha?{" "}
+              <ForgotPasswordDialog>
+                <label className="cursor-pointer text-[var(--primary-color)] hover:text-[var(--primary-color)]/80 font-medium transition-colors duration-200">
+                  Clique aqui!
+                </label>
+              </ForgotPasswordDialog>
+            </CustomText>
+          </div>
+          
+          <Button
+            disabled={buttonPressed}
+            type="submit"
+            className="w-full h-11 bg-[var(--primary-color)] hover:bg-[var(--primary-color)]/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {buttonPressed ? "Entrando..." : "Entrar"}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 }
