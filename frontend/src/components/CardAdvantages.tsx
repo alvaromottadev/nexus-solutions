@@ -1,7 +1,7 @@
-import CustomText from "./CustomText";
+import type { ReactNode } from "react";
 
-interface CustomTextProps {
-  children: React.ReactNode;
+interface AdvantagesCardProps {
+  children: ReactNode;
   title: string;
   description: string;
 }
@@ -10,16 +10,25 @@ export default function AdvantagesCard({
   children,
   title,
   description,
-}: CustomTextProps) {
+}: AdvantagesCardProps) {
   return (
-    <>
-      <div className="flex flex-col items-center justify-center w-[15rem] h-[15rem] md:w-[20rem] md:h-[15rem] xl:w-[25rem] xl:h-[18rem] gap-y-2 border-[1px] border-[var(--gray-color)] rounded-[1rem] lg:rounded-none hover:shadow hover:bg-[var(--primary-color)] hover:text-white hover:shadow-black hover:lg:w-[30rem] hover:lg:h-[20rem] hover:border-none transition-all duration-300 p-5">
-        {children}
-        <CustomText className="font-bold">{title}</CustomText>
-        <CustomText className="self-center text-center">
-          {description}
-        </CustomText>
+    <div className="group relative bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-xl hover:border-[var(--primary-color)]/30 transition-all duration-300 hover:-translate-y-2">
+      <div className="w-20 h-20 bg-gradient-to-br from-[var(--primary-color)]/10 to-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+        <div className="text-[var(--primary-color)] group-hover:text-[var(--primary-color)]">
+          {children}
+        </div>
       </div>
-    </>
+
+      <div className="text-center">
+        <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-[var(--primary-color)] transition-colors duration-300">
+          {title}
+        </h3>
+        <p className="text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
+          {description}
+        </p>
+      </div>
+
+      <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[var(--primary-color)]/20 transition-all duration-300"></div>
+    </div>
   );
 }

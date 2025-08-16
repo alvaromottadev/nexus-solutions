@@ -4,6 +4,7 @@ import InitialSection from "@/components/sections/InitialSection";
 import InfoBar from "@/components/InfoBar";
 import AboutSection from "@/components/sections/AboutSection";
 import OpinionsSection from "@/components/sections/OpinionsSection";
+import PricingSection from "@/components/sections/PricingSection";
 import { useRef } from "react";
 
 export default function LandingPage() {
@@ -11,6 +12,7 @@ export default function LandingPage() {
     about: useRef<HTMLDivElement>(null),
     contact: useRef<HTMLDivElement>(null),
     advantages: useRef<HTMLDivElement>(null),
+    pricing: useRef<HTMLDivElement>(null),
   };
 
   function scrollTo(section: keyof typeof sectionRefs) {
@@ -29,6 +31,7 @@ export default function LandingPage() {
       />
       <AboutSection ref={sectionRefs.about} />
       <OpinionsSection />
+      <PricingSection ref={sectionRefs.pricing} />
       <ContactSection ref={sectionRefs.contact} />
     </>
   );
