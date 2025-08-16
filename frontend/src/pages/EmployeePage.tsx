@@ -1,6 +1,5 @@
 import api from "@/client/api-client";
 import EmployeeCard from "@/components/Card/EmployeeCard";
-import CustomText from "@/components/CustomText";
 import EmployeeDialog from "@/components/Dialog/Employee/EmployeeDialog";
 import NoHasPermission from "@/components/NoHasPermission";
 import Pagination from "@/components/Pagination";
@@ -10,7 +9,14 @@ import { Button } from "@/components/ui/button";
 import usePermission from "@/hooks/usePermission";
 import type EmployeeType from "@/types/EmployeeType";
 import type { PageableResponseType } from "@/types/PageableResponseType";
-import { ArchiveX, Plus } from "lucide-react";
+import {
+  ArchiveX,
+  Plus,
+  Users,
+  UserCheck,
+  UserX,
+  TrendingUp,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
 
@@ -23,7 +29,17 @@ export default function EmployeePage() {
 
   const hasPermission = usePermission();
 
+  const getEmployeeStats = () => {
+    const total = employees.length;
+    const managers = employees.filter((emp) => emp.role === "MANAGER").length;
+    const operators = employees.filter((emp) => emp.role === "OPERATOR").length;
+    const viewers = employees.filter((emp) => emp.role === "VIEWER").length;
+
+    return { total, managers, operators, viewers };
+  };
+
   async function handleSearch() {
+    setIsLoading(true);
     api
       .get(`/employees?size=12&name=${name}`, {
         headers: {
@@ -35,10 +51,15 @@ export default function EmployeePage() {
         setEmployees(data.content);
         setNumberPage(data.page.number);
         setTotalPage(data.page.totalPages);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
       });
   }
 
   async function handleNextPage() {
+    setIsLoading(true);
     api
       .get(
         `/employees?size=12&page=${numberPage + 1}${
@@ -56,10 +77,14 @@ export default function EmployeePage() {
         setNumberPage(data.page.number);
         setTotalPage(data.page.totalPages);
         setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
       });
   }
 
   async function handlePreviousPage() {
+    setIsLoading(true);
     api
       .get(
         `/employees?size=12&page=${numberPage - 1}${
@@ -77,6 +102,9 @@ export default function EmployeePage() {
         setNumberPage(data.page.number);
         setTotalPage(data.page.totalPages);
         setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
       });
   }
 
@@ -93,64 +121,200 @@ export default function EmployeePage() {
         setNumberPage(data.page.number);
         setTotalPage(data.page.totalPages);
         setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
       });
   }, []);
 
+  const stats = getEmployeeStats();
+
   return (
     <>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
         <TopBar />
         {hasPermission ? (
           <>
-            <EmployeeDialog employees={employees} setEmployees={setEmployees}>
-              <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
-                <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">
-                  <Plus color="white" />
-                </Button>
-              </div>
-            </EmployeeDialog>
-            <div className="flex flex-col h-full items-center justify-center mt-[2rem]">
-              <SearchComponent
-                label="Funcionários"
-                placeholder="Ex.: Mariana"
-                handleSearch={handleSearch}
-                setName={setName}
-              />
-            </div>
-            {!isLoading ? (
-              employees.length > 0 ? (
-                <div className="px-4 gap-4 w-full flex items-center flex-col mx-auto lg:grid lg:grid-cols-3 lg:place-items-center lg:gap-x-3">
-                  {employees.map(
-                    (employee, index) =>
-                      index < 12 && (
-                        <EmployeeCard
-                          employee={employee}
+            <div className="px-6 py-8">
+              <div className="max-w-7xl mx-auto">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
+                  <div>
+                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                      Gestão de Funcionários
+                    </h1>
+                    <p className="text-lg text-gray-600">
+                      Gerencie sua equipe de forma eficiente e organizada
+                    </p>
+                  </div>
+                  <EmployeeDialog
+                    employees={employees}
+                    setEmployees={setEmployees}
+                  >
+                    <Button className="bg-[var(--primary-color)] hover:bg-opacity-90 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+                      <Plus className="mr-2" size={20} />
+                      Novo Funcionário
+                    </Button>
+                  </EmployeeDialog>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                    <div className="flex items-center">
+                      <div className="p-3 bg-blue-100 rounded-lg">
+                        <Users className="text-blue-600" size={24} />
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-600">
+                          Total
+                        </p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {stats.total}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                    <div className="flex items-center">
+                      <div className="p-3 bg-green-100 rounded-lg">
+                        <UserCheck className="text-green-600" size={24} />
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-600">
+                          Gerentes
+                        </p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {stats.managers}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                    <div className="flex items-center">
+                      <div className="p-3 bg-purple-100 rounded-lg">
+                        <TrendingUp className="text-purple-600" size={24} />
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-600">
+                          Operadores
+                        </p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {stats.operators}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                    <div className="flex items-center">
+                      <div className="p-3 bg-orange-100 rounded-lg">
+                        <UserX className="text-orange-600" size={24} />
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-600">
+                          Visualizadores
+                        </p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {stats.viewers}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                    <div className="mb-4 lg:mb-0">
+                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                        Buscar Funcionários
+                      </h2>
+                      <p className="text-gray-600">
+                        Encontre funcionários específicos por nome
+                      </p>
+                    </div>
+                    <div className="flex-1 lg:ml-8">
+                      <SearchComponent
+                        label=""
+                        placeholder="Digite o nome do funcionário..."
+                        handleSearch={handleSearch}
+                        setName={setName}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {!isLoading ? (
+                  employees.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+                      {employees.map(
+                        (employee, index) =>
+                          index < 12 && (
+                            <div
+                              key={employee.id}
+                              className="transform hover:scale-105 transition-all duration-300"
+                            >
+                              <EmployeeCard
+                                employee={employee}
+                                employees={employees}
+                                setEmployees={setEmployees}
+                              />
+                            </div>
+                          )
+                      )}
+                    </div>
+                  ) : (
+                    <div className="bg-white rounded-xl p-12 text-center shadow-lg border border-gray-100">
+                      <ArchiveX
+                        className="mx-auto text-gray-400 mb-4"
+                        size={64}
+                      />
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                        Nenhum funcionário encontrado
+                      </h3>
+                      <p className="text-gray-600 mb-6">
+                        {name
+                          ? `Não encontramos funcionários com o nome "${name}"`
+                          : "Comece adicionando seu primeiro funcionário"}
+                      </p>
+                      {!name && (
+                        <EmployeeDialog
                           employees={employees}
                           setEmployees={setEmployees}
-                          key={employee.id}
-                        />
-                      )
-                  )}
-                </div>
-              ) : (
-                <div className="flex flex-1 flex-col justify-center items-center">
-                  <ArchiveX color="purple" size={64} />
-                  <CustomText className="text-[1.5rem] text-[var(--primary-color)]">
-                    Nenhum funcionário cadastrado
-                  </CustomText>
-                </div>
-              )
-            ) : (
-              <div className="h-full flex flex-1 justify-center items-center">
-                <DotLoader color="purple" size={96} />
+                        >
+                          <Button className="bg-[var(--primary-color)] hover:bg-opacity-90 text-white px-6 py-3 rounded-lg font-semibold">
+                            <Plus className="mr-2" size={20} />
+                            Adicionar Funcionário
+                          </Button>
+                        </EmployeeDialog>
+                      )}
+                    </div>
+                  )
+                ) : (
+                  <div className="bg-white rounded-xl p-12 text-center shadow-lg border border-gray-100">
+                    <DotLoader
+                      color="var(--primary-color)"
+                      size={96}
+                      className="mx-auto"
+                    />
+                    <p className="text-gray-600 mt-4">
+                      Carregando funcionários...
+                    </p>
+                  </div>
+                )}
+
+                {employees.length > 0 && (
+                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                    <Pagination
+                      handleNextPage={handleNextPage}
+                      handlePreviousPage={handlePreviousPage}
+                      numberPage={numberPage}
+                      totalPage={totalPage}
+                    />
+                  </div>
+                )}
               </div>
-            )}
-            <Pagination
-              handleNextPage={handleNextPage}
-              handlePreviousPage={handlePreviousPage}
-              numberPage={numberPage}
-              totalPage={totalPage}
-            />
+            </div>
           </>
         ) : (
           <NoHasPermission />
