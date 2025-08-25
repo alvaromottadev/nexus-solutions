@@ -55,6 +55,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<MovementItem> movementItems;
 
+    @OneToMany(mappedBy = "product")
+    private List<MovementTool> movementTools;
+
     public void update(ProductUpdateRequest productUpdateRequest){
         this.name = productUpdateRequest.name();
         this.description = productUpdateRequest.description();
