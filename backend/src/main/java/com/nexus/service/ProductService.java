@@ -122,4 +122,9 @@ public class ProductService {
                 .orElseThrow(ProductNotFoundException::new);
     }
 
+    public Product findByCodeAndCompany(String code, Company company){
+        return productRepository.findByCode(code)
+                .orElseThrow(ProductNotFoundException::new);
+    }
+
 }

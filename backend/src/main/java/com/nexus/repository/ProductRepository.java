@@ -41,4 +41,6 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     """)
     Optional<Integer> getProductQuantity(@Param("productName") String productName, @Param("company") Company company);
 
+    Optional<Product> findByCode(String code);
+
 }
