@@ -95,7 +95,9 @@ export default function MovementToolPage() {
           <div className="flex items-center space-x-2">
             <Calendar className="w-4 h-4 text-gray-400" />
             <span className="text-sm text-gray-900">
-              {date.toLocaleDateString("pt-BR", {
+              {new Date(
+                date.getTime() - date.getTimezoneOffset() * 60000
+              ).toLocaleDateString("pt-BR", {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit",
