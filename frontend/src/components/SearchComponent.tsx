@@ -8,6 +8,7 @@ interface SearchComponentProps {
   placeholder: string;
   handleSearch: () => void;
   setName: (name: string) => void;
+  inputDisabled?: boolean;
 }
 
 export default function SearchComponent({
@@ -15,6 +16,7 @@ export default function SearchComponent({
   placeholder,
   handleSearch,
   setName,
+  inputDisabled = false,
 }: SearchComponentProps) {
   return (
     <>
@@ -31,6 +33,7 @@ export default function SearchComponent({
           onChange={(e) => setName(e.target.value)}
           placeholder={placeholder}
           className="h-[2.5rem] w-[80%] text-black font-poppins placeholder:font-poppins"
+          disabled={inputDisabled}
         />
         <Button
           className="h-[2.5rem] w-[2.5rem] bg-transparent shadow-none hover:bg-transparent cursor-pointer"

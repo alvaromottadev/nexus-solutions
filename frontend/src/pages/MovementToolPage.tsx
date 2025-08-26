@@ -19,6 +19,7 @@ export default function MovementToolPage() {
   const [movements, setMovements] = useState<MovementToolType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [barCode, setBarCode] = useState<string>("");
+  const [inputDisabled, setInputDisabled] = useState<boolean>(false);
 
   const getMovementStats = () => {
     const total = movements.length;
@@ -176,6 +177,7 @@ export default function MovementToolPage() {
   }
 
   function handleBarCode() {
+    setInputDisabled(true);
     api
       .post(
         `/tools/${barCode}`,
@@ -197,6 +199,7 @@ export default function MovementToolPage() {
       .catch((err) => {
         console.log(err);
       });
+    setInputDisabled(false);
   }
 
   return (
@@ -283,6 +286,7 @@ export default function MovementToolPage() {
                       placeholder="Digite o código de barra..."
                       handleSearch={handleSearch}
                       setName={setBarCode}
+                      inputDisabled={inputDisabled}
                     />
                   </div>
                 </div>
