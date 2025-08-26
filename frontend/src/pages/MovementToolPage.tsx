@@ -12,7 +12,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import type { MovementToolType } from "@/types/MovementToolType";
-import SearchComponent from "@/components/SearchComponent";
+import SearchComponentTool from "@/components/SearchComponentTool";
 import { toast } from "sonner";
 
 export default function MovementToolPage() {
@@ -196,6 +196,7 @@ export default function MovementToolPage() {
         toast.success(`Movimentação registrada: ${status} - ${productName}`);
         const response = res.data as MovementToolType;
         setMovements((prev) => [response, ...prev]);
+        setBarCode("");
         setInputDisabled(false);
       })
       .catch(() => {
@@ -283,11 +284,11 @@ export default function MovementToolPage() {
                     </p>
                   </div>
                   <div className="flex-1 lg:ml-8">
-                    <SearchComponent
-                      label=""
+                    <SearchComponentTool
                       placeholder="Digite o código de barra..."
                       handleSearch={handleSearch}
-                      setName={setBarCode}
+                      setValue={setBarCode}
+                      value={barCode}
                       inputDisabled={inputDisabled}
                     />
                   </div>
