@@ -1,53 +1,58 @@
-import { ChevronDownIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
+import { Search } from "lucide-react";
+import CustomText from "./CustomText";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 import { useState } from "react";
 
-interface DatePickerProps {
-  onChange: (date: Date | undefined) => void;
-  date: Date | undefined;
-  isError?: boolean;
-  setError?: (value: boolean) => void;
+interface SearchComponentProps {
+  label: string;
+  placeholder: string;
+  handleSearch: () => void;
+  setName: (name: string) => void;
+  inputDisabled?: boolean;
+  value?: string;
 }
 
-export default function DatePickerComponent({
-  date,
-  onChange,
-  isError = false,
-}: DatePickerProps) {
-  const [open, setOpen] = useState(false);
+export default function SearchComponent({
+  label,
+  placeholder,
+  handleSearch,
+  setName,
+  inputDisabled = false,
+  value = ""
+}: SearchComponentProps) {
+
+  const [defaultValue, setDefaultValue] = useState<string>(value);
+
   return (
-    <div className="flex flex-col gap-3 ">
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            id="date"
-            className={`w-full justify-between font-normal ${
-              isError ? "border-red-500 text-red-500" : ""
-            }`}
-          >
-            {date ? date.toLocaleDateString() : "Selecione uma data"}
-            <ChevronDownIcon />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="overflow-hidden p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={date}
-            captionLayout="dropdown"
-            onSelect={(date) => {
-              onChange(date);
-              setOpen(false);
-            }}
-          />
-        </PopoverContent>
-      </Popover>
-    </div>
+    <>
+      <CustomText className="text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
+        {label}
+      </CustomText>
+      <div className="w-[90%] flex gap-x-3 items-center justify-center">
+        <Input
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
+          onChange={(e) => {
+            setDefaultValue(e);
+            setName(value);
+          }}
+          placeholder={placeholder}
+          className="h-[2.5rem] w-[80%] text-black font-poppins placeholder:font-poppins"
+          disabled={inputDisabled}
+          value={value}
+        />
+        <Button
+          className="h-[2.5rem] w-[2.5rem] bg-transparent shadow-none hover:bg-transparent cursor-pointer"
+          onClick={handleSearch}
+        >
+          <Search color="purple" size={32} />
+        </Button>
+      </div>
+    </>
   );
 }
