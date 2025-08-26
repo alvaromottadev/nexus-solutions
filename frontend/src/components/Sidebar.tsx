@@ -66,6 +66,12 @@ export default function SideBar() {
       color: "from-indigo-500 to-blue-500",
     },
     {
+      path: "tool_movements",
+      label: "Movimentações (Ferramentas)",
+      icon: Activity,
+      color: "from-indigo-500 to-blue-500",
+    },
+    {
       path: "oracle",
       label: "Oráculo",
       icon: Bot,
