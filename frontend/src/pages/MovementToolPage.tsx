@@ -175,7 +175,7 @@ export default function MovementToolPage() {
         console.log(`Lemos o código: ${barCode}`);
         handleBarCode();
       }
-    }, 800);
+    }, 500);
   }
 
   function handleBarCode() {
