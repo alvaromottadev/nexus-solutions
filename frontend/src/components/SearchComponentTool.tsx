@@ -2,7 +2,6 @@
 import { Input } from "./ui/input";
 
 interface SearchComponentToolProps {
-  label: string;
   placeholder: string;
   handleSearch: () => void;
   setValue: (name: string) => void;
