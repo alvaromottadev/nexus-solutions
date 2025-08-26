@@ -38,7 +38,7 @@ export default function SearchComponent({
             }
           }}
           onChange={(e) => {
-            setDefaultValue(e);
+            setDefaultValue(e.target.value);
             setName(defaultValue);
           }}
           placeholder={placeholder}
