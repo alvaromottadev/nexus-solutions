@@ -3,7 +3,6 @@ import { Search } from "lucide-react";
 import CustomText from "./CustomText";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { useState } from "react";
 
 interface SearchComponentProps {
   label: string;
@@ -11,7 +10,6 @@ interface SearchComponentProps {
   handleSearch: () => void;
   setName: (name: string) => void;
   inputDisabled?: boolean;
-  value?: string;
 }
 
 export default function SearchComponent({
@@ -20,11 +18,7 @@ export default function SearchComponent({
   handleSearch,
   setName,
   inputDisabled = false,
-  value = ""
 }: SearchComponentProps) {
-
-  const [defaultValue, setDefaultValue] = useState<string>(value);
-
   return (
     <>
       <CustomText className="text-[var(--primary-color)] text-[2rem] md:text-[2.5rem] font-bold">
@@ -37,14 +31,10 @@ export default function SearchComponent({
               handleSearch();
             }
           }}
-          onChange={(e) => {
-            setDefaultValue(e.target.value);
-            setName(defaultValue);
-          }}
+          onChange={(e) => setName(e.target.value)}
           placeholder={placeholder}
           className="h-[2.5rem] w-[80%] text-black font-poppins placeholder:font-poppins"
           disabled={inputDisabled}
-          value={value}
         />
         <Button
           className="h-[2.5rem] w-[2.5rem] bg-transparent shadow-none hover:bg-transparent cursor-pointer"
