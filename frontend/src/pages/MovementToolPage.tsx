@@ -212,10 +212,11 @@ export default function MovementToolPage() {
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
                 <div>
                   <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                    Movimentações de Estoque
+                    Movimentações de Ferramentas e Equipamentos
                   </h1>
                   <p className="text-lg text-gray-600">
-                    Acompanhe todas as entradas e saídas do seu estoque
+                    Acompanhe todas as entradas e saídas de suas
+                    Ferramentas/Equipamentos
                   </p>
                 </div>
               </div>
