@@ -195,11 +195,11 @@ export default function MovementToolPage() {
         console.log(res.data);
         const response = res.data as MovementToolType;
         setMovements((prev) => [response, ...prev]);
+        setInputDisabled(false);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setInputDisabled(false);
       });
-    setInputDisabled(false);
   }
 
   return (
