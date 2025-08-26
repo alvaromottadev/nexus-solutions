@@ -39,7 +39,7 @@ export default function SearchComponent({
           }}
           onChange={(e) => {
             setDefaultValue(e);
-            setName(value);
+            setName(defaultValue);
           }}
           placeholder={placeholder}
           className="h-[2.5rem] w-[80%] text-black font-poppins placeholder:font-poppins"
