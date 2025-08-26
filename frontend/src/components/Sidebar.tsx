@@ -66,7 +66,7 @@ export default function SideBar() {
       color: "from-indigo-500 to-blue-500",
     },
     {
-      path: "tool_movements",
+      path: "movements_tool",
       label: "Movimentações (Ferramentas)",
       icon: Activity,
       color: "from-indigo-500 to-blue-500",
