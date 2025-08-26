@@ -175,7 +175,7 @@ export default function MovementToolPage() {
         console.log(`Lemos o código: ${barCode}`);
         handleBarCode();
       }
-    }, 400);
+    }, 800);
   }
 
   function handleBarCode() {
@@ -194,7 +194,6 @@ export default function MovementToolPage() {
         const status = res.data.status === "ENTRY" ? "entrada" : "saída";
         const productName = res.data.product.name;
         toast.success(`Movimentação registrada: ${status} - ${productName}`);
-        console.log(res.data);
         const response = res.data as MovementToolType;
         setMovements((prev) => [response, ...prev]);
         setInputDisabled(false);
