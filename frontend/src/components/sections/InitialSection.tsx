@@ -12,4 +12,5 @@ export default function InitialSection({ scrollTo }: LoginSectionProps) {
       <LoginBody />
     </div>
   );
+  
 }

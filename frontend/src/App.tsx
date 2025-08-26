@@ -15,6 +15,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import ProfilePage from "./pages/ProfilePage";
 import OraclePage from "./pages/OraclePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import MovementToolPage from "./pages/MovementToolPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="locations" element={<LocationsPage />} />
             <Route path="inventories" element={<InventoryPage />} />
             <Route path="movements" element={<MovementPage />} />
+            <Route path="movements_tool" element={<MovementToolPage />} />
             <Route path="employees" element={<EmployeePage />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="oracle" element={<OraclePage />} />

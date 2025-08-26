@@ -37,6 +37,11 @@ export default function TopBar({ isOracle = false }: TopBarProps) {
     { path: "products", label: "Produtos", icon: Package },
     { path: "inventories", label: "Estoque", icon: Archive },
     { path: "movements", label: "Movimentações", icon: Activity },
+    {
+      path: "movements_tool",
+      label: "Movimentações (Ferramenta)",
+      icon: Activity,
+    },
     { path: "oracle", label: "Oráculo", icon: Bot },
     { path: "employees", label: "Funcionários", icon: Users },
     { path: "profile", label: "Perfil", icon: User },
