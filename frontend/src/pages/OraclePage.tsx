@@ -111,7 +111,7 @@ export default function OraclePage() {
                             {message.message.content}
                           </p>
                         </div>
-                        <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shrink-0">
                           <User className="w-4 h-4 text-white" />
                         </div>
                       </div>
@@ -124,7 +124,7 @@ export default function OraclePage() {
                     className="flex justify-start animate-fadeInUp"
                   >
                     <div className="flex items-start gap-3 max-w-[80%]">
-                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shrink-0">
                         <Bot className="w-4 h-4 text-white" />
                       </div>
                       <div className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-3 rounded-2xl rounded-bl-md shadow-lg">
