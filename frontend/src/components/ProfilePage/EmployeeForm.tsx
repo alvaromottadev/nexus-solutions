@@ -20,7 +20,6 @@ import type { AuthMeType } from "@/types/AuthMeType";
 import { useNavigate } from "react-router";
 import defaultAvatar from "@/assets/default-avatar.jpg";
 import CustomText from "../CustomText";
-import ChangePasswordDialog from "../Dialog/ChangePassword/ChangePassword";
 
 interface EmployeeFormProps {
   employee: EmployeeType;
@@ -186,7 +185,6 @@ export default function EmployeeForm({ employee, auth }: EmployeeFormProps) {
               )}
             />
           </div>
-          <ChangePasswordDialog />
           {isDisabled ? (
             <Button
               type="button"

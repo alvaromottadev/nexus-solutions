@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { User, Building2, Mail, MapPin, LogOut, Shield } from "lucide-react";
+import ChangePasswordDialog from "@/components/Dialog/ChangePassword/ChangePassword";
 
 export default function ProfilePage() {
   const auth = useAuth();
@@ -162,13 +163,7 @@ export default function ProfilePage() {
                     <LogOut className="w-4 h-4" />
                     Sair da Conta
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="flex items-center gap-2 px-6 py-3 border-gray-300 hover:bg-gray-50 transition-all duration-200"
-                  >
-                    <Shield className="w-4 h-4" />
-                    Alterar Senha
-                  </Button>
+                  <ChangePasswordDialog />
                 </div>
               </div>
             </div>

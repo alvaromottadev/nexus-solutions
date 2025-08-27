@@ -22,7 +22,6 @@ import EditAddressDialog from "../Dialog/Address/EditAddress";
 import type AddressType from "@/types/AddressType";
 import type addressFormSchema from "@/schemas/addressFormSchema";
 import CustomText from "../CustomText";
-import ChangePasswordDialog from "../Dialog/ChangePassword/ChangePassword";
 
 interface FormFieldComponentProps {
   company: CompanyType;
@@ -220,7 +219,6 @@ export default function CompanyForm({ company }: FormFieldComponentProps) {
               )}
             />
           </div>
-          <ChangePasswordDialog />
           <EditAddressDialog
             onSave={handleAddressUpdate}
             address={company.address}

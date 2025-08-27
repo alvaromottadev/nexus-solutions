@@ -16,6 +16,7 @@ import useButtonPressed from "@/hooks/useButtonPressed";
 import changePasswordSchema from "@/schemas/changePasswordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { Shield } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -73,8 +74,12 @@ export default function ChangePasswordDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="text-[0.8rem] cursor-pointer border-none bg-transparent text-black shadow-none hover:bg-transparent p-0">
-          Clique aqui para alterar a senha
+        <Button
+          variant="outline"
+          className="flex items-center gap-2 px-6 py-3 border-gray-300 hover:bg-gray-50 transition-all duration-200"
+        >
+          <Shield className="w-4 h-4" />
+          Alterar Senha
         </Button>
       </DialogTrigger>
       <DialogContent>
