@@ -6,7 +6,7 @@ export default function LoginPage() {
   return (
     <>
       <div className="min-h-screen flex flex-col lg:flex-row bg-gradient-to-br from-gray-50 via-white to-blue-50">
-        <div className="hidden lg:flex lg:w-1/2 h-screen relative overflow-hidden">
+        <div className="hidden lg:flex lg:w-1/2 min-h-screen relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-color)]/20 to-blue-500/20"></div>
 
           <div className="relative z-10 flex flex-col justify-center items-center h-full px-12">
