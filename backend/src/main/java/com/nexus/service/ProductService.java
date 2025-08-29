@@ -44,10 +44,12 @@ public class ProductService {
     @Transactional
     public ProductResponse createProduct(ProductRequest productRequest, Company company) {
 
-        Product product = new Product(productRequest, company);
+        String code = generateRandomCode();
+
+        Product product = new Product(productRequest, company, code);
         productRepository.save(product);
 
-        addCodes(product);
+        addCodes(product, code);
 
         return new ProductResponse(product);
     }
@@ -126,13 +128,11 @@ public class ProductService {
                 .orElseThrow(ProductNotFoundException::new);
     }
 
-    private void addCodes(Product product){
-        String code = generateRandomCode();
+    private void addCodes(Product product, String code){
 
         String barCodeUrl = qrCodeGeneratorService.generateBarCode(code);
         String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getId());
 
-        product.setCode(code);
         product.setQrCode(qrCodeUrl);
         product.setBarCode(barCodeUrl);
     }

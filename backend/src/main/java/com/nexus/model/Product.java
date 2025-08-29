@@ -70,11 +70,11 @@ public class Product {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Product(ProductRequest productRequest, Company company) {
+    public Product(ProductRequest productRequest, Company company, String code) {
         this.name = productRequest.name();
         this.description = productRequest.description();
-        this.code = productRequest.code();
         this.company = company;
+        this.code = code;
         this.createdAt = LocalDateTime.now();
     }
 }
