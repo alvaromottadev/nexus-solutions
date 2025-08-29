@@ -41,7 +41,7 @@ export default function ProductCard({
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-20 h-20 object-cover rounded-lg border-2 border-gray-100 group-hover:border-[var(--primary-color)] transition-colors duration-300"
+                className="max-w-[5rem] max-h-[7rem] object-cover rounded-lg border-2 border-gray-100 group-hover:border-[var(--primary-color)] transition-colors duration-300"
               />
             ) : (
               <div className="w-20 h-20 bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center group-hover:border-[var(--primary-color)] transition-colors duration-300">
