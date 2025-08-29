@@ -29,8 +29,6 @@ api.interceptors.response.use(
           'Sessão expirada',
           'Por favor, faça login novamente.',
         );
-        console.log(data);
-        console.log('Token expired, logging out');
         logoutEvent.emit('logout');
         return;
       }
@@ -40,7 +38,6 @@ api.interceptors.response.use(
           data.error,
           'Você não tem permissão para acessar este recurso.',
         );
-        console.log('Url do erro:', error.config.url);
       }
       if (status === 404) {
         showToast('error', data.error);
