@@ -21,6 +21,8 @@ export default function MovementToolPage() {
   const [barCode, setBarCode] = useState<string>("");
   const [inputDisabled, setInputDisabled] = useState<boolean>(false);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const getMovementStats = () => {
     const total = movements.length;
     const inMovements = movements.filter(
@@ -198,9 +200,11 @@ export default function MovementToolPage() {
         setMovements((prev) => [response, ...prev]);
         setBarCode("");
         setInputDisabled(false);
+        inputRef.current?.focus();
       })
       .catch(() => {
         setInputDisabled(false);
+        inputRef.current?.focus();
       });
   }
 
@@ -285,6 +289,7 @@ export default function MovementToolPage() {
                   </div>
                   <div className="flex-1 lg:ml-8">
                     <SearchComponentTool
+                      ref={inputRef}
                       placeholder="Digite o código de barra..."
                       handleSearch={handleSearch}
                       setValue={setBarCode}

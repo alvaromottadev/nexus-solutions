@@ -9,14 +9,7 @@ import { Button } from "@/components/ui/button";
 import usePermission from "@/hooks/usePermission";
 import type EmployeeType from "@/types/EmployeeType";
 import type { PageableResponseType } from "@/types/PageableResponseType";
-import {
-  ArchiveX,
-  Plus,
-  Users,
-  UserCheck,
-  UserX,
-  TrendingUp,
-} from "lucide-react";
+import { ArchiveX, Plus, Users, UserCheck, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
 
@@ -201,22 +194,6 @@ export default function EmployeePage() {
                         </p>
                         <p className="text-2xl font-bold text-gray-900">
                           {stats.operators}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center">
-                      <div className="p-3 bg-orange-100 rounded-lg">
-                        <UserX className="text-orange-600" size={24} />
-                      </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium text-gray-600">
-                          Visualizadores
-                        </p>
-                        <p className="text-2xl font-bold text-gray-900">
-                          {stats.viewers}
                         </p>
                       </div>
                     </div>

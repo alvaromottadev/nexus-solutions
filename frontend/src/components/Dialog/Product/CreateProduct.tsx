@@ -78,7 +78,6 @@ export default function CreateProductDialog({
     const json = {
       name: data.name,
       description: data.description || "",
-      code: data.code || null,
     };
 
     api
@@ -174,13 +173,6 @@ export default function CreateProductDialog({
                     </FormControl>
                   </FormItem>
                 )}
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="code"
-                label="Código"
-                placeholder="Ex.: 123456789"
-                description="Utilize o código de barras do produto."
               />
 
               <FormField

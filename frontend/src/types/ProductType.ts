@@ -4,6 +4,7 @@ export interface ProductType {
   description: string;
   image: string;
   qrCode: string;
+  barCode: string;
   code: string;
   createdAt: string;
   updatedAt: string | null;

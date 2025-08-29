@@ -183,11 +183,30 @@ export default function EditProductDialog({
           <DialogDescription>
             Edite as informações do produto abaixo.
           </DialogDescription>
-          <img
-            src={product.qrCode}
-            className="w-[7rem] md:w-[10rem] h-[7rem] md:h-[10rem] self-center object-cover"
-          />
-          <DialogDescription>QR Code do Produto</DialogDescription>
+          {product.qrCode ? (
+            <>
+              <DialogDescription>QR Code do Produto</DialogDescription>
+              <img
+                src={product.qrCode}
+                className="w-[7rem] md:w-[10rem] h-[7rem] md:h-[10rem] self-center object-cover"
+              />
+            </>
+          ) : (
+            <DialogDescription>Produto não possui QR Code.</DialogDescription>
+          )}
+          {product.barCode ? (
+            <>
+              <DialogDescription>Código de barras do Produto</DialogDescription>
+              <img
+                src={product.barCode}
+                className="w-[7rem] md:w-[10rem] h-[7rem] md:h-[10rem] self-center object-cover"
+              />
+            </>
+          ) : (
+            <DialogDescription>
+              Produto não possui código de barras.
+            </DialogDescription>
+          )}
         </DialogHeader>
         <div className="flex">
           <Form {...form}>

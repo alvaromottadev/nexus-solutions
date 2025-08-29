@@ -1,4 +1,3 @@
-
 import { Input } from "./ui/input";
 
 interface SearchComponentToolProps {
@@ -7,6 +6,7 @@ interface SearchComponentToolProps {
   setValue: (name: string) => void;
   inputDisabled?: boolean;
   value: string;
+  ref: React.Ref<HTMLInputElement>;
 }
 
 export default function SearchComponentTool({
@@ -14,12 +14,14 @@ export default function SearchComponentTool({
   handleSearch,
   setValue,
   inputDisabled = false,
-  value
+  value,
+  ref,
 }: SearchComponentToolProps) {
   return (
     <>
       <div className="w-[90%] flex gap-x-3 items-center justify-center">
         <Input
+          ref={ref}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSearch();
@@ -30,6 +32,10 @@ export default function SearchComponentTool({
           className="h-[2.5rem] w-[80%] text-black font-poppins placeholder:font-poppins"
           disabled={inputDisabled}
           value={value}
+          autoFocus
+          onBlur={(e) => {
+            e.target.focus();
+          }}
         />
       </div>
     </>
