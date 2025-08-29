@@ -36,6 +36,9 @@ public class Product {
     @Column(name = "code", unique = true)
     private String code;
 
+    @Column(name = "bar_code", unique = true)
+    private String barCode;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 

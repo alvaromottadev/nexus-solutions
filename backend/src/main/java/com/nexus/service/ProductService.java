@@ -47,8 +47,7 @@ public class ProductService {
         Product product = new Product(productRequest, company);
         productRepository.save(product);
 
-        String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getId());
-        product.setQrCode(qrCodeUrl);
+        addCodes(product);
 
         return new ProductResponse(product);
     }
@@ -125,6 +124,26 @@ public class ProductService {
     public Product findByCodeAndCompany(String code, Company company){
         return productRepository.findByCode(code)
                 .orElseThrow(ProductNotFoundException::new);
+    }
+
+    private void addCodes(Product product){
+        String code = generateRandomCode();
+
+        String barCodeUrl = qrCodeGeneratorService.generateBarCode(code);
+        String qrCodeUrl = qrCodeGeneratorService.generateQrCode(product.getId());
+
+        product.setCode(code);
+        product.setQrCode(qrCodeUrl);
+        product.setBarCode(barCodeUrl);
+    }
+
+    private String generateRandomCode(){
+        StringBuilder code = new StringBuilder();
+        for (int i = 0; i < 12; i++) {
+            int digit = (int) (Math.random() * 10);
+            code.append(digit);
+        }
+        return code.toString();
     }
 
 }

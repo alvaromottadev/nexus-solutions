@@ -11,6 +11,7 @@ public record ProductResponse(
         String description,
         String image,
         String qrCode,
+        String barCode,
         String code,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
@@ -24,6 +25,7 @@ public record ProductResponse(
                 product.getDescription(),
                 product.getImage(),
                 product.getQrCode(),
+                product.getBarCode(),
                 product.getCode(),
                 product.getCreatedAt(),
                 product.getUpdatedAt()
