@@ -60,6 +60,7 @@ public class InventoryServiceTest {
     private UserRequest employeeUserRequest;
     private UserRequest companyUserRequest;
     private String inventoryId = UUID.randomUUID().toString();
+    private String codeMock;
 
     @BeforeEach
     void setup() {
@@ -92,8 +93,9 @@ public class InventoryServiceTest {
 
         companyMock = new Company(companyUserMock, addressMock, companyRequestMock);
 
-        productRequestMock = new ProductRequest("Product Name", "Product Description", "1010101");
-        productMock = new Product(productRequestMock, companyMock);
+        productRequestMock = new ProductRequest("Product Name", "Product Description");
+        codeMock = "123412341234";
+        productMock = new Product(productRequestMock, companyMock, codeMock);
         productMock.setId(productId);
 
         inventoryMock = new Inventory(inventoryCreateRequestMock, locationMock, productMock);

@@ -60,16 +60,18 @@ public class ProductServiceTest {
     private ProductRequest productRequestMock;
     private ProductUpdateRequest productUpdateRequestMock;
     private Location locationMock;
+    private String codeMock;
 
     @BeforeEach
     void setUp() {
         String productId = UUID.randomUUID().toString();
         companyMock = mock(Company.class);
-        productRequestMock = new ProductRequest("Test Product", "Description", "CODE123");
+        productRequestMock = new ProductRequest("Test Product", "Description");
         productUpdateRequestMock = new ProductUpdateRequest("Updated Product", "New description", "CODE456");
-        productMock = new Product(productRequestMock, companyMock);
+        productMock = new Product(productRequestMock, companyMock, codeMock);
         productMock.setId(productId);
         locationMock = mock(Location.class);
+        codeMock = "123412341234";
     }
 
     @DisplayName("Should create product successfully")
