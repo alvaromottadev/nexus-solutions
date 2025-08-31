@@ -267,7 +267,7 @@ export default function EditProductDialog({
                 <img
                   onClick={handleImageClick}
                   src={imagePreview}
-                  className="h-[20rem] object-contain cursor-pointer"
+                  className="max-h-[15rem] object-contain cursor-pointer"
                 />
               ) : (
                 <ImageIcon
