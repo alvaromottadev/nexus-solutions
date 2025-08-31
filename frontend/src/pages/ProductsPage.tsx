@@ -10,7 +10,15 @@ import DotLoader from "react-spinners/DotLoader";
 import usePermission from "@/hooks/usePermission";
 import NoHasPermission from "@/components/NoHasPermission";
 import type { PageableResponseType } from "@/types/PageableResponseType";
-import { Package, Search, BarChart3, QrCode, TrendingUp } from "lucide-react";
+import {
+  Package,
+  Search,
+  BarChart3,
+  QrCode,
+  TrendingUp,
+  Plus,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function ProductsPage() {
   const token = localStorage.getItem("token");
@@ -153,7 +161,12 @@ export default function ProductsPage() {
                   <CreateProductDialog
                     products={products}
                     setProducts={setProducts}
-                  />
+                  >
+                    <Button className="bg-[var(--primary-color)] hover:bg-opacity-90 text-white px-6 py-3 rounded-lg font-semibold">
+                      <Plus className="mr-2" size={20} />
+                      Adicionar Produto
+                    </Button>
+                  </CreateProductDialog>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -277,6 +290,17 @@ export default function ProductsPage() {
                           ? `Não encontramos produtos com o nome "${name}"`
                           : "Comece adicionando seu primeiro produto"}
                       </p>
+                      {!name && (
+                        <CreateProductDialog
+                          products={products}
+                          setProducts={setProducts}
+                        >
+                          <Button className="bg-[var(--primary-color)] hover:bg-opacity-90 text-white px-6 py-3 rounded-lg font-semibold">
+                            <Plus className="mr-2" size={20} />
+                            Adicionar Produto
+                          </Button>
+                        </CreateProductDialog>
+                      )}
                     </div>
                   )
                 ) : (

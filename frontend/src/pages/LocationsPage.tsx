@@ -5,10 +5,11 @@ import NoHasPermission from "@/components/NoHasPermission";
 import Pagination from "@/components/Pagination";
 import SearchComponent from "@/components/SearchComponent";
 import TopBar from "@/components/TopBar";
+import { Button } from "@/components/ui/button";
 import usePermission from "@/hooks/usePermission";
 import type { LocationType } from "@/types/LocationType";
 import type { PageableResponseType } from "@/types/PageableResponseType";
-import { MapPin, Building2, Globe, Calendar, Search } from "lucide-react";
+import { MapPin, Building2, Globe, Calendar, Search, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import DotLoader from "react-spinners/DotLoader";
 
@@ -136,7 +137,12 @@ export default function LocationsPage() {
                   <CreateLocationDialog
                     locations={locations}
                     setLocations={setLocations}
-                  />
+                  >
+                    <Button className="bg-[var(--primary-color)] hover:bg-opacity-90 text-white px-6 py-3 rounded-lg font-semibold">
+                      <Plus className="mr-2" size={20} />
+                      Adicionar Produto
+                    </Button>
+                  </CreateLocationDialog>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -264,7 +270,12 @@ export default function LocationsPage() {
                         <CreateLocationDialog
                           locations={locations}
                           setLocations={setLocations}
-                        />
+                        >
+                          <Button className="bg-[var(--primary-color)] hover:bg-opacity-90 text-white px-6 py-3 rounded-lg font-semibold">
+                            <Plus className="mr-2" size={20} />
+                            Adicionar Produto
+                          </Button>
+                        </CreateLocationDialog>
                       )}
                     </div>
                   )

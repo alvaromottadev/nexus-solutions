@@ -20,7 +20,6 @@ import type { LocationType } from "@/types/LocationType";
 import type { ProductType } from "@/types/ProductType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -29,11 +28,13 @@ import type { z } from "zod";
 interface CreateInventoryDialogProps {
   setInventories: (inventories: InventoryType[]) => void;
   inventories: InventoryType[];
+  children: React.ReactNode;
 }
 
 export default function CreateInventoryDialog({
   setInventories,
   inventories,
+  children,
 }: CreateInventoryDialogProps) {
   type FormInventorySchemaType = z.infer<typeof formInventorySchema>;
   const form = useForm<FormInventorySchemaType>({
@@ -124,13 +125,7 @@ export default function CreateInventoryDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
-          <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">
-            <Plus color="white" />
-          </Button>
-        </div>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="w-[100%]">
         <DialogHeader>
           <DialogTitle>Cadastro de Estoque</DialogTitle>

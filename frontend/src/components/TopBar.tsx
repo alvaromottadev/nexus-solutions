@@ -116,7 +116,7 @@ export default function TopBar({ isOracle = false }: TopBarProps) {
             })}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="hidden 2xl:flex items-center gap-3">
             <div
               className={`px-4 py-2 rounded-lg ${
                 isOracle

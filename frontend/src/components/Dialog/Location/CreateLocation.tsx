@@ -15,7 +15,6 @@ import { Form } from "@/components/ui/form";
 import formLocationSchema from "@/schemas/formLocationSchema";
 import type { LocationType } from "@/types/LocationType";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -24,11 +23,13 @@ import type { z } from "zod";
 interface CreateLocationDialogProps {
   setLocations: (locations: LocationType[]) => void;
   locations: LocationType[];
+  children: React.ReactNode;
 }
 
 export default function CreateLocationDialog({
   setLocations,
   locations,
+  children,
 }: CreateLocationDialogProps) {
   const form = useForm<z.infer<typeof formLocationSchema>>({
     resolver: zodResolver(formLocationSchema),
@@ -80,11 +81,7 @@ export default function CreateLocationDialog({
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button className="fixed right-5 bottom-5 w-[4rem] h-[4rem] rounded-full bg-[var(--primary-color)] cursor-pointer">
-            <Plus />
-          </Button>
-        </DialogTrigger>
+        <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Cadastro de Almoxarifado</DialogTitle>

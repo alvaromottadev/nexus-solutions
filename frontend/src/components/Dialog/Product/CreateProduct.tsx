@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ImageIcon, Plus } from "lucide-react";
+import { ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -35,11 +35,13 @@ import useButtonPressed from "@/hooks/useButtonPressed";
 interface CreateProductForm {
   products: ProductType[];
   setProducts: (products: ProductType[]) => void;
+  children: React.ReactNode;
 }
 
 export default function CreateProductDialog({
   products,
   setProducts,
+  children,
 }: CreateProductForm) {
   const form = useForm<z.infer<typeof createProductSchema>>({
     resolver: zodResolver(createProductSchema),
@@ -133,13 +135,7 @@ export default function CreateProductDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
-          <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">
-            <Plus color="white" />
-          </Button>
-        </div>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Cadastro de Produto</DialogTitle>

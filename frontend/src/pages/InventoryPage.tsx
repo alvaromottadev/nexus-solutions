@@ -17,6 +17,7 @@ import {
   XCircle,
   TrendingUp,
   MapPin,
+  Plus,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import TopBar from "@/components/TopBar";
@@ -271,7 +272,12 @@ export default function InventoryPage() {
                 <CreateInventoryDialog
                   inventories={inventories}
                   setInventories={setInventories}
-                />
+                >
+                  <Button className="bg-[var(--primary-color)] hover:bg-opacity-90 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+                    <Plus className="mr-2" size={20} />
+                    Cadastrar Estoque
+                  </Button>
+                </CreateInventoryDialog>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

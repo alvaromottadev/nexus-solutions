@@ -24,7 +24,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import type { LocationType } from "@/types/LocationType";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { MoreHorizontal, Plus, X } from "lucide-react";
+import { MoreHorizontal, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import AddProductDialog from "./AddProduct";
@@ -42,11 +42,13 @@ import type { MovementType } from "@/types/MovementType";
 interface CreateMovementDialogProps {
   movements: MovementType[];
   setMovements: (movements: MovementType[]) => void;
+  children: React.ReactNode;
 }
 
 export default function CreateMovementDialog({
   movements,
   setMovements,
+  children,
 }: CreateMovementDialogProps) {
   const form = useForm();
 
@@ -212,13 +214,7 @@ export default function CreateMovementDialog({
     <>
       <div>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <div className="fixed right-5 bottom-5 flex items-center justify-center bg-[var(--primary-color)] rounded-full">
-              <Button className="w-[4rem] h-[4rem] bg-var(--primary-color) rounded-full cursor-pointer">
-                <Plus color="white" />
-              </Button>
-            </div>
-          </DialogTrigger>
+          <DialogTrigger asChild>{children}</DialogTrigger>
           <DialogContent className="sm:max-w-auto h-[45rem] md:h-auto overflow-auto">
             <DialogHeader>
               <DialogTitle>Registrar Movimentação</DialogTitle>
