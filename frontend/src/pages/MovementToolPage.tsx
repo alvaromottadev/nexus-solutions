@@ -167,14 +167,12 @@ export default function MovementToolPage() {
   }, [barCode]);
 
   const stats = getMovementStats();
-
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   function handleSearch() {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       if (barCode.length > 2) {
-        console.log(`Lemos o código: ${barCode}`);
         handleBarCode();
       }
     }, 500);
@@ -193,20 +191,24 @@ export default function MovementToolPage() {
         }
       )
       .then((res) => {
-        const status = res.data.status === "ENTRY" ? "entrada" : "saída";
+        const status = res.data.status === "ENTRY" ? "ENTRADA" : "SAÍDA";
         const productName = res.data.product.name;
         toast.success(`Movimentação registrada: ${status} - ${productName}`);
         const response = res.data as MovementToolType;
         setMovements((prev) => [response, ...prev]);
         setBarCode("");
-        setInputDisabled(false);
-        inputRef.current?.focus();
       })
-      .catch(() => {
+      .finally(() => {
         setInputDisabled(false);
-        inputRef.current?.focus();
       });
   }
+
+  useEffect(() => {
+    if (!inputDisabled) {
+      setBarCode("");
+      inputRef.current?.focus();
+    }
+  }, [inputDisabled]);
 
   return (
     <>

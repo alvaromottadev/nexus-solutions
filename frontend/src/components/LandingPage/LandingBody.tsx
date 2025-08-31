@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { useNavigate } from "react-router";
 import { ArrowRight, CheckCircle, Zap, Shield, TrendingUp } from "lucide-react";
 
-export default function LoginBody() {
+export default function LandingBody() {
   const navigation = useNavigate();
 
   function handleLogin() {

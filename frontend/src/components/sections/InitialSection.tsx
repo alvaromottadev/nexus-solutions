@@ -1,4 +1,4 @@
-import LoginBody from "../../components/Login/LoginBody";
+import LandingBody from "../../components/LandingPage/LandingBody";
 import LandingHeader from "../LandingPage/LandingHeader";
 
 interface LoginSectionProps {
@@ -9,8 +9,7 @@ export default function InitialSection({ scrollTo }: LoginSectionProps) {
   return (
     <div className="min-h-screen">
       <LandingHeader scrollTo={scrollTo} />
-      <LoginBody />
+      <LandingBody />
     </div>
   );
-  
 }

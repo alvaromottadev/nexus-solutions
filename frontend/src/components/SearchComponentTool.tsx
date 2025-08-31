@@ -33,9 +33,6 @@ export default function SearchComponentTool({
           disabled={inputDisabled}
           value={value}
           autoFocus
-          onBlur={(e) => {
-            e.target.focus();
-          }}
         />
       </div>
     </>
