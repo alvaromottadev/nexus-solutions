@@ -2,6 +2,7 @@ package com.nexus.dto.Product;
 
 import com.nexus.model.Product;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record ProductResponse(
@@ -16,7 +17,7 @@ public record ProductResponse(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 
-) {
+) implements Serializable {
 
     public ProductResponse(Product product){
         this(
