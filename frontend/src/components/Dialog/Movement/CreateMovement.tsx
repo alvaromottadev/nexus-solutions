@@ -272,6 +272,30 @@ export default function CreateMovementDialog({
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel
+                          className={`${locationError ? "text-red-500" : ""}`}
+                        >
+                          Almoxarifado <Required />
+                        </FormLabel>
+                        <FormControl>
+                          <SelectComponent
+                            data={locations}
+                            placeholder="Selecione um almoxarifado..."
+                            label="Almoxarifado"
+                            onChange={setLocationId}
+                            isError={locationError}
+                            setError={setLocationError}
+                            disabled={!canChangeLocation}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <FormField
@@ -294,30 +318,7 @@ export default function CreateMovementDialog({
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={() => (
-                    <FormItem>
-                      <FormLabel
-                        className={`${locationError ? "text-red-500" : ""}`}
-                      >
-                        Almoxarifado <Required />
-                      </FormLabel>
-                      <FormControl>
-                        <SelectComponent
-                          data={locations}
-                          placeholder="Selecione um almoxarifado..."
-                          label="Almoxarifado"
-                          onChange={setLocationId}
-                          isError={locationError}
-                          setError={setLocationError}
-                          disabled={!canChangeLocation}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+
                 <AddProductDialog
                   locationId={locationId}
                   productsSelected={productsSelected}
