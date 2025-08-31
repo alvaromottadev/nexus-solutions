@@ -15,10 +15,8 @@ import com.nexus.repository.ProductRepository;
 import com.nexus.repository.specification.ProductSpecification;
 import com.nexus.utils.MessageUtils;
 import jakarta.transaction.Transactional;
-import org.hibernate.annotations.Cache;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -66,8 +64,9 @@ public class ProductService {
         return new ProductResponse(product);
     }
 
-    @Cacheable(value = "products", key = "#company.id")
+    @Cacheable(value = "products", key = "#company.id + '-' + #locationId + '-' + #code + '-' + #name + '-' + #size + '-' + #page")
     public Page<ProductResponse> getAllProducts(String locationId, String code, Company company, String name, Integer size, Integer page) {
+        System.out.println("GETA LL");
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Location location = null;
         if (locationId != null) {

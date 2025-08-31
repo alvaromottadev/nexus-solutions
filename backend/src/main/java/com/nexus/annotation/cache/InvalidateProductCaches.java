@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Caching(evict = {
-        @CacheEvict(value = "products", key = "#company.id"),
+        @CacheEvict(value = "products", allEntries = true),
         @CacheEvict(value = "products-oracle", key = "#company.id"),
         @CacheEvict(value = "products-low-stock", key = "#company.id"),
         @CacheEvict(value = "products-total-stock", key = "#company.id"),
