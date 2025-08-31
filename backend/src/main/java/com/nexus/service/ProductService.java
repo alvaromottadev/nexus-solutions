@@ -1,5 +1,6 @@
 package com.nexus.service;
 
+import com.nexus.annotation.cache.InvalidateProductCaches;
 import com.nexus.dto.ImageResponse;
 import com.nexus.dto.Product.ProductRequest;
 import com.nexus.dto.Product.ProductResponse;
@@ -14,6 +15,10 @@ import com.nexus.repository.ProductRepository;
 import com.nexus.repository.specification.ProductSpecification;
 import com.nexus.utils.MessageUtils;
 import jakarta.transaction.Transactional;
+import org.hibernate.annotations.Cache;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -41,6 +46,7 @@ public class ProductService {
         this.messageUtils = messageUtils;
     }
 
+    @InvalidateProductCaches
     @Transactional
     public ProductResponse createProduct(ProductRequest productRequest, Company company) {
 
@@ -54,11 +60,13 @@ public class ProductService {
         return new ProductResponse(product);
     }
 
+    @Cacheable(value = "product", key = "#productId")
     public ProductResponse getProductById(String productId, Company company){
         Product product = findByIdAndCompany(productId, company);
         return new ProductResponse(product);
     }
 
+    @Cacheable(value = "products", key = "#company.id")
     public Page<ProductResponse> getAllProducts(String locationId, String code, Company company, String name, Integer size, Integer page) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Location location = null;
@@ -68,6 +76,8 @@ public class ProductService {
         return productRepository.findAll(ProductSpecification.filterBy(location, code, name, company), pageable).map(ProductResponse::new);
     }
 
+    @InvalidateProductCaches
+    @CacheEvict(value = "product", key = "#productId")
     @Transactional
     public ProductResponse updateProduct(String productId, ProductUpdateRequest productUpdateRequest, Company company) {
         Product product = findByIdAndCompany(productId, company);
@@ -76,6 +86,8 @@ public class ProductService {
         return new ProductResponse(product);
     }
 
+    @InvalidateProductCaches
+    @CacheEvict(value = "product", key = "#productId")
     @Transactional
     public ImageResponse updateProductImage(String productId, MultipartFile image, Company company) {
         Product product = findByIdAndCompany(productId, company);
@@ -88,6 +100,8 @@ public class ProductService {
         throw new FileEmptyOrNullException();
     }
 
+    @InvalidateProductCaches
+    @CacheEvict(value = "product", key = "#productId")
     @Transactional
     public SuccessResponse deleteProduct(String productId, Company company) {
         Product product = findByIdAndCompany(productId, company);
@@ -96,6 +110,7 @@ public class ProductService {
         return new SuccessResponse(messageUtils.getMessage("product.deleted.success"));
     }
 
+    @Cacheable(value = "products-low-stock", key = "#company.id")
     public List<ProductResponse> getProductsWithLowStock(Company company){
         List<Product> products = productRepository.findAllWithLowStock(company);
         return products.stream()
@@ -103,6 +118,11 @@ public class ProductService {
                 .toList();
     }
 
+    /*
+        This method is used to get all products without pagination and filtering.
+        It is used in the Oracle integration to list all products.
+     */
+    @Cacheable(value = "products-oracle", key = "#company.id")
     public List<ProductResponse> getAllProducts(Company company){
         List<Product> products = productRepository.findAll(ProductSpecification.filterBy(null, null, null, company));
         return products.stream()
@@ -110,10 +130,12 @@ public class ProductService {
                 .toList();
     }
 
+    @Cacheable(value = "products-total-stock", key = "#company.id")
     public Integer getTotalProductsInStock(Company company){
         return productRepository.getTotalProductsInStock(company);
     }
 
+    @Cacheable(value = "product-quantity", key = "#company.id")
     public Integer getProductQuantity(String productName, Company company){
         return productRepository.getProductQuantity(productName, company).orElse(0);
     }
