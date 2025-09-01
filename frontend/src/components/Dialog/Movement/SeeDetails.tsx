@@ -47,11 +47,15 @@ export default function SeeDetailsDialog({
     []
   );
 
+  function getStatus(value: string) {
+    return value === "IN" ? "Entrada" : "Saída";
+  }
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent>
+        <DialogContent className="sm:max-w-auto h-[10rem] md:h-[35rem] 2xl:h-auto overflow-auto">
           <DialogHeader>
             <DialogTitle>Detalhes da Movimentação</DialogTitle>
             <DialogDescription>
@@ -66,7 +70,7 @@ export default function SeeDetailsDialog({
                 movement.type === "IN" ? "text-green-500" : "text-red-500"
               }
             >
-              {movement.type}
+              {getStatus(movement.type)}
             </CustomText>
           </div>
           <div className="flex flex-col gap-x-2">

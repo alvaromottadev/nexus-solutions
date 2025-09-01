@@ -113,11 +113,11 @@ export default function CreateMovementDialog({
   const movementsTypes = [
     {
       id: "IN",
-      name: "IN",
+      name: "Entrada",
     },
     {
       id: "OUT",
-      name: "OUT",
+      name: "Saída",
     },
   ];
 
@@ -215,7 +215,7 @@ export default function CreateMovementDialog({
       <div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>{children}</DialogTrigger>
-          <DialogContent className="sm:max-w-auto h-[45rem] md:h-auto overflow-auto">
+          <DialogContent className="sm:max-w-auto h-[10rem] md:h-[35rem] 2xl:h-auto overflow-auto">
             <DialogHeader>
               <DialogTitle>Registrar Movimentação</DialogTitle>
               <DialogDescription>
