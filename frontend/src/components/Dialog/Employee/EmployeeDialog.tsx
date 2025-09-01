@@ -14,6 +14,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,6 +33,7 @@ import DeleteProductAlert from "@/components/AlertDialog/DeleteProduct";
 import { useAuth } from "@/hooks/useAuth";
 import { editEmployeeFormSchema } from "@/schemas/editEmployeeSchema";
 import useButtonPressed from "@/hooks/useButtonPressed";
+import CustomText from "@/components/CustomText";
 
 interface EmployeeDialogProps {
   employees: EmployeeType[];
@@ -248,7 +250,7 @@ export default function EmployeeDialog({
               <img
                 onClick={handleImageClick}
                 src={imagePreview ? imagePreview : defaultAvatar}
-                className="h-[10rem] w-[10rem] rounded-full"
+                className="h-[10rem] w-[10rem] rounded-full object-cover"
               />
             </div>
             <FormField
@@ -267,25 +269,6 @@ export default function EmployeeDialog({
                 </FormItem>
               )}
             />
-
-            <FormFieldComponent
-              control={form.control}
-              label="Email"
-              name="email"
-              placeholder="Ex.: mariana@gmail.com"
-              isRequired
-            />
-            <FormFieldComponent
-              control={form.control}
-              label="Senha"
-              name="password"
-              placeholder="Ex.: 123123"
-              isRequired
-              type="password"
-              {...(employee
-                ? { description: "Deixe em branco para não alterar a senha" }
-                : {})}
-            />
             <FormFieldComponent
               control={form.control}
               label="Nome"
@@ -293,26 +276,49 @@ export default function EmployeeDialog({
               placeholder="Ex.: Mariana"
               isRequired
             />
-            {hasPermission && (
-              <FormField
-                name="role"
+            <FormFieldComponent
+              control={form.control}
+              label="Email"
+              name="email"
+              placeholder="Ex.: mariana@gmail.com"
+              isRequired
+            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormFieldComponent
                 control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cargo</FormLabel>
-                    <FormControl>
-                      <SelectComponentTwo
-                        data={roles}
-                        label="cargo"
-                        onChange={(value: string) => {
-                          field.onChange(value);
-                        }}
-                        defaultValue={field.value}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
+                label="Senha"
+                name="password"
+                placeholder="Ex.: 123123"
+                isRequired
+                type="password"
               />
+
+              {hasPermission && (
+                <FormField
+                  name="role"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Cargo</FormLabel>
+                      <FormControl>
+                        <SelectComponentTwo
+                          data={roles}
+                          label="cargo"
+                          onChange={(value: string) => {
+                            field.onChange(value);
+                          }}
+                          defaultValue={field.value}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
+            </div>
+            {employee && (
+              <CustomText className="text-sm text-gray-500">
+                Deixe em branco para não alterar a senha
+              </CustomText>
             )}
           </form>
         </Form>
