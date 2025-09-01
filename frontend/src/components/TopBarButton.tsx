@@ -37,7 +37,7 @@ export default function TopBarButton({
     >
       <div className="flex items-center gap-2">
         {icon && icon}
-        <span className="text-sm">{label}</span>
+        <span className="text-sm xl:text-[0.65rem] 2xl:text-sm">{label}</span>
       </div>
 
       {isActive && (
