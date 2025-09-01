@@ -197,13 +197,13 @@ export default function CreateProductDialog({
                 <img
                   onClick={handleImageClick}
                   src={imagePreview}
-                  className="max-h-[15rem] object-contain cursor-pointer"
+                  className="max-h-[10rem] object-contain cursor-pointer"
                 />
               ) : (
                 <ImageIcon
                   className="cursor-pointer"
                   color="#322866"
-                  size={280}
+                  size={180}
                   onClick={handleImageClick}
                 />
               )}

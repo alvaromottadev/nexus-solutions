@@ -239,7 +239,7 @@ export default function EditProductDialog({
                 name="code"
                 label="Código"
                 placeholder="Ex.: 123456789"
-                description="Utilize o código de barras do produto."
+                description="Não é recomendado alterar o código."
               />
               <FormField
                 control={form.control}
@@ -267,13 +267,13 @@ export default function EditProductDialog({
                 <img
                   onClick={handleImageClick}
                   src={imagePreview}
-                  className="max-h-[15rem] object-contain cursor-pointer"
+                  className="max-h-[10rem] object-contain cursor-pointer"
                 />
               ) : (
                 <ImageIcon
                   className="cursor-pointer"
                   color="#322866"
-                  size={280}
+                  size={180}
                   onClick={handleImageClick}
                 />
               )}
