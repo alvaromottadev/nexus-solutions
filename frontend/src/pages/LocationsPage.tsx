@@ -140,7 +140,7 @@ export default function LocationsPage() {
                   >
                     <Button className="bg-[var(--primary-color)] hover:bg-opacity-90 text-white px-6 py-3 rounded-lg font-semibold">
                       <Plus className="mr-2" size={20} />
-                      Adicionar Produto
+                      Adicionar Almoxarifado
                     </Button>
                   </CreateLocationDialog>
                 </div>
