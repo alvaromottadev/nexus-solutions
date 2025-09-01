@@ -101,54 +101,61 @@ export default function CreateLocationDialog({
                   placeholder="Ex.: Almoxarifado Central"
                   isRequired
                 />
-                <FormFieldComponent
-                  control={form.control}
-                  name="street"
-                  label="Rua"
-                  placeholder="Ex.: Rua Nexus"
-                  isRequired
-                />
-                <FormFieldComponent
-                  control={form.control}
-                  name="number"
-                  label="Número"
-                  placeholder="Ex.: 123"
-                  isRequired
-                />
-                <FormFieldComponent
-                  control={form.control}
-                  name="complement"
-                  label="Complemento"
-                  placeholder="Ex.: Apto 101"
-                />
-                <FormFieldComponent
-                  control={form.control}
-                  name="district"
-                  label="Bairro"
-                  placeholder="Ex.: Centro"
-                  isRequired
-                />
-                <FormFieldComponent
-                  control={form.control}
-                  name="city"
-                  label="Cidade"
-                  placeholder="Ex.: Campinas"
-                  isRequired
-                />
-                <FormFieldComponent
-                  control={form.control}
-                  name="state"
-                  label="Estado"
-                  placeholder="Ex.: São Paulo"
-                  isRequired
-                />
-                <FormFieldComponent
-                  control={form.control}
-                  name="postalCode"
-                  label="CEP"
-                  placeholder="Ex.: 12345-678"
-                  isRequired
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormFieldComponent
+                    control={form.control}
+                    name="street"
+                    label="Rua"
+                    placeholder="Ex.: Rua Nexus"
+                    isRequired
+                  />
+                  <FormFieldComponent
+                    control={form.control}
+                    name="number"
+                    label="Número"
+                    placeholder="Ex.: 123"
+                    isRequired
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormFieldComponent
+                    control={form.control}
+                    name="complement"
+                    label="Complemento"
+                    placeholder="Ex.: Apto 101"
+                  />
+                  <FormFieldComponent
+                    control={form.control}
+                    name="district"
+                    label="Bairro"
+                    placeholder="Ex.: Centro"
+                    isRequired
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <FormFieldComponent
+                    control={form.control}
+                    name="city"
+                    label="Cidade"
+                    placeholder="Ex.: Campinas"
+                    isRequired
+                  />
+                  <FormFieldComponent
+                    control={form.control}
+                    name="state"
+                    label="Estado"
+                    placeholder="Ex.: São Paulo"
+                    isRequired
+                  />
+                  <FormFieldComponent
+                    control={form.control}
+                    name="postalCode"
+                    label="CEP"
+                    placeholder="Ex.: 12345-678"
+                    isRequired
+                  />
+                </div>
+
                 <FormFieldComponent
                   control={form.control}
                   name="country"
