@@ -29,7 +29,7 @@ public class InventoryStockTask {
     }
 
     /*
-        This time of 1 hour (7200000 ms) is set for demonstration purposes. In a real-world application,
+        This time of 2 hour (7200000 ms) is set for demonstration purposes. In a real-world application,
         you might want to set it to a longer interval, such as once a day (86400000 ms).
      */
     @Scheduled(fixedRate = 7200000)
