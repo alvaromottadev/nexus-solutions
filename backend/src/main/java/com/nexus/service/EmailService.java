@@ -25,6 +25,9 @@ public class EmailService {
     @Value("${mail.from}")
     private String fromEmail;
 
+    @Value("${nexus.frontend.url}")
+    private String frontUrl;
+
     public EmailService(
             JavaMailSender mailSender,
             TemplateEngine templateEngine) {
@@ -68,6 +71,7 @@ public class EmailService {
     private String getHtmlContent(String resetCode) {
         Context context = new Context();
         context.setVariable("resetCode", resetCode);
+        context.setVariable("frontUrl", frontUrl);
         return templateEngine.process("reset-password-email", context);
     }
 
