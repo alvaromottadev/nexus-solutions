@@ -28,7 +28,11 @@ public class InventoryStockTask {
         this.messageUtils = messageUtils;
     }
 
-    @Scheduled(cron = "0 0 4 * * *")
+    /*
+        This time of 30 minutes (1800000 ms) is set for demonstration purposes. In a real-world application,
+        you might want to set it to a longer interval, such as once a day (86400000 ms).
+     */
+    @Scheduled(fixedRate = 1800000)
     public void checkInventoryStock() {
         List<Inventory> inventories = inventoryService.findAllWithLowStock();
         if (!inventories.isEmpty()){
