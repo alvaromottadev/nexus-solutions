@@ -66,7 +66,6 @@ public class ProductService {
 
     @Cacheable(value = "products", key = "#company.id + '-' + #locationId + '-' + #code + '-' + #name + '-' + #size + '-' + #page")
     public Page<ProductResponse> getAllProducts(String locationId, String code, Company company, String name, Integer size, Integer page) {
-        System.out.println("GETA LL");
         PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Location location = null;
         if (locationId != null) {
