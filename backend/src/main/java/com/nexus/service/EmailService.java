@@ -65,6 +65,7 @@ public class EmailService {
     private String getHtmlContent(List<InventoryRestockResponse> products){
         Context context = new Context();
         context.setVariable("products", products);
+        context.setVariable("frontUrl", frontUrl);
         return templateEngine.process("restock-email", context);
     }
 
