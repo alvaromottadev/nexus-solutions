@@ -38,6 +38,7 @@ Sistema backend desenvolvido para gerenciamento de almoxarifado, construído com
 - Spring Security
 - Spring Data JPA
 - PostgreSQL
+- Redis
 - Maven
 - Docker
 - AWS SDK
@@ -47,8 +48,7 @@ Sistema backend desenvolvido para gerenciamento de almoxarifado, construído com
 
 - Java 23
 - Maven
-- PostgreSQL
-- Docker (opcional)
+- Docker 
 
 ## 🍃 Variavéis de Ambiente
 
