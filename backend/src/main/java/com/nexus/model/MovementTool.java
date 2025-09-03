@@ -1,6 +1,6 @@
 package com.nexus.model;
 
-import com.nexus.model.enums.ToolStatus;
+import com.nexus.model.enums.MovementType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,22 +27,22 @@ public class MovementTool {
     private LocalDateTime movementedAt;
 
     @Column(nullable = false)
-    private ToolStatus toolStatus;
+    private MovementType status;
 
-    public ToolStatus reverseStatus(ToolStatus lastStatus){
-        return lastStatus == ToolStatus.ENTRY ? ToolStatus.EXIT : ToolStatus.ENTRY;
+    public MovementType reverseStatus(MovementType lastStatus){
+        return lastStatus == MovementType.IN ? MovementType.OUT : MovementType.IN;
     }
 
     public MovementTool(Product product) {
         this.product = product;
         this.movementedAt = LocalDateTime.now();
-        this.toolStatus = ToolStatus.ENTRY;
+        this.status = MovementType.IN;
     }
 
     public MovementTool(MovementTool movementTool){
         this.product = movementTool.getProduct();
         this.movementedAt = LocalDateTime.now();
-        this.toolStatus = this.reverseStatus(movementTool.getToolStatus());
+        this.status = this.reverseStatus(movementTool.getStatus());
     }
 
 }
