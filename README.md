@@ -1,6 +1,6 @@
-# 📦 Nexus Solutions - Projeto SAGA SENAI
+# 📦 Nexus Solutions - Trabalho de Conclusão de Curso - SENAI
 
-Este projeto foi desenvolvido como solução para o desafio proposto no Projeto SAGA SENAI de Inovação, voltado para o curso técnico de Eletrotécnica. O desafio consistia em criar um sistema completo de **gestão de almoxarifado**, com foco em rastreabilidade, segurança e eficiência operacional.
+Este projeto foi desenvolvido como solução para o desafio proposto no Trabalho de Conclusão de Curso, voltado para o curso técnico de Eletrotécnica. O desafio consistia em criar um sistema completo de **gestão de almoxarifado**, com foco em rastreabilidade, segurança e eficiência operacional.
 
 ## 🚀 Visão Geral
 
