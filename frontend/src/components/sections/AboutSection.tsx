@@ -28,7 +28,7 @@ const AboutSection = forwardRef<HTMLDivElement>((_, ref) => {
     "Assistente Virtual com IA (Oráculo)",
     "Alertas inteligentes de reposição",
     "Integração via QR Code",
-    "Relatórios avançados e personalizados",
+    "Integração com Código de Barras",
     "Suporte técnico especializado",
     "Plataforma 100% em nuvem",
   ];

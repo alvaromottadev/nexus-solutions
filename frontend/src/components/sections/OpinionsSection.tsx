@@ -46,7 +46,7 @@ export default function OpinionsSection() {
               rating={5}
             />
             <OpinionCard
-              text="Relatórios fáceis, gestão eficiente e uma plataforma muito intuitiva. Recomendo sem dúvidas."
+              text="A agilidade proporcionada pelo uso do código de barras nas movimentações internas foi fundamental para otimizar nossos processos. Conseguimos registrar entradas e saídas de materiais de forma muito mais eficiente."
               author="Juliana Mendes"
               role="Coordenadora de Supply Chain"
               company="SupplyChain Pro"

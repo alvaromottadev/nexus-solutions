@@ -25,12 +25,8 @@ export default function MovementToolPage() {
 
   const getMovementStats = () => {
     const total = movements.length;
-    const inMovements = movements.filter(
-      (mov) => mov.status === "ENTRY"
-    ).length;
-    const outMovements = movements.filter(
-      (mov) => mov.status === "EXIT"
-    ).length;
+    const inMovements = movements.filter((mov) => mov.status === "IN").length;
+    const outMovements = movements.filter((mov) => mov.status === "OUT").length;
 
     return {
       total,
@@ -41,16 +37,16 @@ export default function MovementToolPage() {
 
   const getTypeName = (type: string) => {
     const typeNames = {
-      ENTRY: "Entrada",
-      EXIT: "Saída",
+      IN: "Entrada",
+      OUT: "Saída",
     };
     return typeNames[type as keyof typeof typeNames] || type;
   };
 
   const getTypeColor = (type: string) => {
     const typeColors = {
-      ENTRY: "bg-green-100 text-green-800 border-green-200",
-      EXIT: "bg-red-100 text-red-800 border-red-200",
+      IN: "bg-green-100 text-green-800 border-green-200",
+      OUT: "bg-red-100 text-red-800 border-red-200",
     };
     return (
       typeColors[type as keyof typeof typeColors] ||
@@ -60,8 +56,8 @@ export default function MovementToolPage() {
 
   const getTypeIcon = (type: string) => {
     const typeIcons = {
-      ENTRY: <ArrowDownLeft className="w-4 h-4" />,
-      EXIT: <ArrowUpRight className="w-4 h-4" />,
+      IN: <ArrowDownLeft className="w-4 h-4" />,
+      OUT: <ArrowUpRight className="w-4 h-4" />,
     };
     return (
       typeIcons[type as keyof typeof typeIcons] || (
@@ -135,11 +131,11 @@ export default function MovementToolPage() {
   const types = useMemo(
     () => [
       {
-        value: "ENTRY",
+        value: "IN",
         label: "Entrada",
       },
       {
-        value: "EXIT",
+        value: "OUT",
         label: "Saída",
       },
     ],
@@ -191,7 +187,7 @@ export default function MovementToolPage() {
         }
       )
       .then((res) => {
-        const status = res.data.status === "ENTRY" ? "ENTRADA" : "SAÍDA";
+        const status = res.data.status === "IN" ? "ENTRADA" : "SAÍDA";
         const productName = res.data.product.name;
         toast.success(`Movimentação registrada: ${status} - ${productName}`);
         const response = res.data as MovementToolType;
@@ -292,7 +288,7 @@ export default function MovementToolPage() {
                   <div className="flex-1 lg:ml-8">
                     <SearchComponentTool
                       ref={inputRef}
-                      placeholder="Digite o código de barra..."
+                      placeholder="Leia o código de barra..."
                       handleSearch={handleSearch}
                       setValue={setBarCode}
                       value={barCode}

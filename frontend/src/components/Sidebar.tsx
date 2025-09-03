@@ -8,7 +8,6 @@ import {
   MapPin,
   Activity,
   Users,
-  X,
 } from "lucide-react";
 import {
   Sheet,

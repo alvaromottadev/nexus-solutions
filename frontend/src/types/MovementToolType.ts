@@ -2,7 +2,7 @@ import type { ProductType } from "./ProductType";
 
 export interface MovementToolType {
   id: string;
-  status: "ENTRY" | "EXIT";
+  status: "IN" | "OUT";
   movementedAt: string;
   product: ProductType;
 }
