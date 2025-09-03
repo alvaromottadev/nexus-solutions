@@ -105,11 +105,6 @@ export default function SideBar() {
               <SheetTitle className="text-2xl font-bold text-[var(--primary-color)]">
                 Nexus Solutions
               </SheetTitle>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                  <X className="w-4 h-4" />
-                </Button>
-              </SheetTrigger>
             </div>
             <SheetDescription className="text-gray-600 mt-2">
               Navegue pelo sistema de gestão de almoxarifado
@@ -161,24 +156,6 @@ export default function SideBar() {
                 </Button>
               );
             })}
-          </div>
-
-          <div className="absolute bottom-6 left-6 right-6">
-            <div className="bg-gradient-to-r from-[var(--primary-color)]/10 to-[var(--primary-color)]/5 border border-[var(--primary-color)]/20 rounded-xl p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[var(--primary-color)] rounded-lg flex items-center justify-center">
-                  <User className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[var(--primary-color)]">
-                    Sistema Ativo
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Todas as funcionalidades disponíveis
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </SheetContent>
       </Sheet>
